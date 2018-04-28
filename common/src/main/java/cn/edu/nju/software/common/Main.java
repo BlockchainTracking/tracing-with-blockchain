@@ -1,7 +1,7 @@
 package cn.edu.nju.software.common;
 
 public class Main {
-    public void get() {
-
+    public static void main(String[] args) {
+        System.out.println("h");
     }
 }
