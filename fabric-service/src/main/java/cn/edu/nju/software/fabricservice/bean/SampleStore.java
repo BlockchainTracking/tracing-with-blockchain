@@ -183,7 +183,7 @@ public class SampleStore {
 
             sampleUser.setEnrollment(new SampleStoreEnrollement(privateKey, certificate));
 
-            sampleUser.saveState();
+//            sampleUser.saveState();
 
             return sampleUser;
         } catch (IOException e) {

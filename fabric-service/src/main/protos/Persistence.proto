@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+
+option go_package = "software.nju.edu.cn/fabricservice";
+option java_package = "cn.edu.nju.software.fabricservice.protomsg";
+
+enum ChaincodeId {
+    MYCC = 0;
+
+}
+
+message Address {
+    string name = 1;
+    double longitude = 2;
+    double latitude = 3;
+}
+
+message EnvStatus {
+    Address address = 1;
+}
+
+message OpsStatus {
+
+}
+
+message ItemInfo {
+
+}
+
+message ItemStatus {
+
+}
+
+/*
+* 主要的商品资产描述
+*/
+message ItemAsset {
+    int64 timestamp = 1;
+
+    ItemInfo itemInfo = 2;
+
+    ItemStatus itemStatus = 3;
+
+    EnvStatus evnStatus = 4;
+
+    OpsStatus opsStatus = 5;
+}

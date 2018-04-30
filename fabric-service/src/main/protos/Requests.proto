@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+
+option go_package = "main";
+option java_package = "cn.edu.nju.software.fabricservice.protomsg";
+
+message SimpleRequest {
+    int64 timeStamp = 1;
+    string name = 2;
+    string des = 3;
+}
+
+message ItemAddRequest {
+
+}
