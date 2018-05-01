@@ -66,6 +66,11 @@ func addItem(stub shim.ChaincodeStubInterface, args []byte) ([]byte, error) {
 	item.OpsStatus = opStatus
 	item.Timestamp = time.Now().UnixNano()
 
+	itemId := request.ItemId
+	if !checkItemIdformat(itemId) {
+		return nil, fmt.Errorf("itemId format error")
+	}
+	_, err = stub.GetState("itemId")
 	return stub.GetCreator()
 }
 
