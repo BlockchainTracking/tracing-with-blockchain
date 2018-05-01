@@ -8,19 +8,19 @@ import (
 	"time"
 )
 
-// ItemAssetChaincode implements a simple chaincode to manage an asset
+// ChaincodeDemo implements a simple chaincode to manage an asset
 type ItemAssetChaincode struct {
 	//handlers用来存储调用的函数名称和器对应的函数
-	handlers map[string]func(stub shim.ChaincodeStubInterface, args []byte) ([]byte, error)
+	handlers map[string]func(stub shim.ChaincodeStubInterface, args []byte) (Response)
 }
 
 func (t *ItemAssetChaincode) Init(stub shim.ChaincodeStubInterface) peer.Response {
 	// Get the args from the transaction proposal
 	//千万要注意初始化！！！
-	t.handlers = make(map[string]func(stub shim.ChaincodeStubInterface, args []byte) ([]byte, error))
-	t.handlers["get"] = get
-	t.handlers["set"] = set
-	t.handlers["getHeader"] = getHeader
+	t.handlers = make(map[string]func(stub shim.ChaincodeStubInterface, args []byte) (Response))
+	t.handlers["addItem"] = addItem
+	t.handlers["getItem"] = getItem
+	t.handlers["changeItem"] = changeItem
 	return shim.Success(nil)
 }
 
@@ -30,21 +30,38 @@ func (t *ItemAssetChaincode) Invoke(stub shim.ChaincodeStubInterface) peer.Respo
 	fn := string(args[0])
 
 	if fnHandler, ok := t.handlers[fn]; ok {
-		if result, err := fnHandler(stub, args[1]); err != nil {
-			return shim.Error(err.Error())
+		result := fnHandler(stub, args[1])
+		if data, err := proto.Marshal(&result); err != nil {
+			return shim.Error("proto marshal response error")
 		} else {
-			return shim.Success([]byte(result))
+			return shim.Success(data)
 		}
 	} else { // assume 'get' even if fn is nil
 		return shim.Error("can't find function " + fn)
 	}
+}
+
+func getItemAllHist() {
 
 }
 
-func addItem(stub shim.ChaincodeStubInterface, args []byte) ([]byte, error) {
+func getItem(stub shim.ChaincodeStubInterface, args []byte) (Response) {
+	key := string(args)
+
+	value, err := stub.GetState(key)
+	if err != nil {
+		return createRespWithoutData(-1, "Failed to get asset: %s with error: %s", key)
+	}
+	if value == nil {
+		return createRespWithoutData(-1, "Asset not found: %s", key);
+	}
+	return createSuccessResp(value)
+}
+
+func addItem(stub shim.ChaincodeStubInterface, args []byte) (Response) {
 	creator, err := stub.GetCreator()
 	if err != nil {
-		return nil, fmt.Errorf("error get tx creator")
+		return createRespWithoutData(-1, "error get tx creator")
 	}
 	request := &ItemAddRequest{}
 	proto.Unmarshal(args, request)
@@ -68,46 +85,30 @@ func addItem(stub shim.ChaincodeStubInterface, args []byte) ([]byte, error) {
 
 	itemId := request.ItemId
 	if !checkItemIdformat(itemId) {
-		return nil, fmt.Errorf("itemId format error")
+		return createRespWithoutData(-1, "itemId format error,expected length 64")
 	}
-	_, err = stub.GetState("itemId")
-	return stub.GetCreator()
-}
-
-func getHeader(stub shim.ChaincodeStubInterface, args []byte) ([]byte, error) {
-	return stub.GetCreator()
-}
-
-func set(stub shim.ChaincodeStubInterface, args []byte) ([]byte, error) {
-	i := &SimpleRequest{}
-	proto.Unmarshal(args, i)
-	i.TimeStamp = time.Now().UnixNano()
-	if data, err := proto.Marshal(i); err != nil {
-		return nil, fmt.Errorf("failed to Marshal object to json")
+	value, err := stub.GetState(request.ItemId)
+	if value != nil {
+		return createRespWithoutData(-1, "itemId already exists")
+	}
+	if data, err := proto.Marshal(item); err != nil {
+		return createRespWithoutData(-1, "protobuf marshal error")
 	} else {
-		// We store the key and the value on the ledger
-		err := stub.PutState(i.Name, data)
+		err = stub.PutState(request.ItemId, data)
 		if err != nil {
-			return nil, fmt.Errorf("Failed to create asset: %s,with err msg", i.String(), err.Error())
+			return createRespWithoutData(-1, "put state error")
 		}
-		return data, nil
+		return createRespWithoutData(0, "success add item with id=%s", request.ItemId)
 	}
 }
 
-func get(stub shim.ChaincodeStubInterface, args [] byte) ([]byte, error) {
-	value, err := stub.GetState(string(args))
-	if err != nil {
-		return nil, fmt.Errorf("Failed to get asset: %s with error: %s", string(args), err)
-	}
-	if value == nil {
-		return nil, fmt.Errorf("Asset not found: %s", string(args))
-	}
-	return value, nil
+func changeItem(stub shim.ChaincodeStubInterface, args []byte) (Response) {
+	return createSuccessResp(nil)
 }
 
 // main function starts up the chaincode in the container during instantiate
 func main() {
 	if err := shim.Start(new(ItemAssetChaincode)); err != nil {
-		fmt.Printf("Error starting ItemAssetChaincode chaincode: %s", err)
+		fmt.Printf("Error starting ChaincodeDemo chaincode: %s", err)
 	}
 }

@@ -4,6 +4,7 @@ import cn.edu.nju.software.common.util.ReflectionUtil;
 import cn.edu.nju.software.fabricservice.bean.SampleUser;
 import cn.edu.nju.software.fabricservice.config.HFConfig;
 import cn.edu.nju.software.fabricservice.protomsg.Requests;
+import cn.edu.nju.software.fabricservice.protomsg.ResponseOuterClass;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -262,17 +263,26 @@ public class HFClientHelper {
     public static void main(String[] args) throws Exception {
 
         Collection<ProposalResponse> proposalResponses;
+        Requests.SimpleRequest simpleRequest;
+        Collection<ProposalResponse> responses;
 
-        Requests.SimpleRequest simpleRequest = Requests.SimpleRequest.newBuilder().setName
-                ("daniel").setDes("des2").build();
-        Collection<ProposalResponse> responses = chainCodeInvoke("myCC", "1.0", "set",
+        simpleRequest = Requests.SimpleRequest.newBuilder().setName
+                ("daniel").setDes("des").build();
+        responses = chainCodeInvoke("myCC", "1.0", "set",
                 simpleRequest.toByteArray());
+        sendTransactions(responses);
 
         System.out.println(responses.iterator().next().getTransactionID());
 
-        CompletableFuture<BlockEvent.TransactionEvent> transactionEventCompletableFuture =
-                sendTransactions(responses);
+        simpleRequest = Requests.SimpleRequest.newBuilder().setName
+                ("daniel").setDes("des1").build();
+        responses = chainCodeInvoke("myCC", "1.0", "set",
+                simpleRequest.toByteArray());
+        sendTransactions(responses);
 
+        System.out.println(responses.iterator().next().getTransactionID());
+
+        TimeUnit.SECONDS.sleep(5);
 
         proposalResponses = chainCodeQuery("myCC", "1.0", "get",
                 "daniel".getBytes());
@@ -284,12 +294,14 @@ public class HFClientHelper {
             System.out.println(simpleRequest1.toString());
         }
 
-        proposalResponses = chainCodeQuery("myCC2", "1.0", "getHeader", "ggg".getBytes());
+        proposalResponses = chainCodeQuery("myCC", "1.0", "getAllHist",
+                "daniel".getBytes());
 
         for (ProposalResponse proposalResponse : proposalResponses) {
             System.out.println(proposalResponse.getMessage());
             byte[] result = proposalResponse.getChaincodeActionResponsePayload();
-            System.out.println(String.valueOf(result));
+            ResponseOuterClass.SimpleResponse simpleRequest1 = ResponseOuterClass.SimpleResponse.parseFrom(result);
+            System.out.println(simpleRequest1.toString());
         }
 
 //
@@ -303,16 +315,17 @@ public class HFClientHelper {
         System.out.println("Chainl previous block hash: " + chainPreviousHash);
     }
 
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class InvokeContext {
+        @Getter
+        @Setter
+        String userName;
+        @Getter
+        @Setter
+        String channelName;
+    }
+
 }
 
 
-@AllArgsConstructor
-@NoArgsConstructor
-class InvokeContext {
-    @Getter
-    @Setter
-    String userName;
-    @Getter
-    @Setter
-    String channelName;
-}
