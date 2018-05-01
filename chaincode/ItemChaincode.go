@@ -14,16 +14,15 @@ type ItemAssetChaincode struct {
 	handlers map[string]func(stub shim.ChaincodeStubInterface, args []byte) ([]byte, error)
 }
 
-
 func (t *ItemAssetChaincode) Init(stub shim.ChaincodeStubInterface) peer.Response {
 	// Get the args from the transaction proposal
 	//千万要注意初始化！！！
 	t.handlers = make(map[string]func(stub shim.ChaincodeStubInterface, args []byte) ([]byte, error))
 	t.handlers["get"] = get
 	t.handlers["set"] = set
+	t.handlers["getHeader"] = getHeader
 	return shim.Success(nil)
 }
-
 
 func (t *ItemAssetChaincode) Invoke(stub shim.ChaincodeStubInterface) peer.Response {
 	// Extract the function and args from the transaction proposal
@@ -40,6 +39,38 @@ func (t *ItemAssetChaincode) Invoke(stub shim.ChaincodeStubInterface) peer.Respo
 		return shim.Error("can't find function " + fn)
 	}
 
+}
+
+func addItem(stub shim.ChaincodeStubInterface, args []byte) ([]byte, error) {
+	creator, err := stub.GetCreator()
+	if err != nil {
+		return nil, fmt.Errorf("error get tx creator")
+	}
+	request := &ItemAddRequest{}
+	proto.Unmarshal(args, request)
+
+	//设置环境状态
+	envStatus := &EnvStatus{}
+	envStatus.Address = request.Address
+
+	//设置操作状态
+	opStatus := &OpsStatus{}
+	opStatus.Operator = creator
+	opStatus.OpType = OPType_CREATED
+
+	//
+	item := &ItemAsset{}
+
+	item.ItemInfo = request.ItemInfo
+	item.EvnStatus = envStatus
+	item.OpsStatus = opStatus
+	item.Timestamp = time.Now().UnixNano()
+
+	return stub.GetCreator()
+}
+
+func getHeader(stub shim.ChaincodeStubInterface, args []byte) ([]byte, error) {
+	return stub.GetCreator()
 }
 
 func set(stub shim.ChaincodeStubInterface, args []byte) ([]byte, error) {

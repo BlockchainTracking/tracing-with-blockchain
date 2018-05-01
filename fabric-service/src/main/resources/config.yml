@@ -1,13 +1,13 @@
 defaultChannel : mychannel
 caConfig:
-   caUrl : http://192.168.136.131:7054
+   caUrl : http://192.168.136.133:7054
 channels:
    -
       channelName: mychannel
       peers:
-         peer1: 192.168.136.131:7051
+         peer1: 192.168.136.133:7051
       orderers:
-         orderer1: 192.168.136.131:7050
+         orderer1: 192.168.136.133:7050
 
 users:
    -

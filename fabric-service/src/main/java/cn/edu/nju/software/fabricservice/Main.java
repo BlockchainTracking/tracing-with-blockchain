@@ -3,6 +3,7 @@ package cn.edu.nju.software.fabricservice;
 import cn.edu.nju.software.fabricservice.bean.SampleStore;
 import cn.edu.nju.software.fabricservice.bean.SampleUser;
 import cn.edu.nju.software.common.util.ReflectionUtil;
+import cn.edu.nju.software.fabricservice.protomsg.Persistence;
 import cn.edu.nju.software.fabricservice.protomsg.Requests;
 import org.hyperledger.fabric.sdk.*;
 import org.hyperledger.fabric.sdk.security.CryptoSuite;
@@ -13,6 +14,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CompletionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -209,6 +212,7 @@ public class Main {
             Requests.SimpleRequest simpleRequest1 = Requests.SimpleRequest.parseFrom(result);
             System.out.println(simpleRequest1.toString());
         }
+
 //
 //
 //        BlockchainInfo channelInfo = channel.queryBlockchainInfo();
@@ -218,6 +222,7 @@ public class Main {
 //        String chainPreviousHash = Hex.encodeHexString(channelInfo.getPreviousBlockHash());
 //        System.out.println("Chain current block hash: " + chainCurrentHash);
 //        System.out.println("Chainl previous block hash: " + chainPreviousHash);
+
 
     }
 

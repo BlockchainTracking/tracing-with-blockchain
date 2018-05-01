@@ -1,5 +1,6 @@
 syntax = "proto3";
 
+import "Persistence.proto";
 
 option go_package = "main";
 option java_package = "cn.edu.nju.software.fabricservice.protomsg";
@@ -10,6 +11,17 @@ message SimpleRequest {
     string des = 3;
 }
 
+//商品新增的请求
 message ItemAddRequest {
+    string itemId = 1;
+    Address address = 2;
+    ItemInfo itemInfo = 3;
+}
 
+//更改商品状态的请求
+message ItemChangeRequest {
+    string itemId = 1;
+    EnvStatus envStatus = 2;
+    ItemStatus itemStatus = 3;
+    OPType opType = 4;
 }

@@ -1,34 +1,48 @@
 syntax = "proto3";
 
 
-option go_package = "software.nju.edu.cn/fabricservice";
+option go_package = "main";
 option java_package = "cn.edu.nju.software.fabricservice.protomsg";
 
-enum ChaincodeId {
-    MYCC = 0;
-
+//操作类型
+enum OPType {
+    CREATED = 0;
+    LOGISTICS = 1;
+    DELIVERED = 2;
 }
 
+//地址信息
 message Address {
     string name = 1;
     double longitude = 2;
     double latitude = 3;
 }
 
+//环境信息，目前只有地址
 message EnvStatus {
     Address address = 1;
 }
 
+//操作信息，
 message OpsStatus {
-
+    bytes operator = 1;
+    bytes lastoperator = 2;
+    OPType opType = 3;
 }
 
+//商品信息
 message ItemInfo {
-
+    string name = 1;
+    string class = 2;
+    string batchNumber = 3;
+    string note = 4;
 }
 
+//商品状态
 message ItemStatus {
-
+    string sampleStrStatus = 1;
+    int64 sampleLongStatus = 2;
+    string logs = 3;
 }
 
 /*
