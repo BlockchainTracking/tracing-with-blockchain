@@ -16,12 +16,6 @@ import java.util.function.Consumer;
 @AllArgsConstructor
 public class FSRequest {
     /**
-     * 调用的chaincode
-     */
-    @Getter
-    @Setter
-    private ChaincodeID chaincodeID;
-    /**
      * 调用参数
      */
     @Getter

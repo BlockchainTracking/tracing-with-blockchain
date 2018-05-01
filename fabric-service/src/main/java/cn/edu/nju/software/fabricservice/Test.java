@@ -26,7 +26,7 @@ public class Test {
         Requests.ItemAddRequest itemAddRequest = Requests.ItemAddRequest.newBuilder().setAddress
                 (address).setItemInfo(itemInfo).setItemId("1234567890123456789012345678901212345678901234567890123456789012")
                 .build();
-        responses = chainCodeInvoke("myCC3", "1.0", "addItem",
+        responses = chainCodeInvoke("myCC1", "1.0", "addItem",
                 itemAddRequest.toByteArray());
         for (ProposalResponse proposalResponse : responses) {
             System.out.println(proposalResponse.getMessage());
@@ -39,8 +39,10 @@ public class Test {
 
         TimeUnit.SECONDS.sleep(5);
 
-        proposalResponses = chainCodeQuery("myCC3", "1.0", "getItem",
-                "1234567890123456789012345678901212345678901234567890123456789012".getBytes());
+        proposalResponses = chainCodeQuery("myCC1", "1.0", "getItem",
+                Requests.ItemGetRequest.newBuilder().setItemId
+                        ("1234567890123456789012345678901212345678901234567890123456789012")
+                        .setHistData(false).build().toByteArray());
 
         for (ProposalResponse proposalResponse : proposalResponses) {
             System.out.println(proposalResponse.getMessage());

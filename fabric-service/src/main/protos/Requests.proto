@@ -11,12 +11,17 @@ message SimpleRequest {
     string des = 3;
 }
 
-
 //商品新增的请求
 message ItemAddRequest {
     string itemId = 1;
     Address address = 2;
     ItemInfo itemInfo = 3;
+}
+
+//商品查询请求
+message ItemGetRequest {
+    string itemId = 1;
+    bool histData = 2;
 }
 
 //更改商品状态的请求

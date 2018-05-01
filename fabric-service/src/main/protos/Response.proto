@@ -4,6 +4,7 @@ import "Requests.proto";
 option go_package = "main";
 option java_package = "cn.edu.nju.software.fabricservice.protomsg";
 
+
 message Response {
     int32 code = 1;
     string message = 2;

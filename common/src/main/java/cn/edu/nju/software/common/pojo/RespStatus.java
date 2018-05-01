@@ -11,6 +11,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RespStatus {
+    public static final Integer SUCCESS_CODE = 0;
     /**
      * 状态码
      */

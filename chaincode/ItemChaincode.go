@@ -41,19 +41,22 @@ func (t *ItemAssetChaincode) Invoke(stub shim.ChaincodeStubInterface) peer.Respo
 	}
 }
 
-func getItemAllHist() {
-
-}
 
 func getItem(stub shim.ChaincodeStubInterface, args []byte) (Response) {
-	key := string(args)
+	request := &ItemGetRequest{}
+	err := proto.Unmarshal(args, request)
+	if err != nil {
+		return createRespWithoutData(-1, "error marshal request data")
+	}
+
+	key := request.ItemId
 
 	value, err := stub.GetState(key)
 	if err != nil {
 		return createRespWithoutData(-1, "Failed to get asset: %s with error: %s", key)
 	}
 	if value == nil {
-		return createRespWithoutData(-1, "Asset not found: %s", key);
+		return createRespWithoutData(-1, "Asset not found: %s", key)
 	}
 	return createSuccessResp(value)
 }
@@ -64,7 +67,10 @@ func addItem(stub shim.ChaincodeStubInterface, args []byte) (Response) {
 		return createRespWithoutData(-1, "error get tx creator")
 	}
 	request := &ItemAddRequest{}
-	proto.Unmarshal(args, request)
+	err = proto.Unmarshal(args, request)
+	if err != nil {
+		return createRespWithoutData(-1, "error marshal request data")
+	}
 
 	//设置环境状态
 	envStatus := &EnvStatus{}
