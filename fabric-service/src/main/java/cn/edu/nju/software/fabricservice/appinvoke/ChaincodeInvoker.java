@@ -1,24 +1,18 @@
-package cn.edu.nju.software.fabricservice;
+package cn.edu.nju.software.fabricservice.appinvoke;
 
-import cn.edu.nju.software.common.pojo.RespStatus;
-import cn.edu.nju.software.common.pojo.fabricservice.FSRequest;
 import cn.edu.nju.software.common.pojo.fabricservice.FSResponse;
 import cn.edu.nju.software.common.util.LoggerUtil;
-import cn.edu.nju.software.fabricservice.protomsg.Persistence;
+import cn.edu.nju.software.fabricservice.HFClientHelper;
 import cn.edu.nju.software.fabricservice.protomsg.Requests;
 import cn.edu.nju.software.fabricservice.protomsg.ResponseOuterClass;
 import com.google.gson.Gson;
 import com.google.protobuf.AbstractMessageLite;
-import com.google.protobuf.ByteString;
-import com.google.protobuf.GeneratedMessageV3;
 import com.google.protobuf.InvalidProtocolBufferException;
-import com.sun.net.httpserver.Filter;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hyperledger.fabric.sdk.ChaincodeResponse;
-import org.hyperledger.fabric.sdk.HFClient;
 import org.hyperledger.fabric.sdk.ProposalResponse;
 import org.hyperledger.fabric.sdk.SDKUtils;
 import org.hyperledger.fabric.sdk.exception.InvalidArgumentException;
@@ -27,7 +21,6 @@ import org.slf4j.LoggerFactory;
 
 import java.util.*;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 /**
  * @author Daniel
@@ -36,7 +29,7 @@ import java.util.stream.Collectors;
 public class ChaincodeInvoker {
     Logger logger = LoggerFactory.getLogger(ChaincodeInvoker.class);
 
-    public static final Map<String, ChaincodeInvokerConfig> ALL_CHAINCODES;
+    private static final Map<String, ChaincodeInvokerConfig> ALL_CHAINCODES;
 
     static {
         ALL_CHAINCODES = new HashMap<>();
@@ -48,23 +41,26 @@ public class ChaincodeInvoker {
                         null,
                         null));
 
+        ALL_CHAINCODES.put(ChaincodeInvokerId.ITEM_CHANGE.getId(),
+                new ChaincodeInvokerConfig(
+                        InvokeType.INVOKE,
+                        Requests.ItemChangeRequest.class,
+                        null,
+                        null));
+
         ALL_CHAINCODES.put(ChaincodeInvokerId.ITEM_GET.getId(),
                 new ChaincodeInvokerConfig(
                         InvokeType.QUERY,
                         Requests.ItemGetRequest.class,
-                        Persistence.ItemAsset.class,
+                        ResponseOuterClass.ItemGetResponse.class,
                         e -> {
                             try {
-                                return Persistence.ItemAsset.parseFrom(e);
+                                return ResponseOuterClass.ItemGetResponse.parseFrom(e);
                             } catch (InvalidProtocolBufferException e1) {
                                 e1.printStackTrace();
                             }
                             return null;
                         }));
-    }
-
-
-    public ChaincodeInvoker() {
 
     }
 
@@ -73,7 +69,7 @@ public class ChaincodeInvoker {
                                      InvokeParameter invokeParameter) {
         ChaincodeInvokerConfig config = ALL_CHAINCODES.get(chaincodeInvokerId.getId());
         if (config.getRequestType() != null && !config.getRequestType().isInstance(request)) {
-            return FSResponse.createWithoutData(-1, "ERROR requsttype, except:%s, actual:%s",
+            return FSResponse.createWithoutData(-1, "ERROR request type, except:%s, actual:%s",
                     config.getRequestType().getName(), request.getClass().getName());
         }
         Collection<ProposalResponse> responses;
@@ -84,17 +80,16 @@ public class ChaincodeInvoker {
                         request.toByteArray());
                 for (ProposalResponse response : responses) {
                     if (response.getStatus() == ChaincodeResponse.Status.SUCCESS) {
-                        ResponseOuterClass.Response response1 = parseResponse(response);
-                        if (response1 != null && response1.getCode() == RespStatus.SUCCESS_CODE) {
-                            Object obj = null;
-                            if (config.getRequestType() != null) {
-                                obj = config.getParseFunction().apply(response1.getData());
+                        Object obj = null;
+                        try {
+                            if (config.getRequestType() != null || response
+                                    .getChaincodeActionResponsePayload() != null) {
+                                obj = config.getParseFunction().apply(response.getChaincodeActionResponsePayload());
                             }
-                            return FSResponse.createSuccess(obj, "query success");
-                        } else {
-                            return FSResponse.createWithoutData(-1, "query error:",
-                                    response1.getMessage());
+                        } catch (InvalidArgumentException e) {
+                            e.printStackTrace();
                         }
+                        return FSResponse.createSuccess(obj, "query success");
                     }
                 }
                 return FSResponse.createWithoutData(-1, "ERROR querry, no peer return success " +
@@ -131,55 +126,13 @@ public class ChaincodeInvoker {
         return FSResponse.createWithoutData(-1, "error invoke");
     }
 
-    private ResponseOuterClass.Response parseResponse(ProposalResponse proposalResponse) {
-        try {
-            return ResponseOuterClass.Response.parseFrom(proposalResponse.getChaincodeActionResponsePayload());
-        } catch (InvalidProtocolBufferException e) {
-            e.printStackTrace();
-        } catch (InvalidArgumentException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    /**
-     * 调用参数，用来控制调用过程，如是否异步等
-     */
-    static class InvokeParameter {
-
-    }
-
-    @AllArgsConstructor
-    @NoArgsConstructor
-    static class ChaincodeInvokerId {
-        //TODO 这里的"myCC需要改"
-        public static final ChaincodeInvokerId ITEM_ADD = new ChaincodeInvokerId("myCC1",
-                "1.0", "addItem");
-
-        public static final ChaincodeInvokerId ITEM_GET = new ChaincodeInvokerId("myCC1",
-                "1.0", "getItem");
-
-        @Setter
-        @Getter
-        String name;
-        @Setter
-        @Getter
-        String version;
-        @Setter
-        @Getter
-        String func;
-
-        public String getId() {
-            return name + ":" + version + "-" + func;
-        }
-    }
 
     /**
      * 确定发起调用的是哪个chaincode的哪个函数
      */
     @AllArgsConstructor
     @NoArgsConstructor
-    static class ChaincodeInvokerConfig {
+    private static class ChaincodeInvokerConfig {
         @Setter
         @Getter
         InvokeType invokeType;
@@ -191,12 +144,8 @@ public class ChaincodeInvoker {
         Class<?> respType;
         @Setter
         @Getter
-        Function<ByteString, Object> parseFunction;
+        Function<byte[], Object> parseFunction;
 
-    }
-
-    enum InvokeType {
-        INVOKE, QUERY
     }
 
 
@@ -204,10 +153,10 @@ public class ChaincodeInvoker {
         ChaincodeInvoker chaincodeInvoker = new ChaincodeInvoker();
         FSResponse<Object> re = chaincodeInvoker.invoke(ChaincodeInvokerId.ITEM_GET,
                 Requests.ItemGetRequest.newBuilder().setItemId
-                        ("1234567890123456789012345678901212345678901234567890123456789012")
-                        .setHistData(false).build(),
+                        ("12345678901234567890123456789012")
+                        .setHistData(true).build(),
                 null);
         System.out.println(new Gson().toJson(re.respStatus));
-        System.out.println(((Persistence.ItemAsset) re.getData()).toString());
+        System.out.println(new Gson().toJson(re.getData()));
     }
 }

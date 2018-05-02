@@ -20,4 +20,7 @@ public class ChannelConfig {
     @Setter
     @Getter
     private Map<String, String> orderers;
+    @Setter
+    @Getter
+    private Map<String, String> eventhubs;
 }

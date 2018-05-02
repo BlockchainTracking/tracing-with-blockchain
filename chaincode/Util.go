@@ -3,7 +3,11 @@ package main
 import "fmt"
 
 func checkItemIdformat(itemId string) bool {
-	return len(itemId) == 64
+	return len(itemId) == 32
+}
+
+func createError(msg string, args ...string) ([]byte, error) {
+	return nil, fmt.Errorf(msg, args)
 }
 
 func createSuccessResp(data []byte) Response {
@@ -24,4 +28,3 @@ func setError(response *Response, eCode int32, msg string) Response {
 	response.Message = msg
 	return *response
 }
-

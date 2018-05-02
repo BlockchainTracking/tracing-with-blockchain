@@ -19,10 +19,4 @@ public class Organization {
     @Setter
     @Getter
     private String name;
-    /**
-     * 组织类型
-     */
-    @Setter
-    @Getter
-    private OrgType orgType;
 }

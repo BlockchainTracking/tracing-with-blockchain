@@ -1,4 +1,4 @@
-package cn.edu.nju.software.ui;
+package cn.edu.nju.software.ui.bizservice;
 
 import cn.edu.nju.software.common.pojo.TracingItemInfo;
 import cn.edu.nju.software.common.pojo.bizservice.FakeAnalysisResult;

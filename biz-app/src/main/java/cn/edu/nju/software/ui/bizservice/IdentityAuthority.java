@@ -1,4 +1,4 @@
-package cn.edu.nju.software.ui;
+package cn.edu.nju.software.ui.bizservice;
 
 import cn.edu.nju.software.common.pojo.bizservice.BizResponse;
 import org.springframework.stereotype.Service;
@@ -10,9 +10,11 @@ import org.springframework.stereotype.Service;
 public interface IdentityAuthority {
     /**
      * 验证用户的授权码是否正确
+     *
      * @param authorityCode
      * @return
      */
     BizResponse verifyAuthorityCode(String authorityCode);
 
+    BizResponse<String> generateAuthorityCode(String username, String password);
 }

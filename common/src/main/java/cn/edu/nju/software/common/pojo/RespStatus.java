@@ -24,4 +24,9 @@ public class RespStatus {
     @Getter
     @Setter
     private String msg;
+
+    public boolean isSuccess() {
+        return SUCCESS_CODE.equals(code);
+    }
+
 }

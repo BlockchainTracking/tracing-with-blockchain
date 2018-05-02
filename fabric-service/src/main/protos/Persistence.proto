@@ -35,7 +35,8 @@ message ItemInfo {
     string name = 1;
     string class = 2;
     string batchNumber = 3;
-    string note = 4;
+    int64 manufactureDate = 4;
+    string note = 5;
 }
 
 //商品状态

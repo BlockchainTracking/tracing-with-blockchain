@@ -13,6 +13,7 @@ import org.apache.commons.codec.binary.Hex;
 import org.hyperledger.fabric.sdk.*;
 import org.hyperledger.fabric.sdk.exception.InvalidArgumentException;
 import org.hyperledger.fabric.sdk.exception.ProposalException;
+import org.hyperledger.fabric.sdk.exception.TransactionException;
 import org.hyperledger.fabric.sdk.security.CryptoSuite;
 import org.hyperledger.fabric_ca.sdk.HFCAClient;
 import org.hyperledger.fabric_ca.sdk.exception.EnrollmentException;
@@ -30,7 +31,6 @@ import java.util.Properties;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
 import java.util.concurrent.TimeUnit;
-import java.util.regex.Pattern;
 
 /**
  * @author Daniel
@@ -48,7 +48,7 @@ public class HFClientHelper {
 
     private static final Map<String, SampleUser> USERS = new HashMap<>();
 
-    private static Channel DEFAULT_CHANNEL, CURRENT_CHANNEL;
+    static Channel DEFAULT_CHANNEL, CURRENT_CHANNEL;
     private static SampleUser DEFAULT_USER, CURRENT_USER;
 
     static {
@@ -83,6 +83,7 @@ public class HFClientHelper {
         configUser();
 
         configChannel();
+
     }
 
 
@@ -103,8 +104,8 @@ public class HFClientHelper {
                         errorf(logger, "error create peer,name=%s,url=%s", pname, purl);
                     }
                 });
-                Properties ordererProperties = new Properties();
 
+                Properties ordererProperties = new Properties();
                 //example of setting keepAlive to avoid timeouts on inactive http2 connections.
                 // Under 5 minutes would require changes to server side to accept faster ping rates.
                 ordererProperties.put("grpc.NettyChannelBuilderOption.keepAliveTime", new
@@ -123,10 +124,32 @@ public class HFClientHelper {
                 });
 
                 //用反射工具设置初始化，不然会报错，感觉是当前的一个Bug
-                ReflectionUtil.setField(channel, "initialized", true);
+//                ReflectionUtil.setField(channel, "initialized", true);
 
+                //——————————————————————添加eventhub
+                Properties eventHubProperties = new Properties();
+                eventHubProperties.put("grpc.NettyChannelBuilderOption.keepAliveTime", new Object[]{5L, TimeUnit.MINUTES});
+                eventHubProperties.put("grpc.NettyChannelBuilderOption.keepAliveTimeout", new Object[]{8L, TimeUnit.SECONDS});
+                chconfig.getEventhubs().forEach((ename, eurl) -> {
+                    EventHub eventHub = null;
+                    try {
+                        eventHub = hfClient.newEventHub(ename, "grpc://" + eurl, eventHubProperties);
+                        channel.addEventHub(eventHub);
+                    } catch (InvalidArgumentException e) {
+                        errorf(logger, "error add eventhub %s", ename);
+                        e.printStackTrace();
+                    }
+                });
+
+
+                try {
+                    channel.initialize();
+                    CHANNELS.put(cname, channel);
+                } catch (TransactionException e) {
+                    errorf(logger, "error initial channel %s", cname);
+                    e.printStackTrace();
+                }
                 //存入map中
-                CHANNELS.put(cname, channel);
             } catch (InvalidArgumentException e) {
                 e.printStackTrace();
                 errorf(logger, "error create channel,name=%s", cname);
@@ -261,6 +284,7 @@ public class HFClientHelper {
 
 
     public static void main(String[] args) throws Exception {
+
 
         Collection<ProposalResponse> proposalResponses;
         Requests.SimpleRequest simpleRequest;

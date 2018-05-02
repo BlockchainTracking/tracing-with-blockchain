@@ -19,7 +19,6 @@ import java.util.Map;
 public class HFConfig {
 
     private static HFConfig instance;
-
     @Getter
     @Setter
     List<ChannelConfig> channels;
@@ -35,6 +34,12 @@ public class HFConfig {
     @Getter
     @Setter
     String defaultUser;
+    @Setter
+    @Getter
+    String ccName;
+    @Setter
+    @Getter
+    String ccVersion;
 
 
     public static HFConfig newInstance() {

@@ -17,13 +17,13 @@ public class AddressInfo {
      */
     @Getter
     @Setter
-    private long longtitude;
+    private double longtitude;
     /**
      * 纬度
      */
     @Getter
     @Setter
-    private long latitude;
+    private double latitude;
     /**
      * 地址描述
      */

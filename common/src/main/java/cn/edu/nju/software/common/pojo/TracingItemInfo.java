@@ -1,14 +1,17 @@
 package cn.edu.nju.software.common.pojo;
 
+import lombok.Data;
+
 /**
  * @author Daniel
  * @since 2018/4/28 15:40
  */
+@Data
 public class TracingItemInfo {
     /**
      * 时间戳
      */
-    long timestamp;
+    String time;
     /**
      * 商品信息
      */
@@ -16,7 +19,7 @@ public class TracingItemInfo {
     /**
      * 商品状态
      */
-    ItemState itemState;
+    ItemStatus itemState;
     /**
      * 环境状态
      */
