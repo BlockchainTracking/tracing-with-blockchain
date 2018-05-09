@@ -30,4 +30,5 @@ message ItemChangeRequest {
     EnvStatus envStatus = 2;
     ItemStatus itemStatus = 3;
     OPType opType = 4;
+    string nextOrg = 5;
 }

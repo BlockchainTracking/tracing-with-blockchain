@@ -1,8 +1,7 @@
-package cn.edu.nju.software.fabricservice;
+package cn.edu.nju.software.fabricservice.serviceinvoker;
 
-import cn.edu.nju.software.common.util.ReflectionUtil;
 import cn.edu.nju.software.fabricservice.bean.SampleUser;
-import cn.edu.nju.software.fabricservice.config.HFConfig;
+import cn.edu.nju.software.fabricservice.configmgt.HFConfig;
 import cn.edu.nju.software.fabricservice.protomsg.Requests;
 import cn.edu.nju.software.fabricservice.protomsg.ResponseOuterClass;
 import lombok.AllArgsConstructor;
@@ -24,10 +23,7 @@ import static cn.edu.nju.software.common.util.LoggerUtil.*;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import java.net.MalformedURLException;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
 import java.util.concurrent.TimeUnit;
@@ -38,21 +34,28 @@ import java.util.concurrent.TimeUnit;
  * 对SDK的进一步封装，通过配置文件简化了配置细节
  */
 public class HFClientHelper {
-    private static final Logger logger = LoggerFactory.getLogger(HFClientHelper.class);
-    private final static HFClient hfClient;
-    private static HFCAClient hfCaClient;
-    private final static HFConfig hfconfig;
+    private final Logger logger = LoggerFactory.getLogger(HFClientHelper.class);
+    private HFClient hfClient;
+    private HFCAClient hfCaClient;
+    private HFConfig hfconfig;
 
     //channels
-    private static final Map<String, Channel> CHANNELS = new HashMap<>();
+    private Map<String, Channel> CHANNELS;
 
-    private static final Map<String, SampleUser> USERS = new HashMap<>();
+    private Map<String, SampleUser> USERS;
+
+    private Map<String, Peer> PEERS;
 
     static Channel DEFAULT_CHANNEL, CURRENT_CHANNEL;
-    private static SampleUser DEFAULT_USER, CURRENT_USER;
+    private SampleUser DEFAULT_USER, CURRENT_USER;
+    private List<Peer> CURRENT_PEERS;
 
-    static {
-        hfconfig = HFConfig.newInstance();
+    public void init(HFConfig hfConfig) {
+        this.hfconfig = hfConfig;
+
+        CHANNELS = new HashMap<>();
+        USERS = new HashMap<>();
+        PEERS = new HashMap<>();
 
         hfClient = HFClient.createNewInstance();
 
@@ -70,7 +73,7 @@ public class HFClientHelper {
     /**
      * 配置
      */
-    static void config() {
+    void config() {
         //配置CA服务器
         try {
             hfCaClient = HFCAClient.createNewInstance(hfconfig.getCaConfig().getCaUrl(), null);
@@ -90,7 +93,7 @@ public class HFClientHelper {
     /**
      * 配置channel
      */
-    static void configChannel() {
+    void configChannel() {
         //配置channel
         hfconfig.getChannels().forEach((chconfig) -> {
             String cname = chconfig.getChannelName();
@@ -99,7 +102,9 @@ public class HFClientHelper {
                 //添加peer
                 chconfig.getPeers().forEach((pname, purl) -> {
                     try {
-                        channel.addPeer(hfClient.newPeer(pname, "grpc://" + purl));
+                        Peer peer = hfClient.newPeer(pname, "grpc://" + purl);
+                        PEERS.put(pname, peer);
+                        channel.addPeer(peer);
                     } catch (InvalidArgumentException e) {
                         errorf(logger, "error create peer,name=%s,url=%s", pname, purl);
                     }
@@ -113,6 +118,7 @@ public class HFClientHelper {
                 ordererProperties.put("grpc.NettyChannelBuilderOption.keepAliveTimeout", new
                         Object[]{20L, TimeUnit.SECONDS});
                 ordererProperties.put("grpc.NettyChannelBuilderOption.keepAliveWithoutCalls", new Object[]{true});
+
                 //添加orderer
                 chconfig.getOrderers().forEach((oname, ourl) -> {
                     try {
@@ -123,8 +129,6 @@ public class HFClientHelper {
                     }
                 });
 
-                //用反射工具设置初始化，不然会报错，感觉是当前的一个Bug
-//                ReflectionUtil.setField(channel, "initialized", true);
 
                 //——————————————————————添加eventhub
                 Properties eventHubProperties = new Properties();
@@ -142,6 +146,7 @@ public class HFClientHelper {
                 });
 
 
+                //初始化channel
                 try {
                     channel.initialize();
                     CHANNELS.put(cname, channel);
@@ -171,7 +176,7 @@ public class HFClientHelper {
 
     }
 
-    static void configUser() {
+    void configUser() {
         hfconfig.getUsers().forEach(userConfig -> {
             SampleUser sampleUser = new SampleUser(userConfig.getUsername(), userConfig.getOrg(),
                     null);
@@ -212,13 +217,20 @@ public class HFClientHelper {
     }
 
 
-    static void setContext(InvokeContext invokeContext) {
+    public void setContext(InvokeContext invokeContext) {
         if (invokeContext != null) {
             if (invokeContext.getChannelName() != null && CHANNELS.containsKey(invokeContext.getChannelName())) {
                 CURRENT_CHANNEL = CHANNELS.get(invokeContext.getChannelName());
             }
             if (invokeContext.getUserName() != null && USERS.containsKey(invokeContext.getUserName())) {
                 CURRENT_USER = USERS.get(invokeContext.getUserName());
+            }
+            if (invokeContext.getPeerNames() != null) {
+                List<Peer> peers = new ArrayList<>();
+                for (String peer : invokeContext.getPeerNames()) {
+                    peers.add(PEERS.get(peer));
+                }
+                CURRENT_PEERS = peers;
             }
         }
         if (CURRENT_USER != null)
@@ -229,8 +241,7 @@ public class HFClientHelper {
             }
     }
 
-    public static Collection<ProposalResponse> chainCodeInvoke(String
-                                                                       chaincodeName, String chaincodeVersion, String func, byte[] data) {
+    public Collection<ProposalResponse> chainCodeInvoke(String chaincodeName, String chaincodeVersion, String func, byte[] data) {
 
         ChaincodeID chaincodeID = ChaincodeID.newBuilder().setName(chaincodeName).setVersion(chaincodeVersion)
                 .build();
@@ -249,7 +260,7 @@ public class HFClientHelper {
         try {
             transactionProposalRequest.setTransientMap(tm2);
             Collection<ProposalResponse> transactionPropResp = CURRENT_CHANNEL.sendTransactionProposal
-                    (transactionProposalRequest);
+                    (transactionProposalRequest, CURRENT_PEERS);
             return transactionPropResp;
         } catch (ProposalException | InvalidArgumentException e) {
             e.printStackTrace();
@@ -257,12 +268,12 @@ public class HFClientHelper {
         return null;
     }
 
-    public static CompletableFuture<BlockEvent.TransactionEvent> sendTransactions(Collection<ProposalResponse> responses) {
+    public CompletableFuture<BlockEvent.TransactionEvent> sendTransactions(Collection<ProposalResponse> responses) {
         return CURRENT_CHANNEL.sendTransaction(responses);
     }
 
 
-    public static Collection<ProposalResponse> chainCodeQuery(String chaincodeName, String chaincodeVersion, String func, byte[] data) {
+    public Collection<ProposalResponse> chainCodeQuery(String chaincodeName, String chaincodeVersion, String func, byte[] data) {
 
         ChaincodeID chaincodeID = ChaincodeID.newBuilder().setName(chaincodeName).setVersion(chaincodeVersion)
                 .build();
@@ -275,7 +286,7 @@ public class HFClientHelper {
 
         Collection<ProposalResponse> queryProposals;
         try {
-            queryProposals = CURRENT_CHANNEL.queryByChaincode(queryByChaincodeRequest);
+            queryProposals = CURRENT_CHANNEL.queryByChaincode(queryByChaincodeRequest, CURRENT_PEERS);
         } catch (Exception e) {
             throw new CompletionException(e);
         }
@@ -290,25 +301,28 @@ public class HFClientHelper {
         Requests.SimpleRequest simpleRequest;
         Collection<ProposalResponse> responses;
 
+        HFClientHelper hfClientHelper = new HFClientHelper();
+        hfClientHelper.init(HFConfig.newInstance());
+
         simpleRequest = Requests.SimpleRequest.newBuilder().setName
                 ("daniel").setDes("des").build();
-        responses = chainCodeInvoke("myCC", "1.0", "set",
+        responses = hfClientHelper.chainCodeInvoke("myCC", "1.0", "set",
                 simpleRequest.toByteArray());
-        sendTransactions(responses);
+        hfClientHelper.sendTransactions(responses);
 
         System.out.println(responses.iterator().next().getTransactionID());
 
         simpleRequest = Requests.SimpleRequest.newBuilder().setName
                 ("daniel").setDes("des1").build();
-        responses = chainCodeInvoke("myCC", "1.0", "set",
+        responses = hfClientHelper.chainCodeInvoke("myCC", "1.0", "set",
                 simpleRequest.toByteArray());
-        sendTransactions(responses);
+        hfClientHelper.sendTransactions(responses);
 
         System.out.println(responses.iterator().next().getTransactionID());
 
         TimeUnit.SECONDS.sleep(5);
 
-        proposalResponses = chainCodeQuery("myCC", "1.0", "get",
+        proposalResponses = hfClientHelper.chainCodeQuery("myCC", "1.0", "get",
                 "daniel".getBytes());
 
         for (ProposalResponse proposalResponse : proposalResponses) {
@@ -318,7 +332,7 @@ public class HFClientHelper {
             System.out.println(simpleRequest1.toString());
         }
 
-        proposalResponses = chainCodeQuery("myCC", "1.0", "getAllHist",
+        proposalResponses = hfClientHelper.chainCodeQuery("myCC", "1.0", "getAllHist",
                 "daniel".getBytes());
 
         for (ProposalResponse proposalResponse : proposalResponses) {
@@ -339,16 +353,6 @@ public class HFClientHelper {
         System.out.println("Chainl previous block hash: " + chainPreviousHash);
     }
 
-    @AllArgsConstructor
-    @NoArgsConstructor
-    public static class InvokeContext {
-        @Getter
-        @Setter
-        String userName;
-        @Getter
-        @Setter
-        String channelName;
-    }
 
 }
 

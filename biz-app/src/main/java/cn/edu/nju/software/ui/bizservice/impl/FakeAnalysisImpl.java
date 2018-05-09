@@ -14,6 +14,7 @@ import java.util.List;
 public class FakeAnalysisImpl implements FakeAnalysis {
     @Override
     public FakeAnalysisResult fakeAnalysis(List<TracingItemInfo> tracingItemInfoList) {
+
         return null;
     }
 }

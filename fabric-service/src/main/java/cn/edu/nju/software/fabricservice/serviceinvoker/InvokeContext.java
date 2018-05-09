@@ -1,27 +1,26 @@
-package cn.edu.nju.software.fabricservice.config;
+package cn.edu.nju.software.fabricservice.serviceinvoker;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 /**
  * @author Daniel
- * @since 2018/5/1 0:24
+ * @since 2018/5/7 19:15
  */
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserConfig {
+public class InvokeContext {
     @Getter
     @Setter
-    String username;
+    String userName;
     @Getter
     @Setter
-    String password;
-    @Getter
+    String channelName;
     @Setter
-    String org;
     @Getter
-    @Setter
-    String mspId;
+    List<String> peerNames;
 }

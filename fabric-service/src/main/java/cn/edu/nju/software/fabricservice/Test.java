@@ -1,17 +1,18 @@
 package cn.edu.nju.software.fabricservice;
 
+import cn.edu.nju.software.fabricservice.configmgt.HFConfig;
 import cn.edu.nju.software.fabricservice.protomsg.Persistence;
 import cn.edu.nju.software.fabricservice.protomsg.Requests;
 import cn.edu.nju.software.fabricservice.protomsg.ResponseOuterClass;
+import cn.edu.nju.software.fabricservice.serviceinvoker.HFClientHelper;
+import com.google.gson.Gson;
 import org.hyperledger.fabric.sdk.ChaincodeResponse;
-import org.hyperledger.fabric.sdk.EventHub;
 import org.hyperledger.fabric.sdk.ProposalResponse;
 
 import java.util.Collection;
-import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
-import static cn.edu.nju.software.fabricservice.HFClientHelper.*;
+import static cn.edu.nju.software.fabricservice.serviceinvoker.HFClientHelper.*;
 
 /**
  * @author Daniel
@@ -24,6 +25,9 @@ public class Test {
         Collection<ProposalResponse> proposalResponses;
         Collection<ProposalResponse> responses;
 
+        HFClientHelper hfClientHelper = new HFClientHelper();
+        hfClientHelper.init(HFConfig.newInstance());
+
         //——————————————————————————————添加商品信息————————————————————————————————————————————
 
         Persistence.Address address = Persistence.Address.newBuilder().setName("add1")
@@ -33,7 +37,7 @@ public class Test {
         Requests.ItemAddRequest itemAddRequest = Requests.ItemAddRequest.newBuilder().setAddress
                 (address).setItemInfo(itemInfo).setItemId("12345678901234567890123456789012")
                 .build();
-        responses = chainCodeInvoke(chainCodeName, "1.0", "addItem",
+        responses = hfClientHelper.chainCodeInvoke(chainCodeName, "1.0", "addItem",
                 itemAddRequest.toByteArray());
         for (ProposalResponse proposalResponse : responses) {
             if (proposalResponse.getStatus() == ChaincodeResponse.Status.SUCCESS) {
@@ -45,6 +49,8 @@ public class Test {
                 System.out.println("response fail:" + proposalResponse.getMessage());
             }
         }
+
+        hfClientHelper.sendTransactions(responses);
 
 
 //        sendTransactions(responses).thenAccept(e -> {
@@ -61,7 +67,7 @@ public class Test {
 
         //——————————————————————————————查询商品信息————————————————————————————————————————————
         {
-            proposalResponses = chainCodeQuery(chainCodeName, "1.0", "getItem",
+            proposalResponses = hfClientHelper.chainCodeQuery(chainCodeName, "1.0", "getItem",
                     Requests.ItemGetRequest.newBuilder().setItemId
                             ("12345678901234567890123456789012")
                             .setHistData(false).build().toByteArray());
@@ -87,7 +93,7 @@ public class Test {
         Requests.ItemChangeRequest itemChangeRequest = Requests.ItemChangeRequest.newBuilder()
                 .setOpType(Persistence.OPType.LOGISTICS).setEnvStatus(envStatus).setItemStatus
                         (itemStatus).setItemId("12345678901234567890123456789012").build();
-        responses = chainCodeInvoke(chainCodeName, "1.0", "changeItem",
+        responses = hfClientHelper.chainCodeInvoke(chainCodeName, "1.0", "changeItem",
                 itemChangeRequest.toByteArray());
         for (ProposalResponse proposalResponse : responses) {
             System.out.println(proposalResponse.getMessage());
@@ -96,12 +102,12 @@ public class Test {
             System.out.println(response.getMessage());
         }
 
-        sendTransactions(responses);
+        hfClientHelper.sendTransactions(responses);
         //——————————————————————————————END————————————————————————————————————————————
         TimeUnit.SECONDS.sleep(5);
 
         {
-            proposalResponses = chainCodeQuery(chainCodeName, "1.0", "getItem",
+            proposalResponses = hfClientHelper.chainCodeQuery(chainCodeName, "1.0", "getItem",
                     Requests.ItemGetRequest.newBuilder().setItemId
                             ("12345678901234567890123456789012")
                             .setHistData(true).build().toByteArray());
@@ -111,8 +117,9 @@ public class Test {
                 byte[] result = proposalResponse.getChaincodeActionResponsePayload();
                 ResponseOuterClass.Response response = ResponseOuterClass.Response.parseFrom(result);
                 System.out.println(response.getMessage());
-                Persistence.ItemAsset itemAsset = Persistence.ItemAsset.parseFrom(response.getData());
-                System.out.println(itemAsset.toString());
+                ResponseOuterClass.ItemGetResponse itemGetResponse = ResponseOuterClass
+                        .ItemGetResponse.parseFrom(response.getData());
+                System.out.println(new Gson().toJson(itemGetResponse.getItemAssetsList()));
             }
         }
 

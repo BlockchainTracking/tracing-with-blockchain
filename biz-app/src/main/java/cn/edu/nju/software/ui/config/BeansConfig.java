@@ -1,6 +1,6 @@
 package cn.edu.nju.software.ui.config;
 
-import cn.edu.nju.software.fabricservice.appinvoke.ChaincodeInvoker;
+import cn.edu.nju.software.fabricservice.serviceinvoker.ServiceInvoker;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 public class BeansConfig {
 
     @Bean
-    public ChaincodeInvoker getChaincodeInvoker() {
-        return new ChaincodeInvoker();
+    public ServiceInvoker getChaincodeInvoker() {
+        return new ServiceInvoker();
     }
 }

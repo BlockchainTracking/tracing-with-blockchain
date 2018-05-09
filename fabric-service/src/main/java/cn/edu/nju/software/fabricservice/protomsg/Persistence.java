@@ -1385,14 +1385,24 @@ public final class Persistence {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>bytes operator = 1;</code>
+     * <code>string currentOrg = 1;</code>
      */
-    com.google.protobuf.ByteString getOperator();
+    java.lang.String getCurrentOrg();
+    /**
+     * <code>string currentOrg = 1;</code>
+     */
+    com.google.protobuf.ByteString
+        getCurrentOrgBytes();
 
     /**
-     * <code>bytes lastoperator = 2;</code>
+     * <code>string lastOrg = 2;</code>
      */
-    com.google.protobuf.ByteString getLastoperator();
+    java.lang.String getLastOrg();
+    /**
+     * <code>string lastOrg = 2;</code>
+     */
+    com.google.protobuf.ByteString
+        getLastOrgBytes();
 
     /**
      * <code>.OPType opType = 3;</code>
@@ -1420,8 +1430,8 @@ public final class Persistence {
       super(builder);
     }
     private OpsStatus() {
-      operator_ = com.google.protobuf.ByteString.EMPTY;
-      lastoperator_ = com.google.protobuf.ByteString.EMPTY;
+      currentOrg_ = "";
+      lastOrg_ = "";
       opType_ = 0;
     }
 
@@ -1457,13 +1467,15 @@ public final class Persistence {
               break;
             }
             case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
 
-              operator_ = input.readBytes();
+              currentOrg_ = s;
               break;
             }
             case 18: {
+              java.lang.String s = input.readStringRequireUtf8();
 
-              lastoperator_ = input.readBytes();
+              lastOrg_ = s;
               break;
             }
             case 24: {
@@ -1496,22 +1508,72 @@ public final class Persistence {
               cn.edu.nju.software.fabricservice.protomsg.Persistence.OpsStatus.class, cn.edu.nju.software.fabricservice.protomsg.Persistence.OpsStatus.Builder.class);
     }
 
-    public static final int OPERATOR_FIELD_NUMBER = 1;
-    private com.google.protobuf.ByteString operator_;
+    public static final int CURRENTORG_FIELD_NUMBER = 1;
+    private volatile java.lang.Object currentOrg_;
     /**
-     * <code>bytes operator = 1;</code>
+     * <code>string currentOrg = 1;</code>
      */
-    public com.google.protobuf.ByteString getOperator() {
-      return operator_;
+    public java.lang.String getCurrentOrg() {
+      java.lang.Object ref = currentOrg_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        currentOrg_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string currentOrg = 1;</code>
+     */
+    public com.google.protobuf.ByteString
+        getCurrentOrgBytes() {
+      java.lang.Object ref = currentOrg_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        currentOrg_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
     }
 
-    public static final int LASTOPERATOR_FIELD_NUMBER = 2;
-    private com.google.protobuf.ByteString lastoperator_;
+    public static final int LASTORG_FIELD_NUMBER = 2;
+    private volatile java.lang.Object lastOrg_;
     /**
-     * <code>bytes lastoperator = 2;</code>
+     * <code>string lastOrg = 2;</code>
      */
-    public com.google.protobuf.ByteString getLastoperator() {
-      return lastoperator_;
+    public java.lang.String getLastOrg() {
+      java.lang.Object ref = lastOrg_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        lastOrg_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string lastOrg = 2;</code>
+     */
+    public com.google.protobuf.ByteString
+        getLastOrgBytes() {
+      java.lang.Object ref = lastOrg_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        lastOrg_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
     }
 
     public static final int OPTYPE_FIELD_NUMBER = 3;
@@ -1542,11 +1604,11 @@ public final class Persistence {
 
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (!operator_.isEmpty()) {
-        output.writeBytes(1, operator_);
+      if (!getCurrentOrgBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, currentOrg_);
       }
-      if (!lastoperator_.isEmpty()) {
-        output.writeBytes(2, lastoperator_);
+      if (!getLastOrgBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, lastOrg_);
       }
       if (opType_ != cn.edu.nju.software.fabricservice.protomsg.Persistence.OPType.CREATED.getNumber()) {
         output.writeEnum(3, opType_);
@@ -1559,13 +1621,11 @@ public final class Persistence {
       if (size != -1) return size;
 
       size = 0;
-      if (!operator_.isEmpty()) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(1, operator_);
+      if (!getCurrentOrgBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, currentOrg_);
       }
-      if (!lastoperator_.isEmpty()) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(2, lastoperator_);
+      if (!getLastOrgBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, lastOrg_);
       }
       if (opType_ != cn.edu.nju.software.fabricservice.protomsg.Persistence.OPType.CREATED.getNumber()) {
         size += com.google.protobuf.CodedOutputStream
@@ -1587,10 +1647,10 @@ public final class Persistence {
       cn.edu.nju.software.fabricservice.protomsg.Persistence.OpsStatus other = (cn.edu.nju.software.fabricservice.protomsg.Persistence.OpsStatus) obj;
 
       boolean result = true;
-      result = result && getOperator()
-          .equals(other.getOperator());
-      result = result && getLastoperator()
-          .equals(other.getLastoperator());
+      result = result && getCurrentOrg()
+          .equals(other.getCurrentOrg());
+      result = result && getLastOrg()
+          .equals(other.getLastOrg());
       result = result && opType_ == other.opType_;
       result = result && unknownFields.equals(other.unknownFields);
       return result;
@@ -1603,10 +1663,10 @@ public final class Persistence {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
-      hash = (37 * hash) + OPERATOR_FIELD_NUMBER;
-      hash = (53 * hash) + getOperator().hashCode();
-      hash = (37 * hash) + LASTOPERATOR_FIELD_NUMBER;
-      hash = (53 * hash) + getLastoperator().hashCode();
+      hash = (37 * hash) + CURRENTORG_FIELD_NUMBER;
+      hash = (53 * hash) + getCurrentOrg().hashCode();
+      hash = (37 * hash) + LASTORG_FIELD_NUMBER;
+      hash = (53 * hash) + getLastOrg().hashCode();
       hash = (37 * hash) + OPTYPE_FIELD_NUMBER;
       hash = (53 * hash) + opType_;
       hash = (29 * hash) + unknownFields.hashCode();
@@ -1742,9 +1802,9 @@ public final class Persistence {
       }
       public Builder clear() {
         super.clear();
-        operator_ = com.google.protobuf.ByteString.EMPTY;
+        currentOrg_ = "";
 
-        lastoperator_ = com.google.protobuf.ByteString.EMPTY;
+        lastOrg_ = "";
 
         opType_ = 0;
 
@@ -1770,8 +1830,8 @@ public final class Persistence {
 
       public cn.edu.nju.software.fabricservice.protomsg.Persistence.OpsStatus buildPartial() {
         cn.edu.nju.software.fabricservice.protomsg.Persistence.OpsStatus result = new cn.edu.nju.software.fabricservice.protomsg.Persistence.OpsStatus(this);
-        result.operator_ = operator_;
-        result.lastoperator_ = lastoperator_;
+        result.currentOrg_ = currentOrg_;
+        result.lastOrg_ = lastOrg_;
         result.opType_ = opType_;
         onBuilt();
         return result;
@@ -1814,11 +1874,13 @@ public final class Persistence {
 
       public Builder mergeFrom(cn.edu.nju.software.fabricservice.protomsg.Persistence.OpsStatus other) {
         if (other == cn.edu.nju.software.fabricservice.protomsg.Persistence.OpsStatus.getDefaultInstance()) return this;
-        if (other.getOperator() != com.google.protobuf.ByteString.EMPTY) {
-          setOperator(other.getOperator());
+        if (!other.getCurrentOrg().isEmpty()) {
+          currentOrg_ = other.currentOrg_;
+          onChanged();
         }
-        if (other.getLastoperator() != com.google.protobuf.ByteString.EMPTY) {
-          setLastoperator(other.getLastoperator());
+        if (!other.getLastOrg().isEmpty()) {
+          lastOrg_ = other.lastOrg_;
+          onChanged();
         }
         if (other.opType_ != 0) {
           setOpTypeValue(other.getOpTypeValue());
@@ -1850,60 +1912,140 @@ public final class Persistence {
         return this;
       }
 
-      private com.google.protobuf.ByteString operator_ = com.google.protobuf.ByteString.EMPTY;
+      private java.lang.Object currentOrg_ = "";
       /**
-       * <code>bytes operator = 1;</code>
+       * <code>string currentOrg = 1;</code>
        */
-      public com.google.protobuf.ByteString getOperator() {
-        return operator_;
+      public java.lang.String getCurrentOrg() {
+        java.lang.Object ref = currentOrg_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          currentOrg_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
       }
       /**
-       * <code>bytes operator = 1;</code>
+       * <code>string currentOrg = 1;</code>
        */
-      public Builder setOperator(com.google.protobuf.ByteString value) {
+      public com.google.protobuf.ByteString
+          getCurrentOrgBytes() {
+        java.lang.Object ref = currentOrg_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          currentOrg_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string currentOrg = 1;</code>
+       */
+      public Builder setCurrentOrg(
+          java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
   
-        operator_ = value;
+        currentOrg_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>bytes operator = 1;</code>
+       * <code>string currentOrg = 1;</code>
        */
-      public Builder clearOperator() {
+      public Builder clearCurrentOrg() {
         
-        operator_ = getDefaultInstance().getOperator();
+        currentOrg_ = getDefaultInstance().getCurrentOrg();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string currentOrg = 1;</code>
+       */
+      public Builder setCurrentOrgBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        currentOrg_ = value;
         onChanged();
         return this;
       }
 
-      private com.google.protobuf.ByteString lastoperator_ = com.google.protobuf.ByteString.EMPTY;
+      private java.lang.Object lastOrg_ = "";
       /**
-       * <code>bytes lastoperator = 2;</code>
+       * <code>string lastOrg = 2;</code>
        */
-      public com.google.protobuf.ByteString getLastoperator() {
-        return lastoperator_;
+      public java.lang.String getLastOrg() {
+        java.lang.Object ref = lastOrg_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          lastOrg_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
       }
       /**
-       * <code>bytes lastoperator = 2;</code>
+       * <code>string lastOrg = 2;</code>
        */
-      public Builder setLastoperator(com.google.protobuf.ByteString value) {
+      public com.google.protobuf.ByteString
+          getLastOrgBytes() {
+        java.lang.Object ref = lastOrg_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          lastOrg_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string lastOrg = 2;</code>
+       */
+      public Builder setLastOrg(
+          java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
   
-        lastoperator_ = value;
+        lastOrg_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>bytes lastoperator = 2;</code>
+       * <code>string lastOrg = 2;</code>
        */
-      public Builder clearLastoperator() {
+      public Builder clearLastOrg() {
         
-        lastoperator_ = getDefaultInstance().getLastoperator();
+        lastOrg_ = getDefaultInstance().getLastOrg();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string lastOrg = 2;</code>
+       */
+      public Builder setLastOrgBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        lastOrg_ = value;
         onChanged();
         return this;
       }
@@ -3752,54 +3894,64 @@ public final class Persistence {
     long getTimestamp();
 
     /**
-     * <code>.ItemInfo itemInfo = 2;</code>
+     * <code>string itemId = 2;</code>
+     */
+    java.lang.String getItemId();
+    /**
+     * <code>string itemId = 2;</code>
+     */
+    com.google.protobuf.ByteString
+        getItemIdBytes();
+
+    /**
+     * <code>.ItemInfo itemInfo = 3;</code>
      */
     boolean hasItemInfo();
     /**
-     * <code>.ItemInfo itemInfo = 2;</code>
+     * <code>.ItemInfo itemInfo = 3;</code>
      */
     cn.edu.nju.software.fabricservice.protomsg.Persistence.ItemInfo getItemInfo();
     /**
-     * <code>.ItemInfo itemInfo = 2;</code>
+     * <code>.ItemInfo itemInfo = 3;</code>
      */
     cn.edu.nju.software.fabricservice.protomsg.Persistence.ItemInfoOrBuilder getItemInfoOrBuilder();
 
     /**
-     * <code>.ItemStatus itemStatus = 3;</code>
+     * <code>.ItemStatus itemStatus = 4;</code>
      */
     boolean hasItemStatus();
     /**
-     * <code>.ItemStatus itemStatus = 3;</code>
+     * <code>.ItemStatus itemStatus = 4;</code>
      */
     cn.edu.nju.software.fabricservice.protomsg.Persistence.ItemStatus getItemStatus();
     /**
-     * <code>.ItemStatus itemStatus = 3;</code>
+     * <code>.ItemStatus itemStatus = 4;</code>
      */
     cn.edu.nju.software.fabricservice.protomsg.Persistence.ItemStatusOrBuilder getItemStatusOrBuilder();
 
     /**
-     * <code>.EnvStatus evnStatus = 4;</code>
+     * <code>.EnvStatus evnStatus = 5;</code>
      */
     boolean hasEvnStatus();
     /**
-     * <code>.EnvStatus evnStatus = 4;</code>
+     * <code>.EnvStatus evnStatus = 5;</code>
      */
     cn.edu.nju.software.fabricservice.protomsg.Persistence.EnvStatus getEvnStatus();
     /**
-     * <code>.EnvStatus evnStatus = 4;</code>
+     * <code>.EnvStatus evnStatus = 5;</code>
      */
     cn.edu.nju.software.fabricservice.protomsg.Persistence.EnvStatusOrBuilder getEvnStatusOrBuilder();
 
     /**
-     * <code>.OpsStatus opsStatus = 5;</code>
+     * <code>.OpsStatus opsStatus = 6;</code>
      */
     boolean hasOpsStatus();
     /**
-     * <code>.OpsStatus opsStatus = 5;</code>
+     * <code>.OpsStatus opsStatus = 6;</code>
      */
     cn.edu.nju.software.fabricservice.protomsg.Persistence.OpsStatus getOpsStatus();
     /**
-     * <code>.OpsStatus opsStatus = 5;</code>
+     * <code>.OpsStatus opsStatus = 6;</code>
      */
     cn.edu.nju.software.fabricservice.protomsg.Persistence.OpsStatusOrBuilder getOpsStatusOrBuilder();
   }
@@ -3821,6 +3973,7 @@ public final class Persistence {
     }
     private ItemAsset() {
       timestamp_ = 0L;
+      itemId_ = "";
     }
 
     @java.lang.Override
@@ -3860,6 +4013,12 @@ public final class Persistence {
               break;
             }
             case 18: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              itemId_ = s;
+              break;
+            }
+            case 26: {
               cn.edu.nju.software.fabricservice.protomsg.Persistence.ItemInfo.Builder subBuilder = null;
               if (itemInfo_ != null) {
                 subBuilder = itemInfo_.toBuilder();
@@ -3872,7 +4031,7 @@ public final class Persistence {
 
               break;
             }
-            case 26: {
+            case 34: {
               cn.edu.nju.software.fabricservice.protomsg.Persistence.ItemStatus.Builder subBuilder = null;
               if (itemStatus_ != null) {
                 subBuilder = itemStatus_.toBuilder();
@@ -3885,7 +4044,7 @@ public final class Persistence {
 
               break;
             }
-            case 34: {
+            case 42: {
               cn.edu.nju.software.fabricservice.protomsg.Persistence.EnvStatus.Builder subBuilder = null;
               if (evnStatus_ != null) {
                 subBuilder = evnStatus_.toBuilder();
@@ -3898,7 +4057,7 @@ public final class Persistence {
 
               break;
             }
-            case 42: {
+            case 50: {
               cn.edu.nju.software.fabricservice.protomsg.Persistence.OpsStatus.Builder subBuilder = null;
               if (opsStatus_ != null) {
                 subBuilder = opsStatus_.toBuilder();
@@ -3944,85 +4103,119 @@ public final class Persistence {
       return timestamp_;
     }
 
-    public static final int ITEMINFO_FIELD_NUMBER = 2;
+    public static final int ITEMID_FIELD_NUMBER = 2;
+    private volatile java.lang.Object itemId_;
+    /**
+     * <code>string itemId = 2;</code>
+     */
+    public java.lang.String getItemId() {
+      java.lang.Object ref = itemId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        itemId_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string itemId = 2;</code>
+     */
+    public com.google.protobuf.ByteString
+        getItemIdBytes() {
+      java.lang.Object ref = itemId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        itemId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int ITEMINFO_FIELD_NUMBER = 3;
     private cn.edu.nju.software.fabricservice.protomsg.Persistence.ItemInfo itemInfo_;
     /**
-     * <code>.ItemInfo itemInfo = 2;</code>
+     * <code>.ItemInfo itemInfo = 3;</code>
      */
     public boolean hasItemInfo() {
       return itemInfo_ != null;
     }
     /**
-     * <code>.ItemInfo itemInfo = 2;</code>
+     * <code>.ItemInfo itemInfo = 3;</code>
      */
     public cn.edu.nju.software.fabricservice.protomsg.Persistence.ItemInfo getItemInfo() {
       return itemInfo_ == null ? cn.edu.nju.software.fabricservice.protomsg.Persistence.ItemInfo.getDefaultInstance() : itemInfo_;
     }
     /**
-     * <code>.ItemInfo itemInfo = 2;</code>
+     * <code>.ItemInfo itemInfo = 3;</code>
      */
     public cn.edu.nju.software.fabricservice.protomsg.Persistence.ItemInfoOrBuilder getItemInfoOrBuilder() {
       return getItemInfo();
     }
 
-    public static final int ITEMSTATUS_FIELD_NUMBER = 3;
+    public static final int ITEMSTATUS_FIELD_NUMBER = 4;
     private cn.edu.nju.software.fabricservice.protomsg.Persistence.ItemStatus itemStatus_;
     /**
-     * <code>.ItemStatus itemStatus = 3;</code>
+     * <code>.ItemStatus itemStatus = 4;</code>
      */
     public boolean hasItemStatus() {
       return itemStatus_ != null;
     }
     /**
-     * <code>.ItemStatus itemStatus = 3;</code>
+     * <code>.ItemStatus itemStatus = 4;</code>
      */
     public cn.edu.nju.software.fabricservice.protomsg.Persistence.ItemStatus getItemStatus() {
       return itemStatus_ == null ? cn.edu.nju.software.fabricservice.protomsg.Persistence.ItemStatus.getDefaultInstance() : itemStatus_;
     }
     /**
-     * <code>.ItemStatus itemStatus = 3;</code>
+     * <code>.ItemStatus itemStatus = 4;</code>
      */
     public cn.edu.nju.software.fabricservice.protomsg.Persistence.ItemStatusOrBuilder getItemStatusOrBuilder() {
       return getItemStatus();
     }
 
-    public static final int EVNSTATUS_FIELD_NUMBER = 4;
+    public static final int EVNSTATUS_FIELD_NUMBER = 5;
     private cn.edu.nju.software.fabricservice.protomsg.Persistence.EnvStatus evnStatus_;
     /**
-     * <code>.EnvStatus evnStatus = 4;</code>
+     * <code>.EnvStatus evnStatus = 5;</code>
      */
     public boolean hasEvnStatus() {
       return evnStatus_ != null;
     }
     /**
-     * <code>.EnvStatus evnStatus = 4;</code>
+     * <code>.EnvStatus evnStatus = 5;</code>
      */
     public cn.edu.nju.software.fabricservice.protomsg.Persistence.EnvStatus getEvnStatus() {
       return evnStatus_ == null ? cn.edu.nju.software.fabricservice.protomsg.Persistence.EnvStatus.getDefaultInstance() : evnStatus_;
     }
     /**
-     * <code>.EnvStatus evnStatus = 4;</code>
+     * <code>.EnvStatus evnStatus = 5;</code>
      */
     public cn.edu.nju.software.fabricservice.protomsg.Persistence.EnvStatusOrBuilder getEvnStatusOrBuilder() {
       return getEvnStatus();
     }
 
-    public static final int OPSSTATUS_FIELD_NUMBER = 5;
+    public static final int OPSSTATUS_FIELD_NUMBER = 6;
     private cn.edu.nju.software.fabricservice.protomsg.Persistence.OpsStatus opsStatus_;
     /**
-     * <code>.OpsStatus opsStatus = 5;</code>
+     * <code>.OpsStatus opsStatus = 6;</code>
      */
     public boolean hasOpsStatus() {
       return opsStatus_ != null;
     }
     /**
-     * <code>.OpsStatus opsStatus = 5;</code>
+     * <code>.OpsStatus opsStatus = 6;</code>
      */
     public cn.edu.nju.software.fabricservice.protomsg.Persistence.OpsStatus getOpsStatus() {
       return opsStatus_ == null ? cn.edu.nju.software.fabricservice.protomsg.Persistence.OpsStatus.getDefaultInstance() : opsStatus_;
     }
     /**
-     * <code>.OpsStatus opsStatus = 5;</code>
+     * <code>.OpsStatus opsStatus = 6;</code>
      */
     public cn.edu.nju.software.fabricservice.protomsg.Persistence.OpsStatusOrBuilder getOpsStatusOrBuilder() {
       return getOpsStatus();
@@ -4043,17 +4236,20 @@ public final class Persistence {
       if (timestamp_ != 0L) {
         output.writeInt64(1, timestamp_);
       }
+      if (!getItemIdBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, itemId_);
+      }
       if (itemInfo_ != null) {
-        output.writeMessage(2, getItemInfo());
+        output.writeMessage(3, getItemInfo());
       }
       if (itemStatus_ != null) {
-        output.writeMessage(3, getItemStatus());
+        output.writeMessage(4, getItemStatus());
       }
       if (evnStatus_ != null) {
-        output.writeMessage(4, getEvnStatus());
+        output.writeMessage(5, getEvnStatus());
       }
       if (opsStatus_ != null) {
-        output.writeMessage(5, getOpsStatus());
+        output.writeMessage(6, getOpsStatus());
       }
       unknownFields.writeTo(output);
     }
@@ -4067,21 +4263,24 @@ public final class Persistence {
         size += com.google.protobuf.CodedOutputStream
           .computeInt64Size(1, timestamp_);
       }
+      if (!getItemIdBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, itemId_);
+      }
       if (itemInfo_ != null) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(2, getItemInfo());
+          .computeMessageSize(3, getItemInfo());
       }
       if (itemStatus_ != null) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(3, getItemStatus());
+          .computeMessageSize(4, getItemStatus());
       }
       if (evnStatus_ != null) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(4, getEvnStatus());
+          .computeMessageSize(5, getEvnStatus());
       }
       if (opsStatus_ != null) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(5, getOpsStatus());
+          .computeMessageSize(6, getOpsStatus());
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -4101,6 +4300,8 @@ public final class Persistence {
       boolean result = true;
       result = result && (getTimestamp()
           == other.getTimestamp());
+      result = result && getItemId()
+          .equals(other.getItemId());
       result = result && (hasItemInfo() == other.hasItemInfo());
       if (hasItemInfo()) {
         result = result && getItemInfo()
@@ -4135,6 +4336,8 @@ public final class Persistence {
       hash = (37 * hash) + TIMESTAMP_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           getTimestamp());
+      hash = (37 * hash) + ITEMID_FIELD_NUMBER;
+      hash = (53 * hash) + getItemId().hashCode();
       if (hasItemInfo()) {
         hash = (37 * hash) + ITEMINFO_FIELD_NUMBER;
         hash = (53 * hash) + getItemInfo().hashCode();
@@ -4286,6 +4489,8 @@ public final class Persistence {
         super.clear();
         timestamp_ = 0L;
 
+        itemId_ = "";
+
         if (itemInfoBuilder_ == null) {
           itemInfo_ = null;
         } else {
@@ -4333,6 +4538,7 @@ public final class Persistence {
       public cn.edu.nju.software.fabricservice.protomsg.Persistence.ItemAsset buildPartial() {
         cn.edu.nju.software.fabricservice.protomsg.Persistence.ItemAsset result = new cn.edu.nju.software.fabricservice.protomsg.Persistence.ItemAsset(this);
         result.timestamp_ = timestamp_;
+        result.itemId_ = itemId_;
         if (itemInfoBuilder_ == null) {
           result.itemInfo_ = itemInfo_;
         } else {
@@ -4396,6 +4602,10 @@ public final class Persistence {
         if (other == cn.edu.nju.software.fabricservice.protomsg.Persistence.ItemAsset.getDefaultInstance()) return this;
         if (other.getTimestamp() != 0L) {
           setTimestamp(other.getTimestamp());
+        }
+        if (!other.getItemId().isEmpty()) {
+          itemId_ = other.itemId_;
+          onChanged();
         }
         if (other.hasItemInfo()) {
           mergeItemInfo(other.getItemInfo());
@@ -4462,17 +4672,86 @@ public final class Persistence {
         return this;
       }
 
+      private java.lang.Object itemId_ = "";
+      /**
+       * <code>string itemId = 2;</code>
+       */
+      public java.lang.String getItemId() {
+        java.lang.Object ref = itemId_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          itemId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string itemId = 2;</code>
+       */
+      public com.google.protobuf.ByteString
+          getItemIdBytes() {
+        java.lang.Object ref = itemId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          itemId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string itemId = 2;</code>
+       */
+      public Builder setItemId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        itemId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string itemId = 2;</code>
+       */
+      public Builder clearItemId() {
+        
+        itemId_ = getDefaultInstance().getItemId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string itemId = 2;</code>
+       */
+      public Builder setItemIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        itemId_ = value;
+        onChanged();
+        return this;
+      }
+
       private cn.edu.nju.software.fabricservice.protomsg.Persistence.ItemInfo itemInfo_ = null;
       private com.google.protobuf.SingleFieldBuilderV3<
           cn.edu.nju.software.fabricservice.protomsg.Persistence.ItemInfo, cn.edu.nju.software.fabricservice.protomsg.Persistence.ItemInfo.Builder, cn.edu.nju.software.fabricservice.protomsg.Persistence.ItemInfoOrBuilder> itemInfoBuilder_;
       /**
-       * <code>.ItemInfo itemInfo = 2;</code>
+       * <code>.ItemInfo itemInfo = 3;</code>
        */
       public boolean hasItemInfo() {
         return itemInfoBuilder_ != null || itemInfo_ != null;
       }
       /**
-       * <code>.ItemInfo itemInfo = 2;</code>
+       * <code>.ItemInfo itemInfo = 3;</code>
        */
       public cn.edu.nju.software.fabricservice.protomsg.Persistence.ItemInfo getItemInfo() {
         if (itemInfoBuilder_ == null) {
@@ -4482,7 +4761,7 @@ public final class Persistence {
         }
       }
       /**
-       * <code>.ItemInfo itemInfo = 2;</code>
+       * <code>.ItemInfo itemInfo = 3;</code>
        */
       public Builder setItemInfo(cn.edu.nju.software.fabricservice.protomsg.Persistence.ItemInfo value) {
         if (itemInfoBuilder_ == null) {
@@ -4498,7 +4777,7 @@ public final class Persistence {
         return this;
       }
       /**
-       * <code>.ItemInfo itemInfo = 2;</code>
+       * <code>.ItemInfo itemInfo = 3;</code>
        */
       public Builder setItemInfo(
           cn.edu.nju.software.fabricservice.protomsg.Persistence.ItemInfo.Builder builderForValue) {
@@ -4512,7 +4791,7 @@ public final class Persistence {
         return this;
       }
       /**
-       * <code>.ItemInfo itemInfo = 2;</code>
+       * <code>.ItemInfo itemInfo = 3;</code>
        */
       public Builder mergeItemInfo(cn.edu.nju.software.fabricservice.protomsg.Persistence.ItemInfo value) {
         if (itemInfoBuilder_ == null) {
@@ -4530,7 +4809,7 @@ public final class Persistence {
         return this;
       }
       /**
-       * <code>.ItemInfo itemInfo = 2;</code>
+       * <code>.ItemInfo itemInfo = 3;</code>
        */
       public Builder clearItemInfo() {
         if (itemInfoBuilder_ == null) {
@@ -4544,7 +4823,7 @@ public final class Persistence {
         return this;
       }
       /**
-       * <code>.ItemInfo itemInfo = 2;</code>
+       * <code>.ItemInfo itemInfo = 3;</code>
        */
       public cn.edu.nju.software.fabricservice.protomsg.Persistence.ItemInfo.Builder getItemInfoBuilder() {
         
@@ -4552,7 +4831,7 @@ public final class Persistence {
         return getItemInfoFieldBuilder().getBuilder();
       }
       /**
-       * <code>.ItemInfo itemInfo = 2;</code>
+       * <code>.ItemInfo itemInfo = 3;</code>
        */
       public cn.edu.nju.software.fabricservice.protomsg.Persistence.ItemInfoOrBuilder getItemInfoOrBuilder() {
         if (itemInfoBuilder_ != null) {
@@ -4563,7 +4842,7 @@ public final class Persistence {
         }
       }
       /**
-       * <code>.ItemInfo itemInfo = 2;</code>
+       * <code>.ItemInfo itemInfo = 3;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
           cn.edu.nju.software.fabricservice.protomsg.Persistence.ItemInfo, cn.edu.nju.software.fabricservice.protomsg.Persistence.ItemInfo.Builder, cn.edu.nju.software.fabricservice.protomsg.Persistence.ItemInfoOrBuilder> 
@@ -4583,13 +4862,13 @@ public final class Persistence {
       private com.google.protobuf.SingleFieldBuilderV3<
           cn.edu.nju.software.fabricservice.protomsg.Persistence.ItemStatus, cn.edu.nju.software.fabricservice.protomsg.Persistence.ItemStatus.Builder, cn.edu.nju.software.fabricservice.protomsg.Persistence.ItemStatusOrBuilder> itemStatusBuilder_;
       /**
-       * <code>.ItemStatus itemStatus = 3;</code>
+       * <code>.ItemStatus itemStatus = 4;</code>
        */
       public boolean hasItemStatus() {
         return itemStatusBuilder_ != null || itemStatus_ != null;
       }
       /**
-       * <code>.ItemStatus itemStatus = 3;</code>
+       * <code>.ItemStatus itemStatus = 4;</code>
        */
       public cn.edu.nju.software.fabricservice.protomsg.Persistence.ItemStatus getItemStatus() {
         if (itemStatusBuilder_ == null) {
@@ -4599,7 +4878,7 @@ public final class Persistence {
         }
       }
       /**
-       * <code>.ItemStatus itemStatus = 3;</code>
+       * <code>.ItemStatus itemStatus = 4;</code>
        */
       public Builder setItemStatus(cn.edu.nju.software.fabricservice.protomsg.Persistence.ItemStatus value) {
         if (itemStatusBuilder_ == null) {
@@ -4615,7 +4894,7 @@ public final class Persistence {
         return this;
       }
       /**
-       * <code>.ItemStatus itemStatus = 3;</code>
+       * <code>.ItemStatus itemStatus = 4;</code>
        */
       public Builder setItemStatus(
           cn.edu.nju.software.fabricservice.protomsg.Persistence.ItemStatus.Builder builderForValue) {
@@ -4629,7 +4908,7 @@ public final class Persistence {
         return this;
       }
       /**
-       * <code>.ItemStatus itemStatus = 3;</code>
+       * <code>.ItemStatus itemStatus = 4;</code>
        */
       public Builder mergeItemStatus(cn.edu.nju.software.fabricservice.protomsg.Persistence.ItemStatus value) {
         if (itemStatusBuilder_ == null) {
@@ -4647,7 +4926,7 @@ public final class Persistence {
         return this;
       }
       /**
-       * <code>.ItemStatus itemStatus = 3;</code>
+       * <code>.ItemStatus itemStatus = 4;</code>
        */
       public Builder clearItemStatus() {
         if (itemStatusBuilder_ == null) {
@@ -4661,7 +4940,7 @@ public final class Persistence {
         return this;
       }
       /**
-       * <code>.ItemStatus itemStatus = 3;</code>
+       * <code>.ItemStatus itemStatus = 4;</code>
        */
       public cn.edu.nju.software.fabricservice.protomsg.Persistence.ItemStatus.Builder getItemStatusBuilder() {
         
@@ -4669,7 +4948,7 @@ public final class Persistence {
         return getItemStatusFieldBuilder().getBuilder();
       }
       /**
-       * <code>.ItemStatus itemStatus = 3;</code>
+       * <code>.ItemStatus itemStatus = 4;</code>
        */
       public cn.edu.nju.software.fabricservice.protomsg.Persistence.ItemStatusOrBuilder getItemStatusOrBuilder() {
         if (itemStatusBuilder_ != null) {
@@ -4680,7 +4959,7 @@ public final class Persistence {
         }
       }
       /**
-       * <code>.ItemStatus itemStatus = 3;</code>
+       * <code>.ItemStatus itemStatus = 4;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
           cn.edu.nju.software.fabricservice.protomsg.Persistence.ItemStatus, cn.edu.nju.software.fabricservice.protomsg.Persistence.ItemStatus.Builder, cn.edu.nju.software.fabricservice.protomsg.Persistence.ItemStatusOrBuilder> 
@@ -4700,13 +4979,13 @@ public final class Persistence {
       private com.google.protobuf.SingleFieldBuilderV3<
           cn.edu.nju.software.fabricservice.protomsg.Persistence.EnvStatus, cn.edu.nju.software.fabricservice.protomsg.Persistence.EnvStatus.Builder, cn.edu.nju.software.fabricservice.protomsg.Persistence.EnvStatusOrBuilder> evnStatusBuilder_;
       /**
-       * <code>.EnvStatus evnStatus = 4;</code>
+       * <code>.EnvStatus evnStatus = 5;</code>
        */
       public boolean hasEvnStatus() {
         return evnStatusBuilder_ != null || evnStatus_ != null;
       }
       /**
-       * <code>.EnvStatus evnStatus = 4;</code>
+       * <code>.EnvStatus evnStatus = 5;</code>
        */
       public cn.edu.nju.software.fabricservice.protomsg.Persistence.EnvStatus getEvnStatus() {
         if (evnStatusBuilder_ == null) {
@@ -4716,7 +4995,7 @@ public final class Persistence {
         }
       }
       /**
-       * <code>.EnvStatus evnStatus = 4;</code>
+       * <code>.EnvStatus evnStatus = 5;</code>
        */
       public Builder setEvnStatus(cn.edu.nju.software.fabricservice.protomsg.Persistence.EnvStatus value) {
         if (evnStatusBuilder_ == null) {
@@ -4732,7 +5011,7 @@ public final class Persistence {
         return this;
       }
       /**
-       * <code>.EnvStatus evnStatus = 4;</code>
+       * <code>.EnvStatus evnStatus = 5;</code>
        */
       public Builder setEvnStatus(
           cn.edu.nju.software.fabricservice.protomsg.Persistence.EnvStatus.Builder builderForValue) {
@@ -4746,7 +5025,7 @@ public final class Persistence {
         return this;
       }
       /**
-       * <code>.EnvStatus evnStatus = 4;</code>
+       * <code>.EnvStatus evnStatus = 5;</code>
        */
       public Builder mergeEvnStatus(cn.edu.nju.software.fabricservice.protomsg.Persistence.EnvStatus value) {
         if (evnStatusBuilder_ == null) {
@@ -4764,7 +5043,7 @@ public final class Persistence {
         return this;
       }
       /**
-       * <code>.EnvStatus evnStatus = 4;</code>
+       * <code>.EnvStatus evnStatus = 5;</code>
        */
       public Builder clearEvnStatus() {
         if (evnStatusBuilder_ == null) {
@@ -4778,7 +5057,7 @@ public final class Persistence {
         return this;
       }
       /**
-       * <code>.EnvStatus evnStatus = 4;</code>
+       * <code>.EnvStatus evnStatus = 5;</code>
        */
       public cn.edu.nju.software.fabricservice.protomsg.Persistence.EnvStatus.Builder getEvnStatusBuilder() {
         
@@ -4786,7 +5065,7 @@ public final class Persistence {
         return getEvnStatusFieldBuilder().getBuilder();
       }
       /**
-       * <code>.EnvStatus evnStatus = 4;</code>
+       * <code>.EnvStatus evnStatus = 5;</code>
        */
       public cn.edu.nju.software.fabricservice.protomsg.Persistence.EnvStatusOrBuilder getEvnStatusOrBuilder() {
         if (evnStatusBuilder_ != null) {
@@ -4797,7 +5076,7 @@ public final class Persistence {
         }
       }
       /**
-       * <code>.EnvStatus evnStatus = 4;</code>
+       * <code>.EnvStatus evnStatus = 5;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
           cn.edu.nju.software.fabricservice.protomsg.Persistence.EnvStatus, cn.edu.nju.software.fabricservice.protomsg.Persistence.EnvStatus.Builder, cn.edu.nju.software.fabricservice.protomsg.Persistence.EnvStatusOrBuilder> 
@@ -4817,13 +5096,13 @@ public final class Persistence {
       private com.google.protobuf.SingleFieldBuilderV3<
           cn.edu.nju.software.fabricservice.protomsg.Persistence.OpsStatus, cn.edu.nju.software.fabricservice.protomsg.Persistence.OpsStatus.Builder, cn.edu.nju.software.fabricservice.protomsg.Persistence.OpsStatusOrBuilder> opsStatusBuilder_;
       /**
-       * <code>.OpsStatus opsStatus = 5;</code>
+       * <code>.OpsStatus opsStatus = 6;</code>
        */
       public boolean hasOpsStatus() {
         return opsStatusBuilder_ != null || opsStatus_ != null;
       }
       /**
-       * <code>.OpsStatus opsStatus = 5;</code>
+       * <code>.OpsStatus opsStatus = 6;</code>
        */
       public cn.edu.nju.software.fabricservice.protomsg.Persistence.OpsStatus getOpsStatus() {
         if (opsStatusBuilder_ == null) {
@@ -4833,7 +5112,7 @@ public final class Persistence {
         }
       }
       /**
-       * <code>.OpsStatus opsStatus = 5;</code>
+       * <code>.OpsStatus opsStatus = 6;</code>
        */
       public Builder setOpsStatus(cn.edu.nju.software.fabricservice.protomsg.Persistence.OpsStatus value) {
         if (opsStatusBuilder_ == null) {
@@ -4849,7 +5128,7 @@ public final class Persistence {
         return this;
       }
       /**
-       * <code>.OpsStatus opsStatus = 5;</code>
+       * <code>.OpsStatus opsStatus = 6;</code>
        */
       public Builder setOpsStatus(
           cn.edu.nju.software.fabricservice.protomsg.Persistence.OpsStatus.Builder builderForValue) {
@@ -4863,7 +5142,7 @@ public final class Persistence {
         return this;
       }
       /**
-       * <code>.OpsStatus opsStatus = 5;</code>
+       * <code>.OpsStatus opsStatus = 6;</code>
        */
       public Builder mergeOpsStatus(cn.edu.nju.software.fabricservice.protomsg.Persistence.OpsStatus value) {
         if (opsStatusBuilder_ == null) {
@@ -4881,7 +5160,7 @@ public final class Persistence {
         return this;
       }
       /**
-       * <code>.OpsStatus opsStatus = 5;</code>
+       * <code>.OpsStatus opsStatus = 6;</code>
        */
       public Builder clearOpsStatus() {
         if (opsStatusBuilder_ == null) {
@@ -4895,7 +5174,7 @@ public final class Persistence {
         return this;
       }
       /**
-       * <code>.OpsStatus opsStatus = 5;</code>
+       * <code>.OpsStatus opsStatus = 6;</code>
        */
       public cn.edu.nju.software.fabricservice.protomsg.Persistence.OpsStatus.Builder getOpsStatusBuilder() {
         
@@ -4903,7 +5182,7 @@ public final class Persistence {
         return getOpsStatusFieldBuilder().getBuilder();
       }
       /**
-       * <code>.OpsStatus opsStatus = 5;</code>
+       * <code>.OpsStatus opsStatus = 6;</code>
        */
       public cn.edu.nju.software.fabricservice.protomsg.Persistence.OpsStatusOrBuilder getOpsStatusOrBuilder() {
         if (opsStatusBuilder_ != null) {
@@ -4914,7 +5193,7 @@ public final class Persistence {
         }
       }
       /**
-       * <code>.OpsStatus opsStatus = 5;</code>
+       * <code>.OpsStatus opsStatus = 6;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
           cn.edu.nju.software.fabricservice.protomsg.Persistence.OpsStatus, cn.edu.nju.software.fabricservice.protomsg.Persistence.OpsStatus.Builder, cn.edu.nju.software.fabricservice.protomsg.Persistence.OpsStatusOrBuilder> 
@@ -5020,20 +5299,20 @@ public final class Persistence {
       "\n\021Persistence.proto\"<\n\007Address\022\014\n\004name\030\001" +
       " \001(\t\022\021\n\tlongitude\030\002 \001(\001\022\020\n\010latitude\030\003 \001(" +
       "\001\"&\n\tEnvStatus\022\031\n\007address\030\001 \001(\0132\010.Addres" +
-      "s\"L\n\tOpsStatus\022\020\n\010operator\030\001 \001(\014\022\024\n\014last" +
-      "operator\030\002 \001(\014\022\027\n\006opType\030\003 \001(\0162\007.OPType\"" +
-      "c\n\010ItemInfo\022\014\n\004name\030\001 \001(\t\022\r\n\005class\030\002 \001(\t" +
-      "\022\023\n\013batchNumber\030\003 \001(\t\022\027\n\017manufactureDate" +
-      "\030\004 \001(\003\022\014\n\004note\030\005 \001(\t\"M\n\nItemStatus\022\027\n\017sa" +
-      "mpleStrStatus\030\001 \001(\t\022\030\n\020sampleLongStatus\030" +
-      "\002 \001(\003\022\014\n\004logs\030\003 \001(\t\"\232\001\n\tItemAsset\022\021\n\ttim" +
-      "estamp\030\001 \001(\003\022\033\n\010itemInfo\030\002 \001(\0132\t.ItemInf" +
-      "o\022\037\n\nitemStatus\030\003 \001(\0132\013.ItemStatus\022\035\n\tev" +
-      "nStatus\030\004 \001(\0132\n.EnvStatus\022\035\n\topsStatus\030\005" +
-      " \001(\0132\n.OpsStatus*3\n\006OPType\022\013\n\007CREATED\020\000\022" +
-      "\r\n\tLOGISTICS\020\001\022\r\n\tDELIVERED\020\002B2\n*cn.edu." +
-      "nju.software.fabricservice.protomsgZ\004mai" +
-      "nb\006proto3"
+      "s\"I\n\tOpsStatus\022\022\n\ncurrentOrg\030\001 \001(\t\022\017\n\007la" +
+      "stOrg\030\002 \001(\t\022\027\n\006opType\030\003 \001(\0162\007.OPType\"c\n\010" +
+      "ItemInfo\022\014\n\004name\030\001 \001(\t\022\r\n\005class\030\002 \001(\t\022\023\n" +
+      "\013batchNumber\030\003 \001(\t\022\027\n\017manufactureDate\030\004 " +
+      "\001(\003\022\014\n\004note\030\005 \001(\t\"M\n\nItemStatus\022\027\n\017sampl" +
+      "eStrStatus\030\001 \001(\t\022\030\n\020sampleLongStatus\030\002 \001" +
+      "(\003\022\014\n\004logs\030\003 \001(\t\"\252\001\n\tItemAsset\022\021\n\ttimest" +
+      "amp\030\001 \001(\003\022\016\n\006itemId\030\002 \001(\t\022\033\n\010itemInfo\030\003 " +
+      "\001(\0132\t.ItemInfo\022\037\n\nitemStatus\030\004 \001(\0132\013.Ite" +
+      "mStatus\022\035\n\tevnStatus\030\005 \001(\0132\n.EnvStatus\022\035" +
+      "\n\topsStatus\030\006 \001(\0132\n.OpsStatus*3\n\006OPType\022" +
+      "\013\n\007CREATED\020\000\022\r\n\tLOGISTICS\020\001\022\r\n\tDELIVERED" +
+      "\020\002B2\n*cn.edu.nju.software.fabricservice." +
+      "protomsgZ\004mainb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -5064,7 +5343,7 @@ public final class Persistence {
     internal_static_OpsStatus_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_OpsStatus_descriptor,
-        new java.lang.String[] { "Operator", "Lastoperator", "OpType", });
+        new java.lang.String[] { "CurrentOrg", "LastOrg", "OpType", });
     internal_static_ItemInfo_descriptor =
       getDescriptor().getMessageTypes().get(3);
     internal_static_ItemInfo_fieldAccessorTable = new
@@ -5082,7 +5361,7 @@ public final class Persistence {
     internal_static_ItemAsset_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_ItemAsset_descriptor,
-        new java.lang.String[] { "Timestamp", "ItemInfo", "ItemStatus", "EvnStatus", "OpsStatus", });
+        new java.lang.String[] { "Timestamp", "ItemId", "ItemInfo", "ItemStatus", "EvnStatus", "OpsStatus", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 	"github.com/hyperledger/fabric/protos/peer"
-	"github.com/golang/protobuf/proto"
 	"time"
+	"github.com/hyperledger/fabric/core/chaincode/lib/cid"
 )
 
 // ChaincodeDemo implements a simple chaincode to manage an asset
@@ -28,7 +28,6 @@ func (t *ItemAssetChaincode) Invoke(stub shim.ChaincodeStubInterface) peer.Respo
 	// Extract the function and args from the transaction proposal
 	args := stub.GetArgs()
 	fn := string(args[0])
-
 	if fnHandler, ok := t.handlers[fn]; ok {
 		if data, err := fnHandler(stub, args[1]); err != nil {
 			return shim.Error(err.Error())
@@ -44,13 +43,21 @@ func (t *ItemAssetChaincode) Invoke(stub shim.ChaincodeStubInterface) peer.Respo
 查询商品
  */
 func getItem(stub shim.ChaincodeStubInterface, args []byte) ([]byte, error) {
+	mspId, err := cid.GetMSPID(stub)
+	if err != nil {
+		return createError("error get mspId")
+	}
+
+	if ! check(ITEM_GET, mspId, nil) {
+		return createError("no right to invoke getItem with mspId:%s", mspId)
+	}
+
 	request := &ItemGetRequest{}
 	response := &ItemGetResponse{}
 	response.ItemAssets = make([]*ItemAsset, 0)
 
-	err := proto.Unmarshal(args, request)
-	if err != nil {
-		return createError("error marshal request data")
+	if err := decode(args, request); err != nil {
+		return createError("failed to decode request")
 	}
 
 	key := request.ItemId
@@ -73,7 +80,7 @@ func getItem(stub shim.ChaincodeStubInterface, args []byte) ([]byte, error) {
 	} else { //不需要提取历史数据
 		value, err := stub.GetState(key)
 		if err != nil || value == nil {
-			return createError("error happens,asset not found %s", key)
+			return createError("retrieve error with mgs:%s", err.Error())
 		}
 		iAsset := &ItemAsset{}
 		err = unmarshalProtobuf(value, iAsset)
@@ -83,7 +90,7 @@ func getItem(stub shim.ChaincodeStubInterface, args []byte) ([]byte, error) {
 		response.ItemAssets = append(response.ItemAssets, iAsset)
 	}
 
-	data, _ := proto.Marshal(response)
+	data, _ := encode(response)
 	return data, nil
 }
 
@@ -91,14 +98,19 @@ func getItem(stub shim.ChaincodeStubInterface, args []byte) ([]byte, error) {
 添加商品
  */
 func addItem(stub shim.ChaincodeStubInterface, args []byte) ([]byte, error) {
-	creator, err := stub.GetCreator()
+	mspId, err := cid.GetMSPID(stub)
 	if err != nil {
-		return createError("error get tx creator")
+		return createError("error get mspId")
 	}
+
 	request := &ItemAddRequest{}
-	err = proto.Unmarshal(args, request)
-	if err != nil {
+
+	if err = decode(args, request); err != nil {
 		return createError("error marshal request data")
+	}
+
+	if ! check(ITEM_ADD, mspId, nil) {
+		return createError("no right to invoke addItem with mspId:%s", mspId)
 	}
 
 	//设置环境状态
@@ -107,7 +119,7 @@ func addItem(stub shim.ChaincodeStubInterface, args []byte) ([]byte, error) {
 
 	//设置操作状态
 	opStatus := &OpsStatus{}
-	opStatus.Operator = creator
+	opStatus.CurrentOrg = mspId
 	opStatus.OpType = OPType_CREATED
 
 	//
@@ -119,56 +131,48 @@ func addItem(stub shim.ChaincodeStubInterface, args []byte) ([]byte, error) {
 	item.Timestamp = time.Now().UnixNano() / 1000000 //获取的是纳秒，除以1000000变为毫秒
 
 	itemId := request.ItemId
+
 	if !checkItemIdformat(itemId) {
 		return createError("itemId format error,expected length 32")
 	}
 
-	value, _ := stub.GetState(request.ItemId)
-	if value != nil {
-		return createError("itemId already exists")
+	if err := create(itemId, item, stub); err != nil {
+		return createError("item create error with mgs:%s", err.Error())
 	}
-
-	if data, err := marshalProtobuf(item); err != nil {
-		return createError("protobuf marshal error")
-	} else {
-		err = stub.PutState(request.ItemId, data)
-		if err != nil {
-			return createError("put state error")
-		}
-		return nil, nil
-	}
+	return nil, nil
 }
 
 func changeItem(stub shim.ChaincodeStubInterface, args []byte) ([]byte, error) {
-	creator, err := stub.GetCreator()
+	mspId, err := cid.GetMSPID(stub)
 	if err != nil {
-		return createError("error get tx creator")
+		return createError("error get mspId")
 	}
+
 	request := &ItemChangeRequest{}
-	err = proto.Unmarshal(args, request)
-	if err != nil {
+
+	if err = decode(args, request); err != nil {
 		return createError("error marshal request data")
 	}
 
 	key := request.ItemId
 
-	value, err := stub.GetState(key)
-	if err != nil || value == nil {
+	iAsset, err := retrieve(key, stub)
+	if err != nil || iAsset == nil {
 		return createError("error happens,asset not found %s", key)
 	}
 
-	iAsset := &ItemAsset{}
-	err = unmarshalProtobuf(value, iAsset)
+	if ! check(ITEM_CHANGE, mspId, iAsset.OpsStatus) {
+		return createError("no right to invoke changeItem with mspId:%s", mspId)
+	}
 
 	//设置环境状态
 	envStatus := request.EnvStatus
 
 	//设置操作状态
 	opStatus := &OpsStatus{}
-	opStatus.Operator = creator
 	opStatus.OpType = request.OpType
-	opStatus.Operator = creator
-	opStatus.Lastoperator = iAsset.OpsStatus.Operator
+	opStatus.CurrentOrg = request.NextOrg
+	opStatus.LastOrg = iAsset.OpsStatus.CurrentOrg
 
 	//改变itemAsset状态
 	iAsset.EvnStatus = envStatus
@@ -180,37 +184,11 @@ func changeItem(stub shim.ChaincodeStubInterface, args []byte) ([]byte, error) {
 		return createError("itemId format error,expected length 64")
 	}
 
-	if data, err := marshalProtobuf(iAsset); err != nil {
-		return createError("protobuf marshal error")
-	} else {
-		err = stub.PutState(request.ItemId, data)
-		if err != nil {
-			return createError("put state error")
-		}
-		return nil, nil
+	if err := update(request.ItemId, iAsset, stub); err != nil {
+		return createError("item update error with msg:%s", err.Error())
 	}
-}
 
-/**
-这里是为了统一存入数据库的编码方式，可能直接转为字节数组，可能变为json数据
- */
-func marshalProtobuf(pb proto.Message) ([]byte, error) {
-	if data, err := proto.Marshal(pb); err != nil {
-		return nil, fmt.Errorf("protobuf marshal error")
-	} else {
-		return data, nil
-	}
-}
-
-/**
-这里是为了统一存入数据库的编码方式，可能直接转为字节数组，可能变为json数据
- */
-func unmarshalProtobuf(data []byte, pb proto.Message) error {
-	err := proto.Unmarshal(data, pb)
-	if err != nil {
-		return fmt.Errorf("unmarshal protubuf error")
-	}
-	return nil
+	return nil, nil
 }
 
 // main function starts up the chaincode in the container during instantiate

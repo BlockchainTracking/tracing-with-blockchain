@@ -2306,6 +2306,16 @@ public final class Requests {
      * <code>.OPType opType = 4;</code>
      */
     cn.edu.nju.software.fabricservice.protomsg.Persistence.OPType getOpType();
+
+    /**
+     * <code>string nextOrg = 5;</code>
+     */
+    java.lang.String getNextOrg();
+    /**
+     * <code>string nextOrg = 5;</code>
+     */
+    com.google.protobuf.ByteString
+        getNextOrgBytes();
   }
   /**
    * <pre>
@@ -2326,6 +2336,7 @@ public final class Requests {
     private ItemChangeRequest() {
       itemId_ = "";
       opType_ = 0;
+      nextOrg_ = "";
     }
 
     @java.lang.Override
@@ -2395,6 +2406,12 @@ public final class Requests {
               int rawValue = input.readEnum();
 
               opType_ = rawValue;
+              break;
+            }
+            case 42: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              nextOrg_ = s;
               break;
             }
           }
@@ -2513,6 +2530,40 @@ public final class Requests {
       return result == null ? cn.edu.nju.software.fabricservice.protomsg.Persistence.OPType.UNRECOGNIZED : result;
     }
 
+    public static final int NEXTORG_FIELD_NUMBER = 5;
+    private volatile java.lang.Object nextOrg_;
+    /**
+     * <code>string nextOrg = 5;</code>
+     */
+    public java.lang.String getNextOrg() {
+      java.lang.Object ref = nextOrg_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        nextOrg_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string nextOrg = 5;</code>
+     */
+    public com.google.protobuf.ByteString
+        getNextOrgBytes() {
+      java.lang.Object ref = nextOrg_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        nextOrg_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -2537,6 +2588,9 @@ public final class Requests {
       if (opType_ != cn.edu.nju.software.fabricservice.protomsg.Persistence.OPType.CREATED.getNumber()) {
         output.writeEnum(4, opType_);
       }
+      if (!getNextOrgBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 5, nextOrg_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -2559,6 +2613,9 @@ public final class Requests {
       if (opType_ != cn.edu.nju.software.fabricservice.protomsg.Persistence.OPType.CREATED.getNumber()) {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(4, opType_);
+      }
+      if (!getNextOrgBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, nextOrg_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -2589,6 +2646,8 @@ public final class Requests {
             .equals(other.getItemStatus());
       }
       result = result && opType_ == other.opType_;
+      result = result && getNextOrg()
+          .equals(other.getNextOrg());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -2612,6 +2671,8 @@ public final class Requests {
       }
       hash = (37 * hash) + OPTYPE_FIELD_NUMBER;
       hash = (53 * hash) + opType_;
+      hash = (37 * hash) + NEXTORG_FIELD_NUMBER;
+      hash = (53 * hash) + getNextOrg().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -2761,6 +2822,8 @@ public final class Requests {
         }
         opType_ = 0;
 
+        nextOrg_ = "";
+
         return this;
       }
 
@@ -2795,6 +2858,7 @@ public final class Requests {
           result.itemStatus_ = itemStatusBuilder_.build();
         }
         result.opType_ = opType_;
+        result.nextOrg_ = nextOrg_;
         onBuilt();
         return result;
       }
@@ -2848,6 +2912,10 @@ public final class Requests {
         }
         if (other.opType_ != 0) {
           setOpTypeValue(other.getOpTypeValue());
+        }
+        if (!other.getNextOrg().isEmpty()) {
+          nextOrg_ = other.nextOrg_;
+          onChanged();
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -3222,6 +3290,75 @@ public final class Requests {
         onChanged();
         return this;
       }
+
+      private java.lang.Object nextOrg_ = "";
+      /**
+       * <code>string nextOrg = 5;</code>
+       */
+      public java.lang.String getNextOrg() {
+        java.lang.Object ref = nextOrg_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          nextOrg_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string nextOrg = 5;</code>
+       */
+      public com.google.protobuf.ByteString
+          getNextOrgBytes() {
+        java.lang.Object ref = nextOrg_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          nextOrg_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string nextOrg = 5;</code>
+       */
+      public Builder setNextOrg(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        nextOrg_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string nextOrg = 5;</code>
+       */
+      public Builder clearNextOrg() {
+        
+        nextOrg_ = getDefaultInstance().getNextOrg();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string nextOrg = 5;</code>
+       */
+      public Builder setNextOrgBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        nextOrg_ = value;
+        onChanged();
+        return this;
+      }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFieldsProto3(unknownFields);
@@ -3306,11 +3443,12 @@ public final class Requests {
       "itemId\030\001 \001(\t\022\031\n\007address\030\002 \001(\0132\010.Address\022" +
       "\033\n\010itemInfo\030\003 \001(\0132\t.ItemInfo\"2\n\016ItemGetR" +
       "equest\022\016\n\006itemId\030\001 \001(\t\022\020\n\010histData\030\002 \001(\010" +
-      "\"|\n\021ItemChangeRequest\022\016\n\006itemId\030\001 \001(\t\022\035\n" +
-      "\tenvStatus\030\002 \001(\0132\n.EnvStatus\022\037\n\nitemStat" +
-      "us\030\003 \001(\0132\013.ItemStatus\022\027\n\006opType\030\004 \001(\0162\007." +
-      "OPTypeB2\n*cn.edu.nju.software.fabricserv" +
-      "ice.protomsgZ\004mainb\006proto3"
+      "\"\215\001\n\021ItemChangeRequest\022\016\n\006itemId\030\001 \001(\t\022\035" +
+      "\n\tenvStatus\030\002 \001(\0132\n.EnvStatus\022\037\n\nitemSta" +
+      "tus\030\003 \001(\0132\013.ItemStatus\022\027\n\006opType\030\004 \001(\0162\007" +
+      ".OPType\022\017\n\007nextOrg\030\005 \001(\tB2\n*cn.edu.nju.s" +
+      "oftware.fabricservice.protomsgZ\004mainb\006pr" +
+      "oto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -3348,7 +3486,7 @@ public final class Requests {
     internal_static_ItemChangeRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_ItemChangeRequest_descriptor,
-        new java.lang.String[] { "ItemId", "EnvStatus", "ItemStatus", "OpType", });
+        new java.lang.String[] { "ItemId", "EnvStatus", "ItemStatus", "OpType", "NextOrg", });
     cn.edu.nju.software.fabricservice.protomsg.Persistence.getDescriptor();
   }
 

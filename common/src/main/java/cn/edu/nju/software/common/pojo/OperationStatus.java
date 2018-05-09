@@ -9,7 +9,7 @@ import lombok.Data;
  */
 @Data
 public class OperationStatus {
-    String operator;
-    String lastOperator;
+    String organization;
+    String lastOrganization;
     OpType opType;
 }

@@ -7,9 +7,9 @@ import cn.edu.nju.software.common.pojo.bizservice.UIItemChangeRequest;
 import cn.edu.nju.software.common.pojo.bizservice.UIItemGetRequest;
 import cn.edu.nju.software.common.pojo.fabricservice.FSResponse;
 import cn.edu.nju.software.common.util.DateUtil;
-import cn.edu.nju.software.fabricservice.appinvoke.ChaincodeInvoker;
-import cn.edu.nju.software.fabricservice.appinvoke.ChaincodeInvokerId;
-import cn.edu.nju.software.fabricservice.appinvoke.requestbuilder.RequestsBuilder;
+import cn.edu.nju.software.fabricservice.serviceinvoker.ServiceInvoker;
+import cn.edu.nju.software.fabricservice.serviceinvoker.ServiceInvokerId;
+import cn.edu.nju.software.fabricservice.serviceinvoker.requestbuilder.RequestsBuilder;
 import cn.edu.nju.software.fabricservice.protomsg.Requests;
 import cn.edu.nju.software.fabricservice.protomsg.ResponseOuterClass;
 import cn.edu.nju.software.ui.bizservice.ItemTracingService;
@@ -26,14 +26,14 @@ import java.util.stream.Collectors;
 @Service
 public class ItemTracingServiceImpl implements ItemTracingService {
     @Autowired
-    ChaincodeInvoker chaincodeInvoker;
+    ServiceInvoker serviceInvoker;
 
     @Override
     public BizResponse<List<TracingItemInfo>> getTracingItemInfo(UIItemGetRequest uiItemGetRequest) {
         Requests.ItemGetRequest getRequest = RequestsBuilder.newItemGetRequestsBuilder()
                 .setItemId(uiItemGetRequest.getItemId())
                 .setHistData(uiItemGetRequest.isHistData()).build();
-        FSResponse<Object> resp = chaincodeInvoker.invoke(ChaincodeInvokerId.ITEM_GET,
+        FSResponse<Object> resp = serviceInvoker.invoke(ServiceInvokerId.ITEM_GET,
                 getRequest, null);
         if (!RespStatus.SUCCESS_CODE.equals(resp.respStatus.getCode()))
             return BizResponse.createWithoutData(-1, "error invoke with message:%s", resp
@@ -64,7 +64,7 @@ public class ItemTracingServiceImpl implements ItemTracingService {
                 .setLongitude(addressInfo.getLongtitude())
                 .setLatitude(addressInfo.getLatitude())
                 .build();
-        FSResponse response = chaincodeInvoker.invoke(ChaincodeInvokerId.ITEM_ADD, itemAddRequest,
+        FSResponse response = serviceInvoker.invoke(ServiceInvokerId.ITEM_ADD, itemAddRequest,
                 null);
         if (!response.getRespStatus().isSuccess()) {
             return BizResponse.createWithoutData(-1, response.getRespStatus().getMsg());
@@ -87,7 +87,7 @@ public class ItemTracingServiceImpl implements ItemTracingService {
                 .setLogs(itemStatus.getLogs())
                 .setOpType(OpType.getOpTypeByIndex(uiItemChangeRequest.getOpType()))
                 .build();
-        FSResponse response = chaincodeInvoker.invoke(ChaincodeInvokerId.ITEM_CHANGE, itemChangeRequest,
+        FSResponse response = serviceInvoker.invoke(ServiceInvokerId.ITEM_CHANGE, itemChangeRequest,
                 null);
         if (!response.getRespStatus().isSuccess()) {
             return BizResponse.createWithoutData(-1, response.getRespStatus().getMsg());

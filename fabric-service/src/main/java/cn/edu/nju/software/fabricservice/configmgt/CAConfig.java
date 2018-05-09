@@ -1,4 +1,4 @@
-package cn.edu.nju.software.fabricservice.config;
+package cn.edu.nju.software.fabricservice.configmgt;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

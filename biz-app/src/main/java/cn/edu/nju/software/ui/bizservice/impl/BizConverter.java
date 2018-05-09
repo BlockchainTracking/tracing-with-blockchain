@@ -37,8 +37,8 @@ public class BizConverter {
     public static OperationStatus convertOperationStatus(Persistence.OpsStatus opsStatus) {
         OperationStatus operationStatus = new OperationStatus();
 
-        operationStatus.setOperator(opsStatus.getOperator().toStringUtf8());
-        operationStatus.setLastOperator(opsStatus.getLastoperator().toStringUtf8());
+        operationStatus.setOrganization(opsStatus.getCurrentOrg());
+        operationStatus.setLastOrganization(opsStatus.getLastOrg());
         operationStatus.setOpType(OpType.valueOf(opsStatus.getOpType().toString()));
         return operationStatus;
 

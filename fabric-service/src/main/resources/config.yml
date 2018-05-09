@@ -22,3 +22,16 @@ defaultUser: admin
 
 ccName: myCC
 ccVersion: 1.0
+
+chaincodes:
+   -
+      name: myCC
+      version: 1.0
+      func:
+      - addItem
+      - getItem
+      - changeItem
+      peers:
+      - peer1
+      user: admin
+      channel: mychannel
