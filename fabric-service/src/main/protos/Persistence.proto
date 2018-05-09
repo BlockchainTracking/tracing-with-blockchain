@@ -28,6 +28,7 @@ message OpsStatus {
     string currentOrg = 1;
     string lastOrg = 2;
     OPType opType = 3;
+    string contactWay = 4;
 }
 
 //商品信息
