@@ -48,7 +48,7 @@ public class HFClientHelper {
 
     static Channel DEFAULT_CHANNEL, CURRENT_CHANNEL;
     private SampleUser DEFAULT_USER, CURRENT_USER;
-    private List<Peer> CURRENT_PEERS;
+    private Collection<Peer> CURRENT_PEERS;
 
     public void init(HFConfig hfConfig) {
         this.hfconfig = hfConfig;
@@ -89,7 +89,6 @@ public class HFClientHelper {
 
     }
 
-
     /**
      * 配置channel
      */
@@ -129,7 +128,6 @@ public class HFClientHelper {
                     }
                 });
 
-
                 //——————————————————————添加eventhub
                 Properties eventHubProperties = new Properties();
                 eventHubProperties.put("grpc.NettyChannelBuilderOption.keepAliveTime", new Object[]{5L, TimeUnit.MINUTES});
@@ -146,15 +144,15 @@ public class HFClientHelper {
                 });
 
 
-                //初始化channel
                 try {
+                    //初始化channel
                     channel.initialize();
+                    //存入map中
                     CHANNELS.put(cname, channel);
                 } catch (TransactionException e) {
                     errorf(logger, "error initial channel %s", cname);
                     e.printStackTrace();
                 }
-                //存入map中
             } catch (InvalidArgumentException e) {
                 e.printStackTrace();
                 errorf(logger, "error create channel,name=%s", cname);
@@ -170,6 +168,8 @@ public class HFClientHelper {
         DEFAULT_CHANNEL = CHANNELS.get(hfconfig.getDefaultChannel());
 
         CURRENT_CHANNEL = DEFAULT_CHANNEL;
+
+        CURRENT_PEERS = CURRENT_CHANNEL.getPeers();
 
         if (DEFAULT_CHANNEL == null)
             errorf(logger, "can't find the default channel: %s", hfconfig.getDefaultChannel());
@@ -221,9 +221,13 @@ public class HFClientHelper {
         if (invokeContext != null) {
             if (invokeContext.getChannelName() != null && CHANNELS.containsKey(invokeContext.getChannelName())) {
                 CURRENT_CHANNEL = CHANNELS.get(invokeContext.getChannelName());
+            } else {
+                CURRENT_CHANNEL = DEFAULT_CHANNEL;
             }
             if (invokeContext.getUserName() != null && USERS.containsKey(invokeContext.getUserName())) {
                 CURRENT_USER = USERS.get(invokeContext.getUserName());
+            } else {
+                CURRENT_USER = DEFAULT_USER;
             }
             if (invokeContext.getPeerNames() != null) {
                 List<Peer> peers = new ArrayList<>();
@@ -233,12 +237,16 @@ public class HFClientHelper {
                 CURRENT_PEERS = peers;
             }
         }
-        if (CURRENT_USER != null)
+        if (CURRENT_USER != null) {
             try {
                 hfClient.setUserContext(CURRENT_USER);
             } catch (InvalidArgumentException e) {
                 e.printStackTrace();
             }
+        }
+        if (CURRENT_PEERS == null || CURRENT_PEERS.isEmpty()) {
+            CURRENT_PEERS = CURRENT_CHANNEL.getPeers();
+        }
     }
 
     public Collection<ProposalResponse> chainCodeInvoke(String chaincodeName, String chaincodeVersion, String func, byte[] data) {
@@ -253,14 +261,12 @@ public class HFClientHelper {
             transactionProposalRequest.setArgs(data);
 
         Map<String, byte[]> tm2 = new HashMap<>();
-        tm2.put("HyperLedgerFabric", "TransactionProposalRequest:JavaSDK".getBytes(UTF_8)); //Just some extra junk in transient map
-        tm2.put("method", "TransactionProposalRequest".getBytes(UTF_8)); // ditto
-        tm2.put("result", ":)".getBytes(UTF_8));  // This should be returned see chaincode why.
+        tm2.put("method", "TransactionProposalRequest".getBytes(UTF_8));
 
         try {
             transactionProposalRequest.setTransientMap(tm2);
-            Collection<ProposalResponse> transactionPropResp = CURRENT_CHANNEL.sendTransactionProposal
-                    (transactionProposalRequest, CURRENT_PEERS);
+            Collection<ProposalResponse> transactionPropResp =
+                    CURRENT_CHANNEL.sendTransactionProposal(transactionProposalRequest, CURRENT_PEERS);
             return transactionPropResp;
         } catch (ProposalException | InvalidArgumentException e) {
             e.printStackTrace();
@@ -274,16 +280,13 @@ public class HFClientHelper {
 
 
     public Collection<ProposalResponse> chainCodeQuery(String chaincodeName, String chaincodeVersion, String func, byte[] data) {
-
         ChaincodeID chaincodeID = ChaincodeID.newBuilder().setName(chaincodeName).setVersion(chaincodeVersion)
                 .build();
-
         QueryByChaincodeRequest queryByChaincodeRequest = hfClient.newQueryProposalRequest();
         queryByChaincodeRequest.setFcn(func);
         if (data != null)
             queryByChaincodeRequest.setArgs(data);
         queryByChaincodeRequest.setChaincodeID(chaincodeID);
-
         Collection<ProposalResponse> queryProposals;
         try {
             queryProposals = CURRENT_CHANNEL.queryByChaincode(queryByChaincodeRequest, CURRENT_PEERS);

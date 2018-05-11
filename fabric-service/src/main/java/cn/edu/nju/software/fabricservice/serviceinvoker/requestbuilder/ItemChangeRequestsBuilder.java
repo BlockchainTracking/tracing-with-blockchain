@@ -17,6 +17,18 @@ public class ItemChangeRequestsBuilder {
     Long sampleLong;
     String logs;
     OpType opType;
+    String contact;
+    String nextOrg;
+
+    public ItemChangeRequestsBuilder setContact(String contact) {
+        this.contact = contact;
+        return this;
+    }
+
+    public ItemChangeRequestsBuilder setNextOrg(String nextOrg) {
+        this.nextOrg = nextOrg;
+        return this;
+    }
 
     public ItemChangeRequestsBuilder setAddressName(String addressName) {
         this.addressName = addressName;
@@ -67,7 +79,7 @@ public class ItemChangeRequestsBuilder {
                 .setSampleStrStatus(sampleStr).setSampleLongStatus(sampleLong).build();
         Requests.ItemChangeRequest itemChangeRequest = Requests.ItemChangeRequest.newBuilder()
                 .setEnvStatus(envStatus).setItemStatus(itemStatus).setOpType(Persistence.OPType
-                        .valueOf(opType.toString())).setItemId(itemId)
+                        .valueOf(opType.toString())).setItemId(itemId).setNextOrg(nextOrg)
                 .build();
         return itemChangeRequest;
     }

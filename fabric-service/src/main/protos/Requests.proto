@@ -31,4 +31,5 @@ message ItemChangeRequest {
     ItemStatus itemStatus = 3;
     OPType opType = 4;
     string nextOrg = 5;
+    string contact = 6;
 }

@@ -140,12 +140,22 @@ public final class Persistence {
         getNameBytes();
 
     /**
-     * <code>double longitude = 2;</code>
+     * <code>string desc = 2;</code>
+     */
+    java.lang.String getDesc();
+    /**
+     * <code>string desc = 2;</code>
+     */
+    com.google.protobuf.ByteString
+        getDescBytes();
+
+    /**
+     * <code>double longitude = 3;</code>
      */
     double getLongitude();
 
     /**
-     * <code>double latitude = 3;</code>
+     * <code>double latitude = 4;</code>
      */
     double getLatitude();
   }
@@ -167,6 +177,7 @@ public final class Persistence {
     }
     private Address() {
       name_ = "";
+      desc_ = "";
       longitude_ = 0D;
       latitude_ = 0D;
     }
@@ -208,12 +219,18 @@ public final class Persistence {
               name_ = s;
               break;
             }
-            case 17: {
+            case 18: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              desc_ = s;
+              break;
+            }
+            case 25: {
 
               longitude_ = input.readDouble();
               break;
             }
-            case 25: {
+            case 33: {
 
               latitude_ = input.readDouble();
               break;
@@ -276,19 +293,53 @@ public final class Persistence {
       }
     }
 
-    public static final int LONGITUDE_FIELD_NUMBER = 2;
+    public static final int DESC_FIELD_NUMBER = 2;
+    private volatile java.lang.Object desc_;
+    /**
+     * <code>string desc = 2;</code>
+     */
+    public java.lang.String getDesc() {
+      java.lang.Object ref = desc_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        desc_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string desc = 2;</code>
+     */
+    public com.google.protobuf.ByteString
+        getDescBytes() {
+      java.lang.Object ref = desc_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        desc_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int LONGITUDE_FIELD_NUMBER = 3;
     private double longitude_;
     /**
-     * <code>double longitude = 2;</code>
+     * <code>double longitude = 3;</code>
      */
     public double getLongitude() {
       return longitude_;
     }
 
-    public static final int LATITUDE_FIELD_NUMBER = 3;
+    public static final int LATITUDE_FIELD_NUMBER = 4;
     private double latitude_;
     /**
-     * <code>double latitude = 3;</code>
+     * <code>double latitude = 4;</code>
      */
     public double getLatitude() {
       return latitude_;
@@ -309,11 +360,14 @@ public final class Persistence {
       if (!getNameBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, name_);
       }
+      if (!getDescBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, desc_);
+      }
       if (longitude_ != 0D) {
-        output.writeDouble(2, longitude_);
+        output.writeDouble(3, longitude_);
       }
       if (latitude_ != 0D) {
-        output.writeDouble(3, latitude_);
+        output.writeDouble(4, latitude_);
       }
       unknownFields.writeTo(output);
     }
@@ -326,13 +380,16 @@ public final class Persistence {
       if (!getNameBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, name_);
       }
+      if (!getDescBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, desc_);
+      }
       if (longitude_ != 0D) {
         size += com.google.protobuf.CodedOutputStream
-          .computeDoubleSize(2, longitude_);
+          .computeDoubleSize(3, longitude_);
       }
       if (latitude_ != 0D) {
         size += com.google.protobuf.CodedOutputStream
-          .computeDoubleSize(3, latitude_);
+          .computeDoubleSize(4, latitude_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -352,6 +409,8 @@ public final class Persistence {
       boolean result = true;
       result = result && getName()
           .equals(other.getName());
+      result = result && getDesc()
+          .equals(other.getDesc());
       result = result && (
           java.lang.Double.doubleToLongBits(getLongitude())
           == java.lang.Double.doubleToLongBits(
@@ -373,6 +432,8 @@ public final class Persistence {
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + NAME_FIELD_NUMBER;
       hash = (53 * hash) + getName().hashCode();
+      hash = (37 * hash) + DESC_FIELD_NUMBER;
+      hash = (53 * hash) + getDesc().hashCode();
       hash = (37 * hash) + LONGITUDE_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           java.lang.Double.doubleToLongBits(getLongitude()));
@@ -514,6 +575,8 @@ public final class Persistence {
         super.clear();
         name_ = "";
 
+        desc_ = "";
+
         longitude_ = 0D;
 
         latitude_ = 0D;
@@ -541,6 +604,7 @@ public final class Persistence {
       public cn.edu.nju.software.fabricservice.protomsg.Persistence.Address buildPartial() {
         cn.edu.nju.software.fabricservice.protomsg.Persistence.Address result = new cn.edu.nju.software.fabricservice.protomsg.Persistence.Address(this);
         result.name_ = name_;
+        result.desc_ = desc_;
         result.longitude_ = longitude_;
         result.latitude_ = latitude_;
         onBuilt();
@@ -586,6 +650,10 @@ public final class Persistence {
         if (other == cn.edu.nju.software.fabricservice.protomsg.Persistence.Address.getDefaultInstance()) return this;
         if (!other.getName().isEmpty()) {
           name_ = other.name_;
+          onChanged();
+        }
+        if (!other.getDesc().isEmpty()) {
+          desc_ = other.desc_;
           onChanged();
         }
         if (other.getLongitude() != 0D) {
@@ -690,15 +758,84 @@ public final class Persistence {
         return this;
       }
 
+      private java.lang.Object desc_ = "";
+      /**
+       * <code>string desc = 2;</code>
+       */
+      public java.lang.String getDesc() {
+        java.lang.Object ref = desc_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          desc_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string desc = 2;</code>
+       */
+      public com.google.protobuf.ByteString
+          getDescBytes() {
+        java.lang.Object ref = desc_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          desc_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string desc = 2;</code>
+       */
+      public Builder setDesc(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        desc_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string desc = 2;</code>
+       */
+      public Builder clearDesc() {
+        
+        desc_ = getDefaultInstance().getDesc();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string desc = 2;</code>
+       */
+      public Builder setDescBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        desc_ = value;
+        onChanged();
+        return this;
+      }
+
       private double longitude_ ;
       /**
-       * <code>double longitude = 2;</code>
+       * <code>double longitude = 3;</code>
        */
       public double getLongitude() {
         return longitude_;
       }
       /**
-       * <code>double longitude = 2;</code>
+       * <code>double longitude = 3;</code>
        */
       public Builder setLongitude(double value) {
         
@@ -707,7 +844,7 @@ public final class Persistence {
         return this;
       }
       /**
-       * <code>double longitude = 2;</code>
+       * <code>double longitude = 3;</code>
        */
       public Builder clearLongitude() {
         
@@ -718,13 +855,13 @@ public final class Persistence {
 
       private double latitude_ ;
       /**
-       * <code>double latitude = 3;</code>
+       * <code>double latitude = 4;</code>
        */
       public double getLatitude() {
         return latitude_;
       }
       /**
-       * <code>double latitude = 3;</code>
+       * <code>double latitude = 4;</code>
        */
       public Builder setLatitude(double value) {
         
@@ -733,7 +870,7 @@ public final class Persistence {
         return this;
       }
       /**
-       * <code>double latitude = 3;</code>
+       * <code>double latitude = 4;</code>
        */
       public Builder clearLatitude() {
         
@@ -1412,6 +1549,16 @@ public final class Persistence {
      * <code>.OPType opType = 3;</code>
      */
     cn.edu.nju.software.fabricservice.protomsg.Persistence.OPType getOpType();
+
+    /**
+     * <code>string contactWay = 4;</code>
+     */
+    java.lang.String getContactWay();
+    /**
+     * <code>string contactWay = 4;</code>
+     */
+    com.google.protobuf.ByteString
+        getContactWayBytes();
   }
   /**
    * <pre>
@@ -1433,6 +1580,7 @@ public final class Persistence {
       currentOrg_ = "";
       lastOrg_ = "";
       opType_ = 0;
+      contactWay_ = "";
     }
 
     @java.lang.Override
@@ -1482,6 +1630,12 @@ public final class Persistence {
               int rawValue = input.readEnum();
 
               opType_ = rawValue;
+              break;
+            }
+            case 34: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              contactWay_ = s;
               break;
             }
           }
@@ -1592,6 +1746,40 @@ public final class Persistence {
       return result == null ? cn.edu.nju.software.fabricservice.protomsg.Persistence.OPType.UNRECOGNIZED : result;
     }
 
+    public static final int CONTACTWAY_FIELD_NUMBER = 4;
+    private volatile java.lang.Object contactWay_;
+    /**
+     * <code>string contactWay = 4;</code>
+     */
+    public java.lang.String getContactWay() {
+      java.lang.Object ref = contactWay_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        contactWay_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string contactWay = 4;</code>
+     */
+    public com.google.protobuf.ByteString
+        getContactWayBytes() {
+      java.lang.Object ref = contactWay_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        contactWay_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -1613,6 +1801,9 @@ public final class Persistence {
       if (opType_ != cn.edu.nju.software.fabricservice.protomsg.Persistence.OPType.CREATED.getNumber()) {
         output.writeEnum(3, opType_);
       }
+      if (!getContactWayBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 4, contactWay_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -1630,6 +1821,9 @@ public final class Persistence {
       if (opType_ != cn.edu.nju.software.fabricservice.protomsg.Persistence.OPType.CREATED.getNumber()) {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(3, opType_);
+      }
+      if (!getContactWayBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, contactWay_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -1652,6 +1846,8 @@ public final class Persistence {
       result = result && getLastOrg()
           .equals(other.getLastOrg());
       result = result && opType_ == other.opType_;
+      result = result && getContactWay()
+          .equals(other.getContactWay());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -1669,6 +1865,8 @@ public final class Persistence {
       hash = (53 * hash) + getLastOrg().hashCode();
       hash = (37 * hash) + OPTYPE_FIELD_NUMBER;
       hash = (53 * hash) + opType_;
+      hash = (37 * hash) + CONTACTWAY_FIELD_NUMBER;
+      hash = (53 * hash) + getContactWay().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -1808,6 +2006,8 @@ public final class Persistence {
 
         opType_ = 0;
 
+        contactWay_ = "";
+
         return this;
       }
 
@@ -1833,6 +2033,7 @@ public final class Persistence {
         result.currentOrg_ = currentOrg_;
         result.lastOrg_ = lastOrg_;
         result.opType_ = opType_;
+        result.contactWay_ = contactWay_;
         onBuilt();
         return result;
       }
@@ -1884,6 +2085,10 @@ public final class Persistence {
         }
         if (other.opType_ != 0) {
           setOpTypeValue(other.getOpTypeValue());
+        }
+        if (!other.getContactWay().isEmpty()) {
+          contactWay_ = other.contactWay_;
+          onChanged();
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -2090,6 +2295,75 @@ public final class Persistence {
       public Builder clearOpType() {
         
         opType_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object contactWay_ = "";
+      /**
+       * <code>string contactWay = 4;</code>
+       */
+      public java.lang.String getContactWay() {
+        java.lang.Object ref = contactWay_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          contactWay_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string contactWay = 4;</code>
+       */
+      public com.google.protobuf.ByteString
+          getContactWayBytes() {
+        java.lang.Object ref = contactWay_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          contactWay_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string contactWay = 4;</code>
+       */
+      public Builder setContactWay(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        contactWay_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string contactWay = 4;</code>
+       */
+      public Builder clearContactWay() {
+        
+        contactWay_ = getDefaultInstance().getContactWay();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string contactWay = 4;</code>
+       */
+      public Builder setContactWayBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        contactWay_ = value;
         onChanged();
         return this;
       }
@@ -3957,7 +4231,7 @@ public final class Persistence {
   }
   /**
    * <pre>
-   * 主要的商品资产描述
+   *主要的商品资产描述
    * </pre>
    *
    * Protobuf type {@code ItemAsset}
@@ -4449,7 +4723,7 @@ public final class Persistence {
     }
     /**
      * <pre>
-     * 主要的商品资产描述
+     *主要的商品资产描述
      * </pre>
      *
      * Protobuf type {@code ItemAsset}
@@ -5296,23 +5570,24 @@ public final class Persistence {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\021Persistence.proto\"<\n\007Address\022\014\n\004name\030\001" +
-      " \001(\t\022\021\n\tlongitude\030\002 \001(\001\022\020\n\010latitude\030\003 \001(" +
-      "\001\"&\n\tEnvStatus\022\031\n\007address\030\001 \001(\0132\010.Addres" +
-      "s\"I\n\tOpsStatus\022\022\n\ncurrentOrg\030\001 \001(\t\022\017\n\007la" +
-      "stOrg\030\002 \001(\t\022\027\n\006opType\030\003 \001(\0162\007.OPType\"c\n\010" +
-      "ItemInfo\022\014\n\004name\030\001 \001(\t\022\r\n\005class\030\002 \001(\t\022\023\n" +
-      "\013batchNumber\030\003 \001(\t\022\027\n\017manufactureDate\030\004 " +
-      "\001(\003\022\014\n\004note\030\005 \001(\t\"M\n\nItemStatus\022\027\n\017sampl" +
-      "eStrStatus\030\001 \001(\t\022\030\n\020sampleLongStatus\030\002 \001" +
-      "(\003\022\014\n\004logs\030\003 \001(\t\"\252\001\n\tItemAsset\022\021\n\ttimest" +
-      "amp\030\001 \001(\003\022\016\n\006itemId\030\002 \001(\t\022\033\n\010itemInfo\030\003 " +
-      "\001(\0132\t.ItemInfo\022\037\n\nitemStatus\030\004 \001(\0132\013.Ite" +
-      "mStatus\022\035\n\tevnStatus\030\005 \001(\0132\n.EnvStatus\022\035" +
-      "\n\topsStatus\030\006 \001(\0132\n.OpsStatus*3\n\006OPType\022" +
-      "\013\n\007CREATED\020\000\022\r\n\tLOGISTICS\020\001\022\r\n\tDELIVERED" +
-      "\020\002B2\n*cn.edu.nju.software.fabricservice." +
-      "protomsgZ\004mainb\006proto3"
+      "\n\021Persistence.proto\"J\n\007Address\022\014\n\004name\030\001" +
+      " \001(\t\022\014\n\004desc\030\002 \001(\t\022\021\n\tlongitude\030\003 \001(\001\022\020\n" +
+      "\010latitude\030\004 \001(\001\"&\n\tEnvStatus\022\031\n\007address\030" +
+      "\001 \001(\0132\010.Address\"]\n\tOpsStatus\022\022\n\ncurrentO" +
+      "rg\030\001 \001(\t\022\017\n\007lastOrg\030\002 \001(\t\022\027\n\006opType\030\003 \001(" +
+      "\0162\007.OPType\022\022\n\ncontactWay\030\004 \001(\t\"c\n\010ItemIn" +
+      "fo\022\014\n\004name\030\001 \001(\t\022\r\n\005class\030\002 \001(\t\022\023\n\013batch" +
+      "Number\030\003 \001(\t\022\027\n\017manufactureDate\030\004 \001(\003\022\014\n" +
+      "\004note\030\005 \001(\t\"M\n\nItemStatus\022\027\n\017sampleStrSt" +
+      "atus\030\001 \001(\t\022\030\n\020sampleLongStatus\030\002 \001(\003\022\014\n\004" +
+      "logs\030\003 \001(\t\"\252\001\n\tItemAsset\022\021\n\ttimestamp\030\001 " +
+      "\001(\003\022\016\n\006itemId\030\002 \001(\t\022\033\n\010itemInfo\030\003 \001(\0132\t." +
+      "ItemInfo\022\037\n\nitemStatus\030\004 \001(\0132\013.ItemStatu" +
+      "s\022\035\n\tevnStatus\030\005 \001(\0132\n.EnvStatus\022\035\n\topsS" +
+      "tatus\030\006 \001(\0132\n.OpsStatus*3\n\006OPType\022\013\n\007CRE" +
+      "ATED\020\000\022\r\n\tLOGISTICS\020\001\022\r\n\tDELIVERED\020\002B2\n*" +
+      "cn.edu.nju.software.fabricservice.protom" +
+      "sgZ\004mainb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -5331,7 +5606,7 @@ public final class Persistence {
     internal_static_Address_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Address_descriptor,
-        new java.lang.String[] { "Name", "Longitude", "Latitude", });
+        new java.lang.String[] { "Name", "Desc", "Longitude", "Latitude", });
     internal_static_EnvStatus_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_EnvStatus_fieldAccessorTable = new
@@ -5343,7 +5618,7 @@ public final class Persistence {
     internal_static_OpsStatus_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_OpsStatus_descriptor,
-        new java.lang.String[] { "CurrentOrg", "LastOrg", "OpType", });
+        new java.lang.String[] { "CurrentOrg", "LastOrg", "OpType", "ContactWay", });
     internal_static_ItemInfo_descriptor =
       getDescriptor().getMessageTypes().get(3);
     internal_static_ItemInfo_fieldAccessorTable = new

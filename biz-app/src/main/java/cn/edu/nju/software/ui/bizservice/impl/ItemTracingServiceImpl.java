@@ -63,6 +63,7 @@ public class ItemTracingServiceImpl implements ItemTracingService {
                 .setAddressName(addressInfo.getNodeName())
                 .setLongitude(addressInfo.getLongtitude())
                 .setLatitude(addressInfo.getLatitude())
+                .setAddressDesc(uiItemAddRequest.getAddressInfo().getAddressDesc())
                 .build();
         FSResponse response = serviceInvoker.invoke(ServiceInvokerId.ITEM_ADD, itemAddRequest,
                 null);
@@ -86,6 +87,8 @@ public class ItemTracingServiceImpl implements ItemTracingService {
                 .setSampleStr(itemStatus.getSampleStr())
                 .setLogs(itemStatus.getLogs())
                 .setOpType(OpType.getOpTypeByIndex(uiItemChangeRequest.getOpType()))
+                .setContact(uiItemChangeRequest.getContact())
+                .setNextOrg(uiItemChangeRequest.getNextOrg())
                 .build();
         FSResponse response = serviceInvoker.invoke(ServiceInvokerId.ITEM_CHANGE, itemChangeRequest,
                 null);

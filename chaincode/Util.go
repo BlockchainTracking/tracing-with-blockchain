@@ -1,7 +1,8 @@
 package main
 
-import "fmt"
-
+import (
+	"fmt"
+)
 
 func checkItemIdformat(itemId string) bool {
 	return len(itemId) == 32
@@ -29,3 +30,4 @@ func setError(response *Response, eCode int32, msg string) Response {
 	response.Message = msg
 	return *response
 }
+

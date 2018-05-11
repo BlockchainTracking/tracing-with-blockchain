@@ -15,4 +15,6 @@ public class UIItemChangeRequest {
     EnvStatus envStatus;
     ItemStatus itemStatus;
     Integer opType;
+    String contact;
+    String nextOrg;
 }

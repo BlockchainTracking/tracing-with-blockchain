@@ -2316,6 +2316,16 @@ public final class Requests {
      */
     com.google.protobuf.ByteString
         getNextOrgBytes();
+
+    /**
+     * <code>string contact = 6;</code>
+     */
+    java.lang.String getContact();
+    /**
+     * <code>string contact = 6;</code>
+     */
+    com.google.protobuf.ByteString
+        getContactBytes();
   }
   /**
    * <pre>
@@ -2337,6 +2347,7 @@ public final class Requests {
       itemId_ = "";
       opType_ = 0;
       nextOrg_ = "";
+      contact_ = "";
     }
 
     @java.lang.Override
@@ -2412,6 +2423,12 @@ public final class Requests {
               java.lang.String s = input.readStringRequireUtf8();
 
               nextOrg_ = s;
+              break;
+            }
+            case 50: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              contact_ = s;
               break;
             }
           }
@@ -2564,6 +2581,40 @@ public final class Requests {
       }
     }
 
+    public static final int CONTACT_FIELD_NUMBER = 6;
+    private volatile java.lang.Object contact_;
+    /**
+     * <code>string contact = 6;</code>
+     */
+    public java.lang.String getContact() {
+      java.lang.Object ref = contact_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        contact_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string contact = 6;</code>
+     */
+    public com.google.protobuf.ByteString
+        getContactBytes() {
+      java.lang.Object ref = contact_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        contact_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -2591,6 +2642,9 @@ public final class Requests {
       if (!getNextOrgBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 5, nextOrg_);
       }
+      if (!getContactBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 6, contact_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -2616,6 +2670,9 @@ public final class Requests {
       }
       if (!getNextOrgBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, nextOrg_);
+      }
+      if (!getContactBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(6, contact_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -2648,6 +2705,8 @@ public final class Requests {
       result = result && opType_ == other.opType_;
       result = result && getNextOrg()
           .equals(other.getNextOrg());
+      result = result && getContact()
+          .equals(other.getContact());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -2673,6 +2732,8 @@ public final class Requests {
       hash = (53 * hash) + opType_;
       hash = (37 * hash) + NEXTORG_FIELD_NUMBER;
       hash = (53 * hash) + getNextOrg().hashCode();
+      hash = (37 * hash) + CONTACT_FIELD_NUMBER;
+      hash = (53 * hash) + getContact().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -2824,6 +2885,8 @@ public final class Requests {
 
         nextOrg_ = "";
 
+        contact_ = "";
+
         return this;
       }
 
@@ -2859,6 +2922,7 @@ public final class Requests {
         }
         result.opType_ = opType_;
         result.nextOrg_ = nextOrg_;
+        result.contact_ = contact_;
         onBuilt();
         return result;
       }
@@ -2915,6 +2979,10 @@ public final class Requests {
         }
         if (!other.getNextOrg().isEmpty()) {
           nextOrg_ = other.nextOrg_;
+          onChanged();
+        }
+        if (!other.getContact().isEmpty()) {
+          contact_ = other.contact_;
           onChanged();
         }
         this.mergeUnknownFields(other.unknownFields);
@@ -3359,6 +3427,75 @@ public final class Requests {
         onChanged();
         return this;
       }
+
+      private java.lang.Object contact_ = "";
+      /**
+       * <code>string contact = 6;</code>
+       */
+      public java.lang.String getContact() {
+        java.lang.Object ref = contact_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          contact_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string contact = 6;</code>
+       */
+      public com.google.protobuf.ByteString
+          getContactBytes() {
+        java.lang.Object ref = contact_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          contact_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string contact = 6;</code>
+       */
+      public Builder setContact(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        contact_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string contact = 6;</code>
+       */
+      public Builder clearContact() {
+        
+        contact_ = getDefaultInstance().getContact();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string contact = 6;</code>
+       */
+      public Builder setContactBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        contact_ = value;
+        onChanged();
+        return this;
+      }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFieldsProto3(unknownFields);
@@ -3443,12 +3580,12 @@ public final class Requests {
       "itemId\030\001 \001(\t\022\031\n\007address\030\002 \001(\0132\010.Address\022" +
       "\033\n\010itemInfo\030\003 \001(\0132\t.ItemInfo\"2\n\016ItemGetR" +
       "equest\022\016\n\006itemId\030\001 \001(\t\022\020\n\010histData\030\002 \001(\010" +
-      "\"\215\001\n\021ItemChangeRequest\022\016\n\006itemId\030\001 \001(\t\022\035" +
+      "\"\236\001\n\021ItemChangeRequest\022\016\n\006itemId\030\001 \001(\t\022\035" +
       "\n\tenvStatus\030\002 \001(\0132\n.EnvStatus\022\037\n\nitemSta" +
       "tus\030\003 \001(\0132\013.ItemStatus\022\027\n\006opType\030\004 \001(\0162\007" +
-      ".OPType\022\017\n\007nextOrg\030\005 \001(\tB2\n*cn.edu.nju.s" +
-      "oftware.fabricservice.protomsgZ\004mainb\006pr" +
-      "oto3"
+      ".OPType\022\017\n\007nextOrg\030\005 \001(\t\022\017\n\007contact\030\006 \001(" +
+      "\tB2\n*cn.edu.nju.software.fabricservice.p" +
+      "rotomsgZ\004mainb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -3486,7 +3623,7 @@ public final class Requests {
     internal_static_ItemChangeRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_ItemChangeRequest_descriptor,
-        new java.lang.String[] { "ItemId", "EnvStatus", "ItemStatus", "OpType", "NextOrg", });
+        new java.lang.String[] { "ItemId", "EnvStatus", "ItemStatus", "OpType", "NextOrg", "Contact", });
     cn.edu.nju.software.fabricservice.protomsg.Persistence.getDescriptor();
   }
 

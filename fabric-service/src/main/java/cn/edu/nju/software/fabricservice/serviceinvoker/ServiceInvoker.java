@@ -16,6 +16,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hyperledger.fabric.sdk.BlockEvent;
 import org.hyperledger.fabric.sdk.ChaincodeResponse;
 import org.hyperledger.fabric.sdk.ProposalResponse;
 import org.hyperledger.fabric.sdk.SDKUtils;
@@ -25,6 +26,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
 
 /**
@@ -73,19 +75,15 @@ public class ServiceInvoker {
     }
 
     public ServiceInvoker(InvokerInitParameters invokerInitParameters) {
-        //默认为文件类型
-        if (invokerInitParameters == null || invokerInitParameters.getConfigType() == ConfigType.FILE) {
-            Object[] paras = invokerInitParameters == null ? null : invokerInitParameters
-                    .getConfigParas();
+        Object[] paras = invokerInitParameters == null ? null : invokerInitParameters
+                .getConfigParas();
+        configMgt = new ConfigMgt();
+        hfClientHelper = new HFClientHelper();
+        serviceDiscovery = new ServiceDiscovery();
 
-            configMgt = new ConfigMgt();
-            hfClientHelper = new HFClientHelper();
-            serviceDiscovery = new ServiceDiscovery();
-
-            configMgt.init(ConfigType.FILE, paras);
-            hfClientHelper.init(configMgt.getConfig());
-            serviceDiscovery.init(configMgt.getConfig());
-        }
+        configMgt.init(ConfigType.FILE, paras);
+        hfClientHelper.init(configMgt.getConfig());
+        serviceDiscovery.init(configMgt.getConfig());
     }
 
     public ServiceInvoker() {
@@ -104,10 +102,9 @@ public class ServiceInvoker {
     public FSResponse<Object> invoke(ServiceInvokerId serviceInvokerId,
                                      AbstractMessageLite request,
                                      InvokeParameter invokeParameter) {
-
         //配置执行上下文
         configInvokeContext(serviceInvokerId);
-
+        //获得ServiceConfig
         ServiceInvokerConfig config = ALL_SERVICES.get(serviceInvokerId.getId());
         if (config.getRequestType() != null && !config.getRequestType().isInstance(request)) {
             return FSResponse.createWithoutData(-1, "ERROR request type, except:%s, actual:%s",
@@ -154,9 +151,13 @@ public class ServiceInvoker {
                 try {
                     Collection<Set<ProposalResponse>> re = SDKUtils.getProposalConsistencySets(responses);
                     if (re.size() != 1) {
-                        //TODO peer状态不一致，自行决定需不需要发送到客户端
+                        return FSResponse.createWithoutData(-1, "proposal state not identical");
                     } else {
-                        hfClientHelper.sendTransactions(success);
+                        //异步发送请求和执行回调函数
+                        CompletableFuture<BlockEvent.TransactionEvent> future = hfClientHelper
+                                .sendTransactions(success);
+                        if (invokeParameter != null && invokeParameter.getInvokeCallBack() != null)
+                            future.thenAcceptAsync(invokeParameter.getInvokeCallBack());
                         return FSResponse.createSuccess(null, "invoke success");
                     }
                 } catch (InvalidArgumentException e) {

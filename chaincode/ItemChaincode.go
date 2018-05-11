@@ -8,15 +8,11 @@ import (
 	"github.com/hyperledger/fabric/core/chaincode/lib/cid"
 )
 
-// ChaincodeDemo implements a simple chaincode to manage an asset
 type ItemAssetChaincode struct {
-	//handlers用来存储调用的函数名称和器对应的函数
 	handlers map[string]func(stub shim.ChaincodeStubInterface, args []byte) ([]byte, error)
 }
 
 func (t *ItemAssetChaincode) Init(stub shim.ChaincodeStubInterface) peer.Response {
-	// Get the args from the transaction proposal
-	//千万要注意初始化！！！
 	t.handlers = make(map[string]func(stub shim.ChaincodeStubInterface, args []byte) ([]byte, error))
 	t.handlers["addItem"] = addItem
 	t.handlers["getItem"] = getItem
@@ -25,7 +21,6 @@ func (t *ItemAssetChaincode) Init(stub shim.ChaincodeStubInterface) peer.Respons
 }
 
 func (t *ItemAssetChaincode) Invoke(stub shim.ChaincodeStubInterface) peer.Response {
-	// Extract the function and args from the transaction proposal
 	args := stub.GetArgs()
 	fn := string(args[0])
 	if fnHandler, ok := t.handlers[fn]; ok {
@@ -34,7 +29,7 @@ func (t *ItemAssetChaincode) Invoke(stub shim.ChaincodeStubInterface) peer.Respo
 		} else {
 			return shim.Success(data)
 		}
-	} else { // assume 'get' even if fn is nil
+	} else {
 		return shim.Error("can't find function " + fn)
 	}
 }
@@ -43,15 +38,6 @@ func (t *ItemAssetChaincode) Invoke(stub shim.ChaincodeStubInterface) peer.Respo
 查询商品
  */
 func getItem(stub shim.ChaincodeStubInterface, args []byte) ([]byte, error) {
-	mspId, err := cid.GetMSPID(stub)
-	if err != nil {
-		return createError("error get mspId")
-	}
-
-	if ! check(ITEM_GET, mspId, nil) {
-		return createError("no right to invoke getItem with mspId:%s", mspId)
-	}
-
 	request := &ItemGetRequest{}
 	response := &ItemGetResponse{}
 	response.ItemAssets = make([]*ItemAsset, 0)
@@ -61,6 +47,10 @@ func getItem(stub shim.ChaincodeStubInterface, args []byte) ([]byte, error) {
 	}
 
 	key := request.ItemId
+
+	if err := check(ITEM_GET, stub, key); err != nil {
+		return createError(err.Error())
+	}
 
 	//需要提取历史数据
 	if request.HistData {
@@ -105,12 +95,12 @@ func addItem(stub shim.ChaincodeStubInterface, args []byte) ([]byte, error) {
 
 	request := &ItemAddRequest{}
 
-	if err = decode(args, request); err != nil {
+	if err := decode(args, request); err != nil {
 		return createError("error marshal request data")
 	}
 
-	if ! check(ITEM_ADD, mspId, nil) {
-		return createError("no right to invoke addItem with mspId:%s", mspId)
+	if err := check(ITEM_ADD, stub, request.ItemId); err != nil {
+		return createError(err.Error())
 	}
 
 	//设置环境状态
@@ -142,27 +132,29 @@ func addItem(stub shim.ChaincodeStubInterface, args []byte) ([]byte, error) {
 	return nil, nil
 }
 
+/**
+更改商品
+ */
 func changeItem(stub shim.ChaincodeStubInterface, args []byte) ([]byte, error) {
-	mspId, err := cid.GetMSPID(stub)
-	if err != nil {
-		return createError("error get mspId")
-	}
 
 	request := &ItemChangeRequest{}
 
-	if err = decode(args, request); err != nil {
+	if err := decode(args, request); err != nil {
 		return createError("error marshal request data")
 	}
 
 	key := request.ItemId
 
 	iAsset, err := retrieve(key, stub)
-	if err != nil || iAsset == nil {
+	if err != nil {
+		return createError(err.Error())
+	}
+	if iAsset == nil {
 		return createError("error happens,asset not found %s", key)
 	}
 
-	if ! check(ITEM_CHANGE, mspId, iAsset.OpsStatus) {
-		return createError("no right to invoke changeItem with mspId:%s", mspId)
+	if err := check(ITEM_CHANGE, stub, key); err != nil {
+		return createError(err.Error())
 	}
 
 	//设置环境状态
@@ -173,6 +165,7 @@ func changeItem(stub shim.ChaincodeStubInterface, args []byte) ([]byte, error) {
 	opStatus.OpType = request.OpType
 	opStatus.CurrentOrg = request.NextOrg
 	opStatus.LastOrg = iAsset.OpsStatus.CurrentOrg
+	opStatus.ContactWay = request.Contact
 
 	//改变itemAsset状态
 	iAsset.EvnStatus = envStatus
@@ -190,6 +183,7 @@ func changeItem(stub shim.ChaincodeStubInterface, args []byte) ([]byte, error) {
 
 	return nil, nil
 }
+
 
 // main function starts up the chaincode in the container during instantiate
 func main() {

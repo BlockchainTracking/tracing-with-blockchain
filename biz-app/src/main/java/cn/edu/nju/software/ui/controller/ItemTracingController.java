@@ -34,7 +34,6 @@ public class ItemTracingController {
         return itemTracingService.getTracingItemInfo(request);
     }
 
-
     @RequestMapping(value = "/item/add", method = RequestMethod.POST)
     @ApiOperation(value = "增加一件商品")
     public BizResponse getTracingItemInfo(

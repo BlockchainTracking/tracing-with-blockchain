@@ -6,6 +6,7 @@ package cn.edu.nju.software.fabricservice.serviceinvoker;
  */
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hyperledger.fabric.sdk.BlockEvent;
 
@@ -16,17 +17,13 @@ import java.util.function.Consumer;
  */
 @AllArgsConstructor
 @NoArgsConstructor
+@Data
 public class InvokeParameter {
     /**
      * 返回类型
      */
     private ReturnType returnType;
-    /**
-     * 回调函数，尽在returenType为ASYNC、queryType为QUERY时有用
-     */
-    private Consumer<Object> querycallBack;
 
     private Consumer<BlockEvent.TransactionEvent> invokeCallBack;
-
 
 }

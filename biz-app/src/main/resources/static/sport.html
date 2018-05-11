@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<!--
+This is a starter template page. Use this page to start your new project from
+scratch. This page gets rid of all links and provides the needed markup only.
+-->
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>SOLOS</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+          name="viewport">
+    <!-- Bootstrap 3.3.6 -->
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+
+    <!-- Theme style -->
+    <link rel="stylesheet" href="dist/css/AdminLTE.css">
+    <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
+          page. However, you can choose any other skin. Make sure you
+          apply the skin class to the body tag so the changes take effect.
+    -->
+    <link rel="stylesheet" href="dist/css/skins/skin-blue.css">
+
+    <link rel="stylesheet" href="custom/custom.css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<!--
+BODY TAG OPTIONS:
+=================
+Apply one or more of the following classes to get the
+desired effect
+|---------------------------------------------------------|
+| SKINS         | skin-blue                               |
+|               | skin-black                              |
+|               | skin-purple                             |
+|               | skin-yellow                             |
+|               | skin-red                                |
+|               | skin-green                              |
+|---------------------------------------------------------|
+|LAYOUT OPTIONS | fixed                                   |
+|               | layout-boxed                            |
+|               | layout-top-nav                          |
+|               | sidebar-collapse                        |
+|               | sidebar-mini                            |
+|---------------------------------------------------------|
+-->
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+
+    <!-- Main Header -->
+    <header class="main-header">
+
+        <!-- Logo -->
+        <a href="index.html" class="logo">
+            <!-- mini logo for sidebar mini 50x50 pixels -->
+            <span class="logo-mini"><img class="middle-img" src="img/logo.png"></span>
+            <!-- logo for regular state and mobile devices -->
+            <span class="logo-lg"><img class="middle-img" src="img/logo.png"><b>SOLOS</b></span>
+        </a>
+
+        <!-- Header Navbar -->
+        <nav class="navbar navbar-static-top" role="navigation">
+            <!-- Sidebar toggle button-->
+            <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                <span class="sr-only">Toggle navigation</span>
+            </a>
+            <!-- Navbar Right Menu -->
+            <div class="navbar-custom-menu">
+                <ul class="nav navbar-nav">
+                    <!-- Messages: style can be found in dropdown.less-->
+                    <li class="dropdown messages-menu">
+                        <!-- Menu toggle button -->
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-envelope-o"></i>
+                            <span class="label label-success">4</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="header">您有4条未读消息</li>
+                            <li>
+                                <!-- inner menu: contains the messages -->
+                                <ul class="menu">
+                                    <li><!-- start message -->
+                                        <a href="#">
+                                            <div class="pull-left">
+                                                <!-- User Image -->
+                                                <img src="dist/img/user2-160x160.jpg"
+                                                     class="img-circle" alt="User Image">
+                                            </div>
+                                            <!-- Message title and timestamp -->
+                                            <h4>
+                                                杨三洋
+                                                <small><i class="fa fa-clock-o"></i> 5 mins</small>
+                                            </h4>
+                                            <!-- The message -->
+                                            <p>吃饭吃饭！！</p>
+                                        </a>
+                                    </li>
+                                    <!-- end message -->
+                                </ul>
+                                <!-- /.menu -->
+                            </li>
+                            <li class="footer"><a href="#">查看所有消息</a></li>
+                        </ul>
+                    </li>
+                    <!-- /.messages-menu -->
+
+                    <!-- Notifications Menu -->
+                    <li class="dropdown notifications-menu">
+                        <!-- Menu toggle button -->
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-bell-o"></i>
+                            <span class="label label-warning">10</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="header">你有10条系统消息</li>
+                            <li>
+                                <!-- Inner Menu: contains the notifications -->
+                                <ul class="menu">
+                                    <li><!-- start notification -->
+                                        <a href="#">
+                                            <i class="fa fa-users text-aqua"></i> 杨关关注了你
+                                        </a>
+                                    </li>
+                                    <!-- end notification -->
+                                </ul>
+                            </li>
+                            <li class="footer"><a href="#">查看全部</a></li>
+                        </ul>
+                    </li>
+
+                    <!-- User Account Menu -->
+                    <li class="dropdown user user-menu">
+                        <!-- Menu Toggle Button -->
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <!-- The user image in the navbar-->
+                            <img src="dist/img/user2-160x160.jpg" class="user-image"
+                                 alt="User Image">
+                            <!-- hidden-xs hides the username on small devices so only the image appears. -->
+                            <span class="hidden-xs">杨雁飞</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <!-- The user image in the menu -->
+                            <li class="user-header">
+                                <img src="dist/img/user2-160x160.jpg" class="img-circle"
+                                     alt="User Image">
+                                <p>
+                                    杨雁飞
+                                    <small>2016年10月3日加入SOLOS</small>
+                                </p>
+                            </li>
+                            <!-- Menu Body -->
+                            <li class="user-body">
+                                <div class="row">
+                                    <div class="col-xs-4 text-center">
+                                        <a href="#">
+                                            <span class="label bg-blue">关注15</span>
+                                        </a>
+                                    </div>
+                                    <div class="col-xs-4 text-center">
+                                        <a href="#">
+                                            <span class="label bg-red">粉丝25</span>
+                                        </a>
+                                    </div>
+                                    <div class="col-xs-4 text-center">
+                                        <a href="#">
+                                            <span class="label bg-yellow">好友18</span>
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- /.row -->
+                            </li>
+                            <!-- Menu Footer-->
+                            <li class="user-footer">
+                                <div class="pull-left">
+                                    <a href="profile_setting.html" class="btn btn-default btn-flat">Profile</a>
+                                </div>
+                                <div class="pull-right">
+                                    <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- Control Sidebar Toggle Button -->
+                    <li>
+                        <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <!-- Left side column. contains the logo and sidebar -->
+    <aside class="main-sidebar">
+
+        <!-- sidebar: style can be found in sidebar.less -->
+        <section class="sidebar">
+
+            <!-- Sidebar user panel (optional) -->
+            <div class="user-panel">
+                <div class="pull-left image">
+                    <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                </div>
+                <div class="pull-left info">
+                    <p>杨雁飞</p>
+                    <!-- Status -->
+                    <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+                </div>
+            </div>
+
+            <!-- search form (Optional) -->
+            <form action="#" method="get" class="sidebar-form">
+                <div class="input-group">
+                    <input type="text" name="q" class="form-control" placeholder="Search...">
+              <span class="input-group-btn">
+                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i
+                        class="fa fa-search"></i>
+                </button>
+              </span>
+                </div>
+            </form>
+            <!-- /.search form -->
+
+            <!-- Sidebar Menu -->
+            <ul class="sidebar-menu">
+                <li class="header">HEADER</li>
+                <!-- Optionally, you can add icons to the links -->
+                <li><a href="index.html"><i class="fa fa-home"></i> <span>首页</span></a></li>
+                <li><a href="profile_setting.html"><i class="fa fa-file-text-o"></i>
+                    <span>个人设置</span></a></li>
+                <li class="active"><a href="#"><i class="ion ion-android-bicycle"></i>
+                    <span>运动</span></a>
+                </li>
+                <li class="treeview">
+                    <a href="#"><i class="fa fa-calendar"></i> <span>活动</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="activity_center.html"><i class="fa fa-circle-o"></i>活动中心</a>
+                        </li>
+                        <li><a href="my_activity.html"><i class="fa fa-circle-o"></i>我的活动</a></li>
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="#"><i class="fa fa-users"></i> <span>社交</span>
+            <span class="pull-right-container">
+
+                 <small class="label bg-green">5</small>
+              <i class="fa fa-angle-left"></i>
+            </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="friends.html"><i class="fa fa-circle-o"></i>好友</a></li>
+                        <li><a href="fans.html"><i class="fa fa-circle-o"></i>粉丝</a></li>
+                        <li><a href="follow.html"><i class="fa fa-circle-o"></i>关注</a></li>
+                        <li><a href="circle.html"><i class="fa fa-circle-o"></i>圈子</a></li>
+                        <li>
+                            <a href="message.html"><i class="fa fa-circle-o"></i>消息
+                                <span class="pull-right-container">
+                                    <small class="label pull-right bg-green">5</small>
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <!-- /.sidebar-menu -->
+        </section>
+        <!-- /.sidebar -->
+    </aside>
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1>
+                运动
+                <small>记录你的点点滴滴</small>
+            </h1>
+            <ol class="breadcrumb">
+                <li class="active"><a href="#"><i class="fa fa-dashboard"></i>运动</a></li>
+            </ol>
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+
+            <!--简要运动数据-->
+            <div class="row">
+                <div class="col-lg-3 col-xs-6">
+                    <!-- small box -->
+                    <div class="small-box bg-aqua">
+                        <div class="inner text-center">
+                            <h3>120天</h3>
+                            <p>加入SOLOS</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-calendar"></i>
+                        </div>
+                    </div>
+                </div>
+                <!-- ./col -->
+                <div class="col-lg-3 col-xs-6">
+                    <!-- small box -->
+                    <div class="small-box bg-green">
+                        <div class="inner text-center">
+                            <h3>45次</h3>
+                            <p>训练次数</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-ios-body"></i>
+                        </div>
+                    </div>
+                </div>
+                <!-- ./col -->
+                <div class="col-lg-3 col-xs-6">
+                    <!-- small box -->
+                    <div class="small-box bg-yellow">
+                        <div class="inner text-center">
+                            <h3>1026分钟</h3>
+
+                            <p>运动时间</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-ios-alarm"></i>
+                        </div>
+                    </div>
+                </div>
+                <!-- ./col -->
+                <div class="col-lg-3 col-xs-6">
+                    <!-- small box -->
+                    <div class="small-box bg-red">
+                        <div class="inner text-center">
+                            <h3>9884千卡</h3>
+
+                            <p>消耗的能量</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-flame"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row custom-container">
+                <div class="box  box-solid box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">训练历史</h3>
+                        <div class="box-tools pull-right">
+                            <!-- Buttons, labels, and many other things can be placed here! -->
+                            <!-- Here is a label for example -->
+                        </div><!-- /.box-tools -->
+                    </div><!-- /.box-header -->
+                    <div class="box-body row">
+                        <div class="col-md-12 col-lg-12">
+
+                            <a class="history-sport-item" href="#">
+                                <div class="box box-widget">
+
+                                    <div class="box-header with-border sport-item-header">
+                                        <button type="button" data-toggle="modal"
+                                                href="#delete_tips"
+                                                class="btn btn-box-tool header-delete pull-right"><i
+                                                class="fa fa-times"></i>
+                                        </button>
+                                        <span class="pull-left">2016年09月05日</span>
+                                        <span class="pull-right header-tool">256
+                                            <i class="ion ion-flame"></i></span>
+                                        <span class="pull-right header-tool">00:17:16
+                                            <i class="fa fa-clock-o"></i></span>
+                                    </div>
+                                    <!-- /.box-header -->
+
+                                    <div class="box-body item-body">
+                                        <div class="item-icon"><i
+                                                class="ion ion-android-bicycle"></i></div>
+                                        <div style="display: inline-block">
+                                            <span class="body-description">户外跑步跑步3公里</span>
+                                            <span class=" body-tool"><small>能量:</small>256大卡
+                                        </span>
+                                            <span class=" body-tool"><small>总时间:</small>00:17:16</span>
+                                            <span class=" body-tool"><small>均速:</small>05'41''/km</span>
+                                            <span class=" body-tool"><small>最快:</small>05'15''/km</span>
+                                            <span class=" body-tool"><small>最慢:</small>06'03''/km</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /.box-footer -->
+                            </a>
+
+                            <a class="history-sport-item" href="#">
+                                <div class="box box-widget">
+
+                                    <div class="box-header with-border sport-item-header">
+                                        <button type="button" data-toggle="modal"
+                                                href="#delete_tips"
+                                                class="btn btn-box-tool header-delete pull-right"><i
+                                                class="fa fa-times"></i>
+                                        </button>
+                                        <span class="pull-left">2016年09月05日</span>
+                                        <span class="pull-right header-tool">256
+                                            <i class="ion ion-flame"></i></span>
+                                        <span class="pull-right header-tool">00:17:16
+                                            <i class="fa fa-clock-o"></i></span>
+                                    </div>
+                                    <!-- /.box-header -->
+
+                                    <div class="box-body item-body">
+                                        <div class="item-icon"><i
+                                                class="ion ion-android-bicycle"></i></div>
+                                        <div style="display: inline-block">
+                                            <span class="body-description">户外跑步跑步3公里</span>
+                                            <span class=" body-tool"><small>能量:</small>256大卡
+                                        </span>
+                                            <span class=" body-tool"><small>总时间:</small>00:17:16</span>
+                                            <span class=" body-tool"><small>均速:</small>05'41''/km</span>
+                                            <span class=" body-tool"><small>最快:</small>05'15''/km</span>
+                                            <span class=" body-tool"><small>最慢:</small>06'03''/km</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /.box-footer -->
+                            </a>
+
+                            <a class="history-sport-item" href="#">
+                                <div class="box box-widget">
+
+                                    <div class="box-header with-border sport-item-header">
+                                        <button type="button" data-toggle="modal"
+                                                href="#delete_tips"
+                                                class="btn btn-box-tool header-delete pull-right"><i
+                                                class="fa fa-times"></i>
+                                        </button>
+                                        <span class="pull-left">2016年09月05日</span>
+                                        <span class="pull-right header-tool">256
+                                            <i class="ion ion-flame"></i></span>
+                                        <span class="pull-right header-tool">00:17:16
+                                            <i class="fa fa-clock-o"></i></span>
+                                    </div>
+                                    <!-- /.box-header -->
+
+                                    <div class="box-body item-body">
+                                        <div class="item-icon"><i
+                                                class="ion ion-android-bicycle"></i></div>
+                                        <div style="display: inline-block">
+                                            <span class="body-description">户外跑步跑步3公里</span>
+                                            <span class=" body-tool"><small>能量:</small>256大卡
+                                        </span>
+                                            <span class=" body-tool"><small>总时间:</small>00:17:16</span>
+                                            <span class=" body-tool"><small>均速:</small>05'41''/km</span>
+                                            <span class=" body-tool"><small>最快:</small>05'15''/km</span>
+                                            <span class=" body-tool"><small>最慢:</small>06'03''/km</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /.box-footer -->
+                            </a>
+
+                            <a class="history-sport-item" href="#">
+                                <div class="box box-widget">
+
+                                    <div class="box-header with-border sport-item-header">
+                                        <button type="button" data-toggle="modal"
+                                                href="#delete_tips"
+                                                class="btn btn-box-tool header-delete pull-right"><i
+                                                class="fa fa-times"></i>
+                                        </button>
+                                        <span class="pull-left">2016年09月05日</span>
+                                        <span class="pull-right header-tool">256
+                                            <i class="ion ion-flame"></i></span>
+                                        <span class="pull-right header-tool">00:17:16
+                                            <i class="fa fa-clock-o"></i></span>
+                                    </div>
+                                    <!-- /.box-header -->
+
+                                    <div class="box-body item-body">
+                                        <div class="item-icon"><i
+                                                class="ion ion-android-bicycle"></i></div>
+                                        <div style="display: inline-block">
+                                            <span class="body-description">户外跑步跑步3公里</span>
+                                            <span class=" body-tool"><small>能量:</small>256大卡
+                                        </span>
+                                            <span class=" body-tool"><small>总时间:</small>00:17:16</span>
+                                            <span class=" body-tool"><small>均速:</small>05'41''/km</span>
+                                            <span class=" body-tool"><small>最快:</small>05'15''/km</span>
+                                            <span class=" body-tool"><small>最慢:</small>06'03''/km</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /.box-footer -->
+                            </a>
+
+                            <div class="more-info text-center">
+                                <a href="#" class="btn-block">
+                                    <i class="fa fa-circle-o"></i>
+                                </a>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+
+                    <div class="box-footer">
+                        <button type="button" href="#upload" data-toggle="modal"
+                                class="btn btn-success pull-right">上传信息
+                        </button>
+                    </div>
+
+                    <div class="modal fade" id="delete_tips">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal"
+                                            aria-label="Close">
+                                        <span aria-hidden="true">×</span></button>
+                                    <h4 class="modal-title">确认删除？</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <p>删除的运动记录将不可恢复</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button"
+                                            class="btn btn-default pull-left"
+                                            data-dismiss="modal">取消
+                                    </button>
+                                    <button type="button" class="btn btn-primary">确认
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- /.modal-content -->
+                        </div>
+                        <!-- /.modal-dialog -->
+                    </div>
+
+                    <div class="modal fade" id="upload">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal"
+                                            aria-label="Close">
+                                        <span aria-hidden="true">×</span></button>
+                                    <h4 class="modal-title">选择文件</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <input type="file"/>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button"
+                                            class="btn btn-default pull-left"
+                                            data-dismiss="modal">取消
+                                    </button>
+                                    <button type="button" class="btn btn-primary">确认
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- /.modal-content -->
+                        </div>
+                        <!-- /.modal-dialog -->
+                    </div>
+
+                    <!-- /.box -->
+                </div>
+            </div>
+
+            <div class="row custom-container">
+                <div class="box  box-solid box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">统计分析</h3>
+                        <div class="box-tools pull-right">
+                            <!-- Buttons, labels, and many other things can be placed here! -->
+                            <!-- Here is a label for example -->
+                        </div><!-- /.box-tools -->
+                    </div><!-- /.box-header -->
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-md-6 col-lg-6" id="sportTypeChart"
+                                 style="height: 300px"></div>
+                            <div class="col-md-6 col-lg-6" id="sportPeriodChart"
+                                 style="height: 300px">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div id="sportHistoryChart" style="height:400px;margin-top: 30px"></div>
+                        </div>
+                        <!-- /.box -->
+                    </div>
+                </div>
+            </div>
+
+        </section>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+
+    <!-- Main Footer -->
+    <footer class="main-footer">
+        <!-- To the right -->
+        <div class="pull-right hidden-xs">
+            Anything you want
+        </div>
+        <!-- Default to the left -->
+        <strong>Copyright &copy; 2016 <a href="#">Company</a>.</strong> All rights reserved.
+    </footer>
+
+
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+        <!-- Create the tabs -->
+        <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
+            <li class="active"><a href="#control-sidebar-home-tab" data-toggle="tab"><i
+                    class="fa fa-home"></i></a></li>
+            <li><a href="#control-sidebar-settings-tab" data-toggle="tab"><i
+                    class="fa fa-gears"></i></a></li>
+        </ul>
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <!-- Home tab content -->
+            <div class="tab-pane active" id="control-sidebar-home-tab">
+                <h3 class="control-sidebar-heading">Recent Activity</h3>
+                <ul class="control-sidebar-menu">
+                    <li>
+                        <a href="javascript::;">
+                            <i class="menu-icon fa fa-birthday-cake bg-red"></i>
+
+                            <div class="menu-info">
+                                <h4 class="control-sidebar-subheading">Langdon's Birthday</h4>
+
+                                <p>Will be 23 on April 24th</p>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+                <!-- /.control-sidebar-menu -->
+
+                <h3 class="control-sidebar-heading">Tasks Progress</h3>
+                <ul class="control-sidebar-menu">
+                    <li>
+                        <a href="#">
+                            <h4 class="control-sidebar-subheading">
+                                Custom Template Design
+                <span class="pull-right-container">
+                  <span class="label label-danger pull-right">70%</span>
+                </span>
+                            </h4>
+
+                            <div class="progress progress-xxs">
+                                <div class="progress-bar progress-bar-danger"
+                                     style="width: 70%"></div>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+                <!-- /.control-sidebar-menu -->
+
+            </div>
+            <!-- /.tab-pane -->
+            <!-- Stats tab content -->
+            <div class="tab-pane" id="control-sidebar-stats-tab">Stats Tab Content</div>
+            <!-- /.tab-pane -->
+            <!-- Settings tab content -->
+            <div class="tab-pane" id="control-sidebar-settings-tab">
+                <form method="post">
+                    <h3 class="control-sidebar-heading">General Settings</h3>
+
+                    <div class="form-group">
+                        <label class="control-sidebar-subheading">
+                            Report panel usage
+                            <input type="checkbox" class="pull-right" checked>
+                        </label>
+
+                        <p>
+                            Some information about this general settings option
+                        </p>
+                    </div>
+                    <!-- /.form-group -->
+                </form>
+            </div>
+            <!-- /.tab-pane -->
+        </div>
+    </aside>
+    <!-- /.control-sidebar -->
+    <!-- Add the sidebar's background. This div must be placed
+         immediately after the control sidebar -->
+    <div class="control-sidebar-bg"></div>
+</div>
+<!-- ./wrapper -->
+
+<!-- REQUIRED JS SCRIPTS -->
+
+<!-- jQuery 2.2.3 -->
+<script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
+<!-- Bootstrap 3.3.6 -->
+<script src="bootstrap/js/bootstrap.min.js"></script>
+<script src="dist/js/echarts.min.js"></script>
+<!-- AdminLTE App -->
+<script src="dist/js/app.min.js"></script>
+<script src="dist/js/pages/sport.js"></script>
+
+<!-- Optionally, you can add Slimscroll and FastClick plugins.
+     Both of these plugins are recommended to enhance the
+     user experience. Slimscroll is required when using the
+     fixed layout. -->
+</body>
+</html>

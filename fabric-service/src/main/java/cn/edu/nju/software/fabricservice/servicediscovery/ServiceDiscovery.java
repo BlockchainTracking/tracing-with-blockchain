@@ -32,8 +32,8 @@ public class ServiceDiscovery {
         chaincodeChannels = new HashMap<>();
         for (ChaincodeConfig chaincodeConfig : chaincodeConfigs) {
             for (String func : chaincodeConfig.getFunc()) {
-                ServiceInvokerId serviceInvokerId = new ServiceInvokerId(chaincodeConfig.getName
-                        (), chaincodeConfig.getVersion(), func);
+                ServiceInvokerId serviceInvokerId = new ServiceInvokerId(chaincodeConfig.getName(),
+                        chaincodeConfig.getVersion(), func);
                 String id = serviceInvokerId.getId();
                 chainCodeIdPeers.put(id, chaincodeConfig.getPeers());
                 currentIndex.put(id, 0);
@@ -60,7 +60,6 @@ public class ServiceDiscovery {
         invokeContext.setUserName(chaincodeUsers.get(id));
         invokeContext.setChannelName(chaincodeUsers.get(id));
 
-
         List<String> choosedPeers = null;
 
         //当节点数量小于需求数量时，直接设置为全部节点
@@ -68,9 +67,7 @@ public class ServiceDiscovery {
             choosedPeers = peers;
         } else {
             switch (discoveryParas.getLoadBalanceType()) {
-
-                case NONE:
-                    //不使用任何负载均衡策略
+                case RANDOM:
                     //随机选择
                     List<Integer> indexes = MathUtil.random(discoveryParas.getPeerNum(), peerSize,
                             true);
@@ -95,6 +92,36 @@ public class ServiceDiscovery {
         }
         invokeContext.setPeerNames(choosedPeers);
         return invokeContext;
+    }
+
+    List<String> randomPeer(int peerNum, List<String> peers) {
+        int peerSize = peers.size();
+        List<String> rePeers = new ArrayList<>();
+        for (int i = 0; i < peerNum; i++) {
+            while (true) {
+                int tem = (int) (Math.random() * peerSize);
+                String peer = peers.get(tem);
+                if (rePeers.contains(peer))
+                    continue;
+                rePeers.add(peer);
+                break;
+            }
+        }
+        return rePeers;
+    }
+
+
+    int currentPollingIndex = 0;
+
+    List<String> pollingPeer(int peerNum, List<String> peers) {
+        int peerSize = peers.size();
+        List<String> rePeers = new ArrayList<>();
+        for (int i = 0; i < peerNum; i++) {
+            if (currentPollingIndex >= peerSize)
+                currentPollingIndex -= peerSize;
+            rePeers.add(peers.get(currentPollingIndex));
+        }
+        return rePeers;
     }
 
 }

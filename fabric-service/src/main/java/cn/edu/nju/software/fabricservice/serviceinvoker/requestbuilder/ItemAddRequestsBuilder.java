@@ -16,7 +16,15 @@ public class ItemAddRequestsBuilder {
     String class_;
     String note;
     String itemId;
+    String addressDesc;
     Long manufactureDate;
+    String contact;
+
+
+    public ItemAddRequestsBuilder setAddressDesc(String addressDesc) {
+        this.addressDesc = addressDesc;
+        return this;
+    }
 
     public ItemAddRequestsBuilder setAddressName(String addressName) {
         this.addressName = addressName;
@@ -65,7 +73,7 @@ public class ItemAddRequestsBuilder {
 
     public Requests.ItemAddRequest build() {
         Persistence.Address address = Persistence.Address.newBuilder().setName(addressName)
-                .setLongitude(longitude).setLatitude(latitude).build();
+                .setLongitude(longitude).setLatitude(latitude).setDesc(addressDesc).build();
         Persistence.ItemInfo itemInfo = Persistence.ItemInfo.newBuilder().setName(itemName)
                 .setBatchNumber(batchNum).setClass_(class_).setNote(note).setManufactureDate
                         (manufactureDate).build();

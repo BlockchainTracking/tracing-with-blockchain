@@ -50,7 +50,7 @@ func retrieve(itemId string, stub shim.ChaincodeStubInterface) (*ItemAsset, erro
 	if err != nil {
 		return nil, fmt.Errorf("unmarshal error")
 	}
-	return nil, nil
+	return iAsset, nil
 }
 
 /**

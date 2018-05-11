@@ -41,6 +41,8 @@ public class ConfigMgt {
     }
 
     public HFConfig getConfig() {
+        if (hfConfig == null)
+            return null;
         return hfConfig;
     }
 }
