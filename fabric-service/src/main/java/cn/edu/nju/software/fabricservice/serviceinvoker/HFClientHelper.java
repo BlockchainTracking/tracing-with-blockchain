@@ -40,15 +40,17 @@ public class HFClientHelper {
     private HFConfig hfconfig;
 
     //channels
+    @Getter
     private Map<String, Channel> CHANNELS;
-
+    @Getter
     private Map<String, SampleUser> USERS;
-
+    @Getter
     private Map<String, Peer> PEERS;
 
     static Channel DEFAULT_CHANNEL, CURRENT_CHANNEL;
     private SampleUser DEFAULT_USER, CURRENT_USER;
     private Collection<Peer> CURRENT_PEERS;
+
 
     public void init(HFConfig hfConfig) {
         this.hfconfig = hfConfig;
@@ -214,6 +216,24 @@ public class HFClientHelper {
             e.printStackTrace();
         }
 
+    }
+
+    public boolean ping() {
+        String pingInfo = "PING_MSG";
+        Collection<ProposalResponse> responses = chainCodeInvoke(hfconfig.getCcName(), hfconfig
+                .getCcVersion(), "ping", pingInfo.getBytes());
+        for (ProposalResponse proposalResponse : responses) {
+            if (proposalResponse.getStatus() == ChaincodeResponse.Status.SUCCESS) {
+                try {
+                    String msg = new String(proposalResponse.getChaincodeActionResponsePayload());
+                    if (msg.equals(pingInfo))
+                        return true;
+                } catch (InvalidArgumentException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return false;
     }
 
 

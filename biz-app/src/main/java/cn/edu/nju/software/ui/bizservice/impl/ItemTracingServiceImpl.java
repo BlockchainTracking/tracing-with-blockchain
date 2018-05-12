@@ -32,6 +32,7 @@ public class ItemTracingServiceImpl implements ItemTracingService {
     public BizResponse<List<TracingItemInfo>> getTracingItemInfo(UIItemGetRequest uiItemGetRequest) {
         Requests.ItemGetRequest getRequest = RequestsBuilder.newItemGetRequestsBuilder()
                 .setItemId(uiItemGetRequest.getItemId())
+                .setAddData(uiItemGetRequest.isAllItem())
                 .setHistData(uiItemGetRequest.isHistData()).build();
         FSResponse<Object> resp = serviceInvoker.invoke(ServiceInvokerId.ITEM_GET,
                 getRequest, null);
@@ -61,6 +62,7 @@ public class ItemTracingServiceImpl implements ItemTracingService {
                 .setManufactureDate(DateUtil.parseDate(item.getManufactureDate()).getTime())
                 .setNote(item.getNote())
                 .setAddressName(addressInfo.getNodeName())
+                .setAddressDesc(addressInfo.getAddressDesc())
                 .setLongitude(addressInfo.getLongtitude())
                 .setLatitude(addressInfo.getLatitude())
                 .setAddressDesc(uiItemAddRequest.getAddressInfo().getAddressDesc())
@@ -83,12 +85,13 @@ public class ItemTracingServiceImpl implements ItemTracingService {
                 .setAddressName(addressInfo.getNodeName())
                 .setLongitude(addressInfo.getLongtitude())
                 .setLatitude(addressInfo.getLatitude())
-                .setSampleLong(itemStatus.getSampleLong())
-                .setSampleStr(itemStatus.getSampleStr())
+                .setAddressDesc(addressInfo.getAddressDesc())
                 .setLogs(itemStatus.getLogs())
                 .setOpType(OpType.getOpTypeByIndex(uiItemChangeRequest.getOpType()))
                 .setContact(uiItemChangeRequest.getContact())
                 .setNextOrg(uiItemChangeRequest.getNextOrg())
+                .setExtraInfo(uiItemChangeRequest.getExtraInfo())
+                .setNormal(itemStatus.isNormal())
                 .build();
         FSResponse response = serviceInvoker.invoke(ServiceInvokerId.ITEM_CHANGE, itemChangeRequest,
                 null);

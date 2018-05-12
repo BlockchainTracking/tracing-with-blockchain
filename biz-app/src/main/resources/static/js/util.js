@@ -65,3 +65,7 @@ function getParamaters(name) {
             return decodeURI(arg[1])
     }
 }
+
+function checkState() {
+
+}

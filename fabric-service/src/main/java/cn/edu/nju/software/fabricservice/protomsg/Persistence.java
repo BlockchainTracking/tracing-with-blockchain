@@ -24,32 +24,104 @@ public final class Persistence {
   public enum OPType
       implements com.google.protobuf.ProtocolMessageEnum {
     /**
+     * <pre>
+     *出厂
+     * </pre>
+     *
      * <code>CREATED = 0;</code>
      */
     CREATED(0),
     /**
-     * <code>LOGISTICS = 1;</code>
+     * <pre>
+     *出售给分销商/代理商
+     * </pre>
+     *
+     * <code>TRANSFER = 1;</code>
      */
-    LOGISTICS(1),
+    TRANSFER(1),
     /**
-     * <code>DELIVERED = 2;</code>
+     * <pre>
+     *中转
+     * </pre>
+     *
+     * <code>MEDIA = 2;</code>
      */
-    DELIVERED(2),
+    MEDIA(2),
+    /**
+     * <pre>
+     *入库
+     * </pre>
+     *
+     * <code>INSTOCK = 3;</code>
+     */
+    INSTOCK(3),
+    /**
+     * <pre>
+     *出库
+     * </pre>
+     *
+     * <code>OUTSTOCK = 4;</code>
+     */
+    OUTSTOCK(4),
+    /**
+     * <pre>
+     *送达
+     * </pre>
+     *
+     * <code>DELIVERED = 5;</code>
+     */
+    DELIVERED(5),
     UNRECOGNIZED(-1),
     ;
 
     /**
+     * <pre>
+     *出厂
+     * </pre>
+     *
      * <code>CREATED = 0;</code>
      */
     public static final int CREATED_VALUE = 0;
     /**
-     * <code>LOGISTICS = 1;</code>
+     * <pre>
+     *出售给分销商/代理商
+     * </pre>
+     *
+     * <code>TRANSFER = 1;</code>
      */
-    public static final int LOGISTICS_VALUE = 1;
+    public static final int TRANSFER_VALUE = 1;
     /**
-     * <code>DELIVERED = 2;</code>
+     * <pre>
+     *中转
+     * </pre>
+     *
+     * <code>MEDIA = 2;</code>
      */
-    public static final int DELIVERED_VALUE = 2;
+    public static final int MEDIA_VALUE = 2;
+    /**
+     * <pre>
+     *入库
+     * </pre>
+     *
+     * <code>INSTOCK = 3;</code>
+     */
+    public static final int INSTOCK_VALUE = 3;
+    /**
+     * <pre>
+     *出库
+     * </pre>
+     *
+     * <code>OUTSTOCK = 4;</code>
+     */
+    public static final int OUTSTOCK_VALUE = 4;
+    /**
+     * <pre>
+     *送达
+     * </pre>
+     *
+     * <code>DELIVERED = 5;</code>
+     */
+    public static final int DELIVERED_VALUE = 5;
 
 
     public final int getNumber() {
@@ -71,8 +143,11 @@ public final class Persistence {
     public static OPType forNumber(int value) {
       switch (value) {
         case 0: return CREATED;
-        case 1: return LOGISTICS;
-        case 2: return DELIVERED;
+        case 1: return TRANSFER;
+        case 2: return MEDIA;
+        case 3: return INSTOCK;
+        case 4: return OUTSTOCK;
+        case 5: return DELIVERED;
         default: return null;
       }
     }
@@ -1559,10 +1634,20 @@ public final class Persistence {
      */
     com.google.protobuf.ByteString
         getContactWayBytes();
+
+    /**
+     * <code>string extraInfo = 5;</code>
+     */
+    java.lang.String getExtraInfo();
+    /**
+     * <code>string extraInfo = 5;</code>
+     */
+    com.google.protobuf.ByteString
+        getExtraInfoBytes();
   }
   /**
    * <pre>
-   *操作信息，
+   *操作信息
    * </pre>
    *
    * Protobuf type {@code OpsStatus}
@@ -1581,6 +1666,7 @@ public final class Persistence {
       lastOrg_ = "";
       opType_ = 0;
       contactWay_ = "";
+      extraInfo_ = "";
     }
 
     @java.lang.Override
@@ -1636,6 +1722,12 @@ public final class Persistence {
               java.lang.String s = input.readStringRequireUtf8();
 
               contactWay_ = s;
+              break;
+            }
+            case 42: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              extraInfo_ = s;
               break;
             }
           }
@@ -1780,6 +1872,40 @@ public final class Persistence {
       }
     }
 
+    public static final int EXTRAINFO_FIELD_NUMBER = 5;
+    private volatile java.lang.Object extraInfo_;
+    /**
+     * <code>string extraInfo = 5;</code>
+     */
+    public java.lang.String getExtraInfo() {
+      java.lang.Object ref = extraInfo_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        extraInfo_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string extraInfo = 5;</code>
+     */
+    public com.google.protobuf.ByteString
+        getExtraInfoBytes() {
+      java.lang.Object ref = extraInfo_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        extraInfo_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -1804,6 +1930,9 @@ public final class Persistence {
       if (!getContactWayBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 4, contactWay_);
       }
+      if (!getExtraInfoBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 5, extraInfo_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -1824,6 +1953,9 @@ public final class Persistence {
       }
       if (!getContactWayBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, contactWay_);
+      }
+      if (!getExtraInfoBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, extraInfo_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -1848,6 +1980,8 @@ public final class Persistence {
       result = result && opType_ == other.opType_;
       result = result && getContactWay()
           .equals(other.getContactWay());
+      result = result && getExtraInfo()
+          .equals(other.getExtraInfo());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -1867,6 +2001,8 @@ public final class Persistence {
       hash = (53 * hash) + opType_;
       hash = (37 * hash) + CONTACTWAY_FIELD_NUMBER;
       hash = (53 * hash) + getContactWay().hashCode();
+      hash = (37 * hash) + EXTRAINFO_FIELD_NUMBER;
+      hash = (53 * hash) + getExtraInfo().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -1962,7 +2098,7 @@ public final class Persistence {
     }
     /**
      * <pre>
-     *操作信息，
+     *操作信息
      * </pre>
      *
      * Protobuf type {@code OpsStatus}
@@ -2008,6 +2144,8 @@ public final class Persistence {
 
         contactWay_ = "";
 
+        extraInfo_ = "";
+
         return this;
       }
 
@@ -2034,6 +2172,7 @@ public final class Persistence {
         result.lastOrg_ = lastOrg_;
         result.opType_ = opType_;
         result.contactWay_ = contactWay_;
+        result.extraInfo_ = extraInfo_;
         onBuilt();
         return result;
       }
@@ -2088,6 +2227,10 @@ public final class Persistence {
         }
         if (!other.getContactWay().isEmpty()) {
           contactWay_ = other.contactWay_;
+          onChanged();
+        }
+        if (!other.getExtraInfo().isEmpty()) {
+          extraInfo_ = other.extraInfo_;
           onChanged();
         }
         this.mergeUnknownFields(other.unknownFields);
@@ -2364,6 +2507,75 @@ public final class Persistence {
   checkByteStringIsUtf8(value);
         
         contactWay_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object extraInfo_ = "";
+      /**
+       * <code>string extraInfo = 5;</code>
+       */
+      public java.lang.String getExtraInfo() {
+        java.lang.Object ref = extraInfo_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          extraInfo_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string extraInfo = 5;</code>
+       */
+      public com.google.protobuf.ByteString
+          getExtraInfoBytes() {
+        java.lang.Object ref = extraInfo_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          extraInfo_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string extraInfo = 5;</code>
+       */
+      public Builder setExtraInfo(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        extraInfo_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string extraInfo = 5;</code>
+       */
+      public Builder clearExtraInfo() {
+        
+        extraInfo_ = getDefaultInstance().getExtraInfo();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string extraInfo = 5;</code>
+       */
+      public Builder setExtraInfoBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        extraInfo_ = value;
         onChanged();
         return this;
       }
@@ -3429,26 +3641,16 @@ public final class Persistence {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>string sampleStrStatus = 1;</code>
+     * <code>bool normal = 1;</code>
      */
-    java.lang.String getSampleStrStatus();
-    /**
-     * <code>string sampleStrStatus = 1;</code>
-     */
-    com.google.protobuf.ByteString
-        getSampleStrStatusBytes();
+    boolean getNormal();
 
     /**
-     * <code>int64 sampleLongStatus = 2;</code>
-     */
-    long getSampleLongStatus();
-
-    /**
-     * <code>string logs = 3;</code>
+     * <code>string logs = 2;</code>
      */
     java.lang.String getLogs();
     /**
-     * <code>string logs = 3;</code>
+     * <code>string logs = 2;</code>
      */
     com.google.protobuf.ByteString
         getLogsBytes();
@@ -3470,8 +3672,7 @@ public final class Persistence {
       super(builder);
     }
     private ItemStatus() {
-      sampleStrStatus_ = "";
-      sampleLongStatus_ = 0L;
+      normal_ = false;
       logs_ = "";
     }
 
@@ -3506,18 +3707,12 @@ public final class Persistence {
               }
               break;
             }
-            case 10: {
-              java.lang.String s = input.readStringRequireUtf8();
+            case 8: {
 
-              sampleStrStatus_ = s;
+              normal_ = input.readBool();
               break;
             }
-            case 16: {
-
-              sampleLongStatus_ = input.readInt64();
-              break;
-            }
-            case 26: {
+            case 18: {
               java.lang.String s = input.readStringRequireUtf8();
 
               logs_ = s;
@@ -3547,53 +3742,19 @@ public final class Persistence {
               cn.edu.nju.software.fabricservice.protomsg.Persistence.ItemStatus.class, cn.edu.nju.software.fabricservice.protomsg.Persistence.ItemStatus.Builder.class);
     }
 
-    public static final int SAMPLESTRSTATUS_FIELD_NUMBER = 1;
-    private volatile java.lang.Object sampleStrStatus_;
+    public static final int NORMAL_FIELD_NUMBER = 1;
+    private boolean normal_;
     /**
-     * <code>string sampleStrStatus = 1;</code>
+     * <code>bool normal = 1;</code>
      */
-    public java.lang.String getSampleStrStatus() {
-      java.lang.Object ref = sampleStrStatus_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        sampleStrStatus_ = s;
-        return s;
-      }
-    }
-    /**
-     * <code>string sampleStrStatus = 1;</code>
-     */
-    public com.google.protobuf.ByteString
-        getSampleStrStatusBytes() {
-      java.lang.Object ref = sampleStrStatus_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        sampleStrStatus_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public boolean getNormal() {
+      return normal_;
     }
 
-    public static final int SAMPLELONGSTATUS_FIELD_NUMBER = 2;
-    private long sampleLongStatus_;
-    /**
-     * <code>int64 sampleLongStatus = 2;</code>
-     */
-    public long getSampleLongStatus() {
-      return sampleLongStatus_;
-    }
-
-    public static final int LOGS_FIELD_NUMBER = 3;
+    public static final int LOGS_FIELD_NUMBER = 2;
     private volatile java.lang.Object logs_;
     /**
-     * <code>string logs = 3;</code>
+     * <code>string logs = 2;</code>
      */
     public java.lang.String getLogs() {
       java.lang.Object ref = logs_;
@@ -3608,7 +3769,7 @@ public final class Persistence {
       }
     }
     /**
-     * <code>string logs = 3;</code>
+     * <code>string logs = 2;</code>
      */
     public com.google.protobuf.ByteString
         getLogsBytes() {
@@ -3636,14 +3797,11 @@ public final class Persistence {
 
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (!getSampleStrStatusBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, sampleStrStatus_);
-      }
-      if (sampleLongStatus_ != 0L) {
-        output.writeInt64(2, sampleLongStatus_);
+      if (normal_ != false) {
+        output.writeBool(1, normal_);
       }
       if (!getLogsBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, logs_);
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, logs_);
       }
       unknownFields.writeTo(output);
     }
@@ -3653,15 +3811,12 @@ public final class Persistence {
       if (size != -1) return size;
 
       size = 0;
-      if (!getSampleStrStatusBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, sampleStrStatus_);
-      }
-      if (sampleLongStatus_ != 0L) {
+      if (normal_ != false) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt64Size(2, sampleLongStatus_);
+          .computeBoolSize(1, normal_);
       }
       if (!getLogsBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, logs_);
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, logs_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -3679,10 +3834,8 @@ public final class Persistence {
       cn.edu.nju.software.fabricservice.protomsg.Persistence.ItemStatus other = (cn.edu.nju.software.fabricservice.protomsg.Persistence.ItemStatus) obj;
 
       boolean result = true;
-      result = result && getSampleStrStatus()
-          .equals(other.getSampleStrStatus());
-      result = result && (getSampleLongStatus()
-          == other.getSampleLongStatus());
+      result = result && (getNormal()
+          == other.getNormal());
       result = result && getLogs()
           .equals(other.getLogs());
       result = result && unknownFields.equals(other.unknownFields);
@@ -3696,11 +3849,9 @@ public final class Persistence {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
-      hash = (37 * hash) + SAMPLESTRSTATUS_FIELD_NUMBER;
-      hash = (53 * hash) + getSampleStrStatus().hashCode();
-      hash = (37 * hash) + SAMPLELONGSTATUS_FIELD_NUMBER;
-      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-          getSampleLongStatus());
+      hash = (37 * hash) + NORMAL_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getNormal());
       hash = (37 * hash) + LOGS_FIELD_NUMBER;
       hash = (53 * hash) + getLogs().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
@@ -3836,9 +3987,7 @@ public final class Persistence {
       }
       public Builder clear() {
         super.clear();
-        sampleStrStatus_ = "";
-
-        sampleLongStatus_ = 0L;
+        normal_ = false;
 
         logs_ = "";
 
@@ -3864,8 +4013,7 @@ public final class Persistence {
 
       public cn.edu.nju.software.fabricservice.protomsg.Persistence.ItemStatus buildPartial() {
         cn.edu.nju.software.fabricservice.protomsg.Persistence.ItemStatus result = new cn.edu.nju.software.fabricservice.protomsg.Persistence.ItemStatus(this);
-        result.sampleStrStatus_ = sampleStrStatus_;
-        result.sampleLongStatus_ = sampleLongStatus_;
+        result.normal_ = normal_;
         result.logs_ = logs_;
         onBuilt();
         return result;
@@ -3908,12 +4056,8 @@ public final class Persistence {
 
       public Builder mergeFrom(cn.edu.nju.software.fabricservice.protomsg.Persistence.ItemStatus other) {
         if (other == cn.edu.nju.software.fabricservice.protomsg.Persistence.ItemStatus.getDefaultInstance()) return this;
-        if (!other.getSampleStrStatus().isEmpty()) {
-          sampleStrStatus_ = other.sampleStrStatus_;
-          onChanged();
-        }
-        if (other.getSampleLongStatus() != 0L) {
-          setSampleLongStatus(other.getSampleLongStatus());
+        if (other.getNormal() != false) {
+          setNormal(other.getNormal());
         }
         if (!other.getLogs().isEmpty()) {
           logs_ = other.logs_;
@@ -3946,104 +4090,35 @@ public final class Persistence {
         return this;
       }
 
-      private java.lang.Object sampleStrStatus_ = "";
+      private boolean normal_ ;
       /**
-       * <code>string sampleStrStatus = 1;</code>
+       * <code>bool normal = 1;</code>
        */
-      public java.lang.String getSampleStrStatus() {
-        java.lang.Object ref = sampleStrStatus_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          sampleStrStatus_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
+      public boolean getNormal() {
+        return normal_;
       }
       /**
-       * <code>string sampleStrStatus = 1;</code>
+       * <code>bool normal = 1;</code>
        */
-      public com.google.protobuf.ByteString
-          getSampleStrStatusBytes() {
-        java.lang.Object ref = sampleStrStatus_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          sampleStrStatus_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>string sampleStrStatus = 1;</code>
-       */
-      public Builder setSampleStrStatus(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        sampleStrStatus_ = value;
+      public Builder setNormal(boolean value) {
+        
+        normal_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>string sampleStrStatus = 1;</code>
+       * <code>bool normal = 1;</code>
        */
-      public Builder clearSampleStrStatus() {
+      public Builder clearNormal() {
         
-        sampleStrStatus_ = getDefaultInstance().getSampleStrStatus();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string sampleStrStatus = 1;</code>
-       */
-      public Builder setSampleStrStatusBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
-        sampleStrStatus_ = value;
-        onChanged();
-        return this;
-      }
-
-      private long sampleLongStatus_ ;
-      /**
-       * <code>int64 sampleLongStatus = 2;</code>
-       */
-      public long getSampleLongStatus() {
-        return sampleLongStatus_;
-      }
-      /**
-       * <code>int64 sampleLongStatus = 2;</code>
-       */
-      public Builder setSampleLongStatus(long value) {
-        
-        sampleLongStatus_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>int64 sampleLongStatus = 2;</code>
-       */
-      public Builder clearSampleLongStatus() {
-        
-        sampleLongStatus_ = 0L;
+        normal_ = false;
         onChanged();
         return this;
       }
 
       private java.lang.Object logs_ = "";
       /**
-       * <code>string logs = 3;</code>
+       * <code>string logs = 2;</code>
        */
       public java.lang.String getLogs() {
         java.lang.Object ref = logs_;
@@ -4058,7 +4133,7 @@ public final class Persistence {
         }
       }
       /**
-       * <code>string logs = 3;</code>
+       * <code>string logs = 2;</code>
        */
       public com.google.protobuf.ByteString
           getLogsBytes() {
@@ -4074,7 +4149,7 @@ public final class Persistence {
         }
       }
       /**
-       * <code>string logs = 3;</code>
+       * <code>string logs = 2;</code>
        */
       public Builder setLogs(
           java.lang.String value) {
@@ -4087,7 +4162,7 @@ public final class Persistence {
         return this;
       }
       /**
-       * <code>string logs = 3;</code>
+       * <code>string logs = 2;</code>
        */
       public Builder clearLogs() {
         
@@ -4096,7 +4171,7 @@ public final class Persistence {
         return this;
       }
       /**
-       * <code>string logs = 3;</code>
+       * <code>string logs = 2;</code>
        */
       public Builder setLogsBytes(
           com.google.protobuf.ByteString value) {
@@ -5573,21 +5648,21 @@ public final class Persistence {
       "\n\021Persistence.proto\"J\n\007Address\022\014\n\004name\030\001" +
       " \001(\t\022\014\n\004desc\030\002 \001(\t\022\021\n\tlongitude\030\003 \001(\001\022\020\n" +
       "\010latitude\030\004 \001(\001\"&\n\tEnvStatus\022\031\n\007address\030" +
-      "\001 \001(\0132\010.Address\"]\n\tOpsStatus\022\022\n\ncurrentO" +
+      "\001 \001(\0132\010.Address\"p\n\tOpsStatus\022\022\n\ncurrentO" +
       "rg\030\001 \001(\t\022\017\n\007lastOrg\030\002 \001(\t\022\027\n\006opType\030\003 \001(" +
-      "\0162\007.OPType\022\022\n\ncontactWay\030\004 \001(\t\"c\n\010ItemIn" +
-      "fo\022\014\n\004name\030\001 \001(\t\022\r\n\005class\030\002 \001(\t\022\023\n\013batch" +
-      "Number\030\003 \001(\t\022\027\n\017manufactureDate\030\004 \001(\003\022\014\n" +
-      "\004note\030\005 \001(\t\"M\n\nItemStatus\022\027\n\017sampleStrSt" +
-      "atus\030\001 \001(\t\022\030\n\020sampleLongStatus\030\002 \001(\003\022\014\n\004" +
-      "logs\030\003 \001(\t\"\252\001\n\tItemAsset\022\021\n\ttimestamp\030\001 " +
-      "\001(\003\022\016\n\006itemId\030\002 \001(\t\022\033\n\010itemInfo\030\003 \001(\0132\t." +
-      "ItemInfo\022\037\n\nitemStatus\030\004 \001(\0132\013.ItemStatu" +
-      "s\022\035\n\tevnStatus\030\005 \001(\0132\n.EnvStatus\022\035\n\topsS" +
-      "tatus\030\006 \001(\0132\n.OpsStatus*3\n\006OPType\022\013\n\007CRE" +
-      "ATED\020\000\022\r\n\tLOGISTICS\020\001\022\r\n\tDELIVERED\020\002B2\n*" +
-      "cn.edu.nju.software.fabricservice.protom" +
-      "sgZ\004mainb\006proto3"
+      "\0162\007.OPType\022\022\n\ncontactWay\030\004 \001(\t\022\021\n\textraI" +
+      "nfo\030\005 \001(\t\"c\n\010ItemInfo\022\014\n\004name\030\001 \001(\t\022\r\n\005c" +
+      "lass\030\002 \001(\t\022\023\n\013batchNumber\030\003 \001(\t\022\027\n\017manuf" +
+      "actureDate\030\004 \001(\003\022\014\n\004note\030\005 \001(\t\"*\n\nItemSt" +
+      "atus\022\016\n\006normal\030\001 \001(\010\022\014\n\004logs\030\002 \001(\t\"\252\001\n\tI" +
+      "temAsset\022\021\n\ttimestamp\030\001 \001(\003\022\016\n\006itemId\030\002 " +
+      "\001(\t\022\033\n\010itemInfo\030\003 \001(\0132\t.ItemInfo\022\037\n\nitem" +
+      "Status\030\004 \001(\0132\013.ItemStatus\022\035\n\tevnStatus\030\005" +
+      " \001(\0132\n.EnvStatus\022\035\n\topsStatus\030\006 \001(\0132\n.Op" +
+      "sStatus*X\n\006OPType\022\013\n\007CREATED\020\000\022\014\n\010TRANSF" +
+      "ER\020\001\022\t\n\005MEDIA\020\002\022\013\n\007INSTOCK\020\003\022\014\n\010OUTSTOCK" +
+      "\020\004\022\r\n\tDELIVERED\020\005B2\n*cn.edu.nju.software" +
+      ".fabricservice.protomsgZ\004mainb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -5618,7 +5693,7 @@ public final class Persistence {
     internal_static_OpsStatus_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_OpsStatus_descriptor,
-        new java.lang.String[] { "CurrentOrg", "LastOrg", "OpType", "ContactWay", });
+        new java.lang.String[] { "CurrentOrg", "LastOrg", "OpType", "ContactWay", "ExtraInfo", });
     internal_static_ItemInfo_descriptor =
       getDescriptor().getMessageTypes().get(3);
     internal_static_ItemInfo_fieldAccessorTable = new
@@ -5630,7 +5705,7 @@ public final class Persistence {
     internal_static_ItemStatus_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_ItemStatus_descriptor,
-        new java.lang.String[] { "SampleStrStatus", "SampleLongStatus", "Logs", });
+        new java.lang.String[] { "Normal", "Logs", });
     internal_static_ItemAsset_descriptor =
       getDescriptor().getMessageTypes().get(5);
     internal_static_ItemAsset_fieldAccessorTable = new

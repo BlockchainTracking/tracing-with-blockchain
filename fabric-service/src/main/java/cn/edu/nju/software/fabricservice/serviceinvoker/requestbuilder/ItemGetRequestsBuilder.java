@@ -9,6 +9,12 @@ import cn.edu.nju.software.fabricservice.protomsg.Requests;
 public class ItemGetRequestsBuilder {
     private String itemId;
     private boolean histData;
+    private boolean addData;
+
+    public ItemGetRequestsBuilder setAddData(boolean addData) {
+        this.addData = addData;
+        return this;
+    }
 
     public ItemGetRequestsBuilder setItemId(String itemId) {
         this.itemId = itemId;
@@ -22,7 +28,7 @@ public class ItemGetRequestsBuilder {
 
     public Requests.ItemGetRequest build() {
         return Requests.ItemGetRequest.newBuilder().setItemId(itemId).setHistData(histData)
-                .build();
+                .setAllData(addData).build();
     }
 
 }

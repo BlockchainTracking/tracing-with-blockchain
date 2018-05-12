@@ -25,7 +25,6 @@ public class HFConfig {
     String ccName;
     String ccVersion;
 
-
     private HFConfig() {
     }
 

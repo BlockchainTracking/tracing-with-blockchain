@@ -4,8 +4,10 @@ import lombok.Data;
 
 /**
  * @author Daniel
- * @since 2018/4/28 16:56
+ * @since 2018/5/12 8:40
  */
 @Data
-public class FakeAnalysisResult {
+public class UIPeerAddRequest {
+    String peerName;
+    String url;
 }

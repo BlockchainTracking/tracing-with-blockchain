@@ -4,9 +4,12 @@ import cn.edu.nju.software.common.util.MathUtil;
 import cn.edu.nju.software.fabricservice.configmgt.ChaincodeConfig;
 import cn.edu.nju.software.fabricservice.configmgt.HFConfig;
 import cn.edu.nju.software.fabricservice.serviceinvoker.InvokeContext;
+import cn.edu.nju.software.fabricservice.serviceinvoker.ServiceInvoker;
 import cn.edu.nju.software.fabricservice.serviceinvoker.ServiceInvokerId;
+import lombok.Setter;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 /**
@@ -17,6 +20,12 @@ import java.util.stream.Collectors;
  */
 public class ServiceDiscovery {
 
+    @Setter
+    ServiceInvoker serviceInvoker;
+
+    public Map<String, Integer> totalInvoke;
+    public Map<String, Integer> currentInvoke;
+
     List<ChaincodeConfig> chaincodeConfigs;
 
     Map<String, List<String>> chainCodeIdPeers;
@@ -24,7 +33,13 @@ public class ServiceDiscovery {
     Map<String, String> chaincodeUsers;
     Map<String, String> chaincodeChannels;
 
+    Set<String> peers;
+
     public void init(HFConfig hfConfig) {
+        peers = new HashSet<>();
+        currentInvoke = new ConcurrentHashMap<>();
+        totalInvoke = new ConcurrentHashMap<>();
+
         this.chaincodeConfigs = hfConfig.getChaincodes();
         chainCodeIdPeers = new HashMap<>();
         currentIndex = new HashMap<>();
@@ -36,12 +51,31 @@ public class ServiceDiscovery {
                         chaincodeConfig.getVersion(), func);
                 String id = serviceInvokerId.getId();
                 chainCodeIdPeers.put(id, chaincodeConfig.getPeers());
+                peers.addAll(chaincodeConfig.getPeers());
                 currentIndex.put(id, 0);
                 chaincodeUsers.put(id, chaincodeConfig.getUser());
                 chaincodeChannels.put(id, chaincodeConfig.getChannel());
             }
         }
+
+        for (String peer : peers) {
+            totalInvoke.put(peer, 0);
+            currentInvoke.put(peer, 0);
+        }
     }
+
+    public void peerInvoke(String peerName) {
+        int invoke = totalInvoke.get(peerName);
+        totalInvoke.put(peerName, invoke + 1);
+        int current = currentInvoke.get(peerName);
+        currentInvoke.put(peerName, current + 1);
+    }
+
+    public void peerInvokeEnd(String peerName) {
+        int current = currentInvoke.get(peerName);
+        currentInvoke.put(peerName, current - 1);
+    }
+
 
     /**
      * 根据指定的服务标识，返回可以执行服务的节点地址配置
@@ -87,6 +121,16 @@ public class ServiceDiscovery {
                     }
                     currentIndex.put(id, index);
                     break;
+                case INVOKE_LOAD:
+                    choosedPeers = new ArrayList<>();
+                    peers.sort((e1, e2) -> {
+                        int b1 = currentInvoke.get(e1);
+                        int b2 = currentIndex.get(e2);
+                        return Integer.compare(b1, b2);
+                    });
+                    for (int i = 0; i < discoveryParas.getPeerNum(); i++) {
+                        choosedPeers.add(peers.get(0));
+                    }
             }
 
         }
@@ -109,7 +153,6 @@ public class ServiceDiscovery {
         }
         return rePeers;
     }
-
 
     int currentPollingIndex = 0;
 

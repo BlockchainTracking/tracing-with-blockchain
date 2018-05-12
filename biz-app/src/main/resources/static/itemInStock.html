@@ -122,93 +122,100 @@ desired effect
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
-        <div>
+        <section class="content-header">
+            <h1>
+                商品入库
+            </h1>
+            <ol class="breadcrumb">
+                <li class="active"><a href="#"><i class="fa fa-dashboard"></i>首页</a></li>
+            </ol>
+        </section>
 
+        <div class="box box-primary  col-lg-6"
+             style="margin-left: 50px;margin-top: 50px;width: 500px">
+            <div class="box-header with-border">
+                <h3 class="box-title">入库信息</h3>
+            </div>
+            <!-- /.box-header -->
+            <!-- form start -->
+            <form role="form">
 
-            <section class="content-header">
-                <h1>
-                    商品出厂
-                </h1>
-                <ol class="breadcrumb">
-                    <li class="active"><a href="#"><i class="fa fa-dashboard"></i>首页</a></li>
-                </ol>
-            </section>
-
-            <div class="box box-primary col-lg-6" style="margin-left: 50px;margin-top: 50px;width:
-        500px">
-                <div class="box-header with-border">
-                    <h3 class="box-title">商品信息</h3>
-                </div>
-                <!-- /.box-header -->
-                <!-- form start -->
-                <form role="form">
-                    <div class="box-body">
-                        <div class="form-group">
-                            <label for="itemId">商品id</label>
-                            <input type="text" class="form-control" id="itemId">
-                        </div>
-                        <div class="form-group">
-                            <label for="itemName">商品名字</label>
-                            <input type="text" class="form-control" id="itemName">
-                        </div>
-                        <div class="form-group">
-                            <label for="itemType">商品类别</label>
-                            <input type="text" class="form-control" id="itemType">
-                        </div>
-                        <div class="form-group">
-                            <label for="batchNum">批次编号</label>
-                            <input type="text" class="form-control" id="batchNum">
-                        </div>
-                        <div class="form-group">
-                            <label for="batchNum">生产日期</label>
-                            <input type="text" class="form-control" id="manufactureDate">
-                        </div>
-                        <div class="form-group">
-                            <label for="batchNum">备注</label>
-                            <input type="text" class="form-control" id="note">
-                        </div>
+                <div class="box-body">
+                    <div class="form-group">
+                        <label for="nodeName">商品id</label>
+                        <input type="text" class="form-control" id="itemId">
                     </div>
-                    <!-- /.box-body -->
-                </form>
-            </div>
-
-
-            <div class="box box-primary  col-lg-6"
-                 style="margin-left: 50px;margin-top: 50px;width: 500px">
-                <div class="box-header with-border">
-                    <h3 class="box-title">地址信息</h3>
                 </div>
-                <!-- /.box-header -->
-                <!-- form start -->
-                <form role="form">
-                    <div class="box-body">
-                        <div class="form-group">
-                            <label for="nodeName">节点名字</label>
-                            <input type="text" class="form-control" id="nodeName">
-                        </div>
-                        <div class="form-group">
-                            <label for="address">地址</label>
-                            <input type="text" class="form-control" id="address">
-                        </div>
-                        <div class="form-group">
-                            <label for="longitude">经度</label>
-                            <input type="text" class="form-control" id="longitude">
-                        </div>
-                        <div class="form-group">
-                            <label for="latitude">纬度</label>
-                            <input type="text" class="form-control" id="latitude">
-                        </div>
+                <div class="box-body">
+                    <div class="form-group">
+                        <label for="nodeName">操作日志</label>
+                        <input type="text" class="form-control" id="opLogs">
                     </div>
-                    <!-- /.box-body -->
-                </form>
-            </div>
-            <!-- /.content -->
-
-            <div class="col-lg-4 btn-block">
-                <button class="btn btn-primary" style="margin-left: 40px" onclick="submit()"> 提交
-                </button>
-            </div>
+                </div>
+                <!-- /.box-body -->
+            </form>
         </div>
+
+        <div class="box box-primary col-lg-6" style="margin-left: 50px;margin-top: 50px;width:
+        500px">
+
+            <div class="box-header with-border">
+                <h3 class="box-title">地址信息</h3>
+            </div>
+            <!-- /.box-header -->
+            <!-- form start -->
+            <form role="form">
+                <div class="box-body">
+                    <div class="form-group">
+                        <label for="nodeName">节点名字</label>
+                        <input type="text" class="form-control" id="nodeName">
+                    </div>
+                    <div class="form-group">
+                        <label for="address">地址</label>
+                        <input type="text" class="form-control" id="address">
+                    </div>
+                    <div class="form-group">
+                        <label for="longitude">经度</label>
+                        <input type="text" class="form-control" id="longitude">
+                    </div>
+                    <div class="form-group">
+                        <label for="latitude">纬度</label>
+                        <input type="text" class="form-control" id="latitude">
+                    </div>
+                </div>
+                <!-- /.box-body -->
+            </form>
+        </div>
+
+        <div class="box box-primary  col-lg-6"
+             style="margin-left: 50px;margin-top: 50px;width: 500px">
+            <div class="box-header with-border">
+                <h3 class="box-title">商品状态</h3>
+            </div>
+            <!-- /.box-header -->
+            <!-- form start -->
+            <form role="form">
+                <div class="box-body">
+                    <div class="form-group">
+                        <label for="logs">商品日志</label>
+                        <input type="text" class="form-control" id="logs">
+                    </div>
+                    <div class="form-group">
+                        <label for="status">当前状态</label>
+                        <input type="text" class="form-control" id="status">
+                    </div>
+                </div>
+                <!-- /.box-body -->
+            </form>
+        </div>
+
+
+        <div class="col-lg-4 btn-block">
+            <button class="btn btn-primary" style="margin-left: 40px" onclick="submit()"> 提交
+            </button>
+        </div>
+
+        <!-- /.content -->
     </div>
 
 </div>
@@ -232,29 +239,30 @@ desired effect
      user experience. Slimscroll is required when using the
      fixed layout. -->
 
+
 <script>
     function submit() {
         var formData = {
-            "addressInfo": {
-                "longtitude": $('#longitude').val(),
-                "latitude": $('#latitude').val(),
-                "addressDesc": $('#address').val(),
-                "nodeName": $('#nodeName').val()
-            },
             "itemId": $('#itemId').val(),
-            "itemInfo": {
-                "batchNum": $('#batchNum').val(),
-                "class_": $('#itemType').val(),
-                "manufactureDate": $('#manufactureDate').val(),
-                "name": $('#itemName').val(),
-                "note": $('#note').val()
-            }
+            "envStatus": {
+                "addressInfo": {
+                    "longtitude": $('#longitude').val(),
+                    "latitude": $('#latitude').val(),
+                    "addressDesc": $('#address').val(),
+                    "nodeName": $('#nodeName').val()
+                }
+            },
+            "itemStatus": {
+                "logs": $('#logs').val(),
+                "normal": true
+            },
+            "nextOrg": "Org1MSP",
+            "stockInfo": $('#opLogs').val()
         }
-        console.log(formData)
         $.ajax(
             {
                 type: 'post',
-                url: 'http://localhost:8080/item/add',
+                url: 'http://localhost:8080/item/inStock',
                 contentType: "application/json",
                 accept: "*/*",
                 data: JSON.stringify(formData),
@@ -263,6 +271,7 @@ desired effect
                 }
             }
         )
+        console.log(formData)
     }
 </script>
 </body>

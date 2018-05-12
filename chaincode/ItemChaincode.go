@@ -17,6 +17,7 @@ func (t *ItemAssetChaincode) Init(stub shim.ChaincodeStubInterface) peer.Respons
 	t.handlers["addItem"] = addItem
 	t.handlers["getItem"] = getItem
 	t.handlers["changeItem"] = changeItem
+	t.handlers["ping"] = ping
 	return shim.Success(nil)
 }
 
@@ -32,6 +33,13 @@ func (t *ItemAssetChaincode) Invoke(stub shim.ChaincodeStubInterface) peer.Respo
 	} else {
 		return shim.Error("can't find function " + fn)
 	}
+}
+
+/**
+心跳检测
+ */
+func ping(stub shim.ChaincodeStubInterface, args []byte) ([]byte, error) {
+	return args, nil
 }
 
 /**
@@ -67,7 +75,23 @@ func getItem(stub shim.ChaincodeStubInterface, args []byte) ([]byte, error) {
 			}
 			response.ItemAssets = append(response.ItemAssets, iAsset)
 		}
-	} else { //不需要提取历史数据
+		iterator.Close()
+	} else if request.AllData { //不需要提取历史数据
+		iterator, err := stub.GetStateByRange("", "")
+		if err != nil {
+			return createError("failed to get all asset")
+		}
+		for iterator.HasNext() {
+			keyState, _ := iterator.Next()
+			iAsset := &ItemAsset{}
+			err = unmarshalProtobuf(keyState.Value, iAsset)
+			if err != nil {
+				return createError("unmarshal error")
+			}
+			response.ItemAssets = append(response.ItemAssets, iAsset)
+		}
+		iterator.Close()
+	} else {
 		value, err := stub.GetState(key)
 		if err != nil || value == nil {
 			return createError("retrieve error with mgs:%s", err.Error())
@@ -121,7 +145,8 @@ func addItem(stub shim.ChaincodeStubInterface, args []byte) ([]byte, error) {
 	item.Timestamp = time.Now().UnixNano() / 1000000 //获取的是纳秒，除以1000000变为毫秒
 
 	itemId := request.ItemId
-
+	item.ItemId = itemId
+	
 	if !checkItemIdformat(itemId) {
 		return createError("itemId format error,expected length 32")
 	}
@@ -163,9 +188,14 @@ func changeItem(stub shim.ChaincodeStubInterface, args []byte) ([]byte, error) {
 	//设置操作状态
 	opStatus := &OpsStatus{}
 	opStatus.OpType = request.OpType
-	opStatus.CurrentOrg = request.NextOrg
+	if request.NextOrg == "" {
+		opStatus.CurrentOrg = iAsset.OpsStatus.CurrentOrg
+	} else {
+		opStatus.CurrentOrg = request.NextOrg
+	}
 	opStatus.LastOrg = iAsset.OpsStatus.CurrentOrg
 	opStatus.ContactWay = request.Contact
+	opStatus.ExtraInfo = request.ExtraInfo
 
 	//改变itemAsset状态
 	iAsset.EvnStatus = envStatus
@@ -174,7 +204,7 @@ func changeItem(stub shim.ChaincodeStubInterface, args []byte) ([]byte, error) {
 	iAsset.Timestamp = time.Now().UnixNano() / 1000000
 
 	if !checkItemIdformat(key) {
-		return createError("itemId format error,expected length 64")
+		return createError("itemId format error,expected length 32")
 	}
 
 	if err := update(request.ItemId, iAsset, stub); err != nil {
@@ -183,7 +213,6 @@ func changeItem(stub shim.ChaincodeStubInterface, args []byte) ([]byte, error) {
 
 	return nil, nil
 }
-
 
 // main function starts up the chaincode in the container during instantiate
 func main() {

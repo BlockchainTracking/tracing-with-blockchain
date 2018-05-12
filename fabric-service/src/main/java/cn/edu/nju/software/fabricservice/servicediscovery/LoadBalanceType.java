@@ -1,5 +1,5 @@
 package cn.edu.nju.software.fabricservice.servicediscovery;
 
 public enum LoadBalanceType {
-    RANDOM, POLLING
+    RANDOM, POLLING, INVOKE_LOAD
 }

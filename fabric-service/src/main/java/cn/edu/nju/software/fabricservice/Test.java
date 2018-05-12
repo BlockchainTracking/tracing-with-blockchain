@@ -89,9 +89,9 @@ public class Test {
         Persistence.EnvStatus envStatus = Persistence.EnvStatus.newBuilder().setAddress(address1)
                 .build();
         Persistence.ItemStatus itemStatus = Persistence.ItemStatus.newBuilder()
-                .setSampleStrStatus("string").setSampleLongStatus(123L).setLogs("这是测试111").build();
+                .setNormal(true).setLogs("这是测试111").build();
         Requests.ItemChangeRequest itemChangeRequest = Requests.ItemChangeRequest.newBuilder()
-                .setOpType(Persistence.OPType.LOGISTICS).setEnvStatus(envStatus).setItemStatus
+                .setOpType(Persistence.OPType.TRANSFER).setEnvStatus(envStatus).setItemStatus
                         (itemStatus).setItemId("12345678901234567890123456789012").build();
         responses = hfClientHelper.chainCodeInvoke(chainCodeName, "1.0", "changeItem",
                 itemChangeRequest.toByteArray());

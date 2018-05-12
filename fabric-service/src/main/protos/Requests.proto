@@ -22,6 +22,7 @@ message ItemAddRequest {
 message ItemGetRequest {
     string itemId = 1;
     bool histData = 2;
+    bool allData = 3;
 }
 
 //更改商品状态的请求
@@ -32,4 +33,6 @@ message ItemChangeRequest {
     OPType opType = 4;
     string nextOrg = 5;
     string contact = 6;
+    bool normal = 7;
+    string extraInfo = 8;
 }

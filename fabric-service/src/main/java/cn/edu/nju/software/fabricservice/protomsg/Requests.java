@@ -1679,6 +1679,11 @@ public final class Requests {
      * <code>bool histData = 2;</code>
      */
     boolean getHistData();
+
+    /**
+     * <code>bool allData = 3;</code>
+     */
+    boolean getAllData();
   }
   /**
    * <pre>
@@ -1699,6 +1704,7 @@ public final class Requests {
     private ItemGetRequest() {
       itemId_ = "";
       histData_ = false;
+      allData_ = false;
     }
 
     @java.lang.Override
@@ -1741,6 +1747,11 @@ public final class Requests {
             case 16: {
 
               histData_ = input.readBool();
+              break;
+            }
+            case 24: {
+
+              allData_ = input.readBool();
               break;
             }
           }
@@ -1810,6 +1821,15 @@ public final class Requests {
       return histData_;
     }
 
+    public static final int ALLDATA_FIELD_NUMBER = 3;
+    private boolean allData_;
+    /**
+     * <code>bool allData = 3;</code>
+     */
+    public boolean getAllData() {
+      return allData_;
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -1828,6 +1848,9 @@ public final class Requests {
       if (histData_ != false) {
         output.writeBool(2, histData_);
       }
+      if (allData_ != false) {
+        output.writeBool(3, allData_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -1842,6 +1865,10 @@ public final class Requests {
       if (histData_ != false) {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(2, histData_);
+      }
+      if (allData_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(3, allData_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -1863,6 +1890,8 @@ public final class Requests {
           .equals(other.getItemId());
       result = result && (getHistData()
           == other.getHistData());
+      result = result && (getAllData()
+          == other.getAllData());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -1879,6 +1908,9 @@ public final class Requests {
       hash = (37 * hash) + HISTDATA_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
           getHistData());
+      hash = (37 * hash) + ALLDATA_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getAllData());
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -2016,6 +2048,8 @@ public final class Requests {
 
         histData_ = false;
 
+        allData_ = false;
+
         return this;
       }
 
@@ -2040,6 +2074,7 @@ public final class Requests {
         cn.edu.nju.software.fabricservice.protomsg.Requests.ItemGetRequest result = new cn.edu.nju.software.fabricservice.protomsg.Requests.ItemGetRequest(this);
         result.itemId_ = itemId_;
         result.histData_ = histData_;
+        result.allData_ = allData_;
         onBuilt();
         return result;
       }
@@ -2087,6 +2122,9 @@ public final class Requests {
         }
         if (other.getHistData() != false) {
           setHistData(other.getHistData());
+        }
+        if (other.getAllData() != false) {
+          setAllData(other.getAllData());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -2209,6 +2247,32 @@ public final class Requests {
         onChanged();
         return this;
       }
+
+      private boolean allData_ ;
+      /**
+       * <code>bool allData = 3;</code>
+       */
+      public boolean getAllData() {
+        return allData_;
+      }
+      /**
+       * <code>bool allData = 3;</code>
+       */
+      public Builder setAllData(boolean value) {
+        
+        allData_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bool allData = 3;</code>
+       */
+      public Builder clearAllData() {
+        
+        allData_ = false;
+        onChanged();
+        return this;
+      }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFieldsProto3(unknownFields);
@@ -2326,6 +2390,21 @@ public final class Requests {
      */
     com.google.protobuf.ByteString
         getContactBytes();
+
+    /**
+     * <code>bool normal = 7;</code>
+     */
+    boolean getNormal();
+
+    /**
+     * <code>string extraInfo = 8;</code>
+     */
+    java.lang.String getExtraInfo();
+    /**
+     * <code>string extraInfo = 8;</code>
+     */
+    com.google.protobuf.ByteString
+        getExtraInfoBytes();
   }
   /**
    * <pre>
@@ -2348,6 +2427,8 @@ public final class Requests {
       opType_ = 0;
       nextOrg_ = "";
       contact_ = "";
+      normal_ = false;
+      extraInfo_ = "";
     }
 
     @java.lang.Override
@@ -2429,6 +2510,17 @@ public final class Requests {
               java.lang.String s = input.readStringRequireUtf8();
 
               contact_ = s;
+              break;
+            }
+            case 56: {
+
+              normal_ = input.readBool();
+              break;
+            }
+            case 66: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              extraInfo_ = s;
               break;
             }
           }
@@ -2615,6 +2707,49 @@ public final class Requests {
       }
     }
 
+    public static final int NORMAL_FIELD_NUMBER = 7;
+    private boolean normal_;
+    /**
+     * <code>bool normal = 7;</code>
+     */
+    public boolean getNormal() {
+      return normal_;
+    }
+
+    public static final int EXTRAINFO_FIELD_NUMBER = 8;
+    private volatile java.lang.Object extraInfo_;
+    /**
+     * <code>string extraInfo = 8;</code>
+     */
+    public java.lang.String getExtraInfo() {
+      java.lang.Object ref = extraInfo_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        extraInfo_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string extraInfo = 8;</code>
+     */
+    public com.google.protobuf.ByteString
+        getExtraInfoBytes() {
+      java.lang.Object ref = extraInfo_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        extraInfo_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -2645,6 +2780,12 @@ public final class Requests {
       if (!getContactBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 6, contact_);
       }
+      if (normal_ != false) {
+        output.writeBool(7, normal_);
+      }
+      if (!getExtraInfoBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 8, extraInfo_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -2673,6 +2814,13 @@ public final class Requests {
       }
       if (!getContactBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(6, contact_);
+      }
+      if (normal_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(7, normal_);
+      }
+      if (!getExtraInfoBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(8, extraInfo_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -2707,6 +2855,10 @@ public final class Requests {
           .equals(other.getNextOrg());
       result = result && getContact()
           .equals(other.getContact());
+      result = result && (getNormal()
+          == other.getNormal());
+      result = result && getExtraInfo()
+          .equals(other.getExtraInfo());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -2734,6 +2886,11 @@ public final class Requests {
       hash = (53 * hash) + getNextOrg().hashCode();
       hash = (37 * hash) + CONTACT_FIELD_NUMBER;
       hash = (53 * hash) + getContact().hashCode();
+      hash = (37 * hash) + NORMAL_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getNormal());
+      hash = (37 * hash) + EXTRAINFO_FIELD_NUMBER;
+      hash = (53 * hash) + getExtraInfo().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -2887,6 +3044,10 @@ public final class Requests {
 
         contact_ = "";
 
+        normal_ = false;
+
+        extraInfo_ = "";
+
         return this;
       }
 
@@ -2923,6 +3084,8 @@ public final class Requests {
         result.opType_ = opType_;
         result.nextOrg_ = nextOrg_;
         result.contact_ = contact_;
+        result.normal_ = normal_;
+        result.extraInfo_ = extraInfo_;
         onBuilt();
         return result;
       }
@@ -2983,6 +3146,13 @@ public final class Requests {
         }
         if (!other.getContact().isEmpty()) {
           contact_ = other.contact_;
+          onChanged();
+        }
+        if (other.getNormal() != false) {
+          setNormal(other.getNormal());
+        }
+        if (!other.getExtraInfo().isEmpty()) {
+          extraInfo_ = other.extraInfo_;
           onChanged();
         }
         this.mergeUnknownFields(other.unknownFields);
@@ -3496,6 +3666,101 @@ public final class Requests {
         onChanged();
         return this;
       }
+
+      private boolean normal_ ;
+      /**
+       * <code>bool normal = 7;</code>
+       */
+      public boolean getNormal() {
+        return normal_;
+      }
+      /**
+       * <code>bool normal = 7;</code>
+       */
+      public Builder setNormal(boolean value) {
+        
+        normal_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bool normal = 7;</code>
+       */
+      public Builder clearNormal() {
+        
+        normal_ = false;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object extraInfo_ = "";
+      /**
+       * <code>string extraInfo = 8;</code>
+       */
+      public java.lang.String getExtraInfo() {
+        java.lang.Object ref = extraInfo_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          extraInfo_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string extraInfo = 8;</code>
+       */
+      public com.google.protobuf.ByteString
+          getExtraInfoBytes() {
+        java.lang.Object ref = extraInfo_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          extraInfo_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string extraInfo = 8;</code>
+       */
+      public Builder setExtraInfo(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        extraInfo_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string extraInfo = 8;</code>
+       */
+      public Builder clearExtraInfo() {
+        
+        extraInfo_ = getDefaultInstance().getExtraInfo();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string extraInfo = 8;</code>
+       */
+      public Builder setExtraInfoBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        extraInfo_ = value;
+        onChanged();
+        return this;
+      }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFieldsProto3(unknownFields);
@@ -3578,14 +3843,15 @@ public final class Requests {
       "impleRequest\022\021\n\ttimeStamp\030\001 \001(\003\022\014\n\004name\030" +
       "\002 \001(\t\022\013\n\003des\030\003 \001(\t\"X\n\016ItemAddRequest\022\016\n\006" +
       "itemId\030\001 \001(\t\022\031\n\007address\030\002 \001(\0132\010.Address\022" +
-      "\033\n\010itemInfo\030\003 \001(\0132\t.ItemInfo\"2\n\016ItemGetR" +
+      "\033\n\010itemInfo\030\003 \001(\0132\t.ItemInfo\"C\n\016ItemGetR" +
       "equest\022\016\n\006itemId\030\001 \001(\t\022\020\n\010histData\030\002 \001(\010" +
-      "\"\236\001\n\021ItemChangeRequest\022\016\n\006itemId\030\001 \001(\t\022\035" +
-      "\n\tenvStatus\030\002 \001(\0132\n.EnvStatus\022\037\n\nitemSta" +
-      "tus\030\003 \001(\0132\013.ItemStatus\022\027\n\006opType\030\004 \001(\0162\007" +
-      ".OPType\022\017\n\007nextOrg\030\005 \001(\t\022\017\n\007contact\030\006 \001(" +
-      "\tB2\n*cn.edu.nju.software.fabricservice.p" +
-      "rotomsgZ\004mainb\006proto3"
+      "\022\017\n\007allData\030\003 \001(\010\"\301\001\n\021ItemChangeRequest\022" +
+      "\016\n\006itemId\030\001 \001(\t\022\035\n\tenvStatus\030\002 \001(\0132\n.Env" +
+      "Status\022\037\n\nitemStatus\030\003 \001(\0132\013.ItemStatus\022" +
+      "\027\n\006opType\030\004 \001(\0162\007.OPType\022\017\n\007nextOrg\030\005 \001(" +
+      "\t\022\017\n\007contact\030\006 \001(\t\022\016\n\006normal\030\007 \001(\010\022\021\n\tex" +
+      "traInfo\030\010 \001(\tB2\n*cn.edu.nju.software.fab" +
+      "ricservice.protomsgZ\004mainb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -3617,13 +3883,13 @@ public final class Requests {
     internal_static_ItemGetRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_ItemGetRequest_descriptor,
-        new java.lang.String[] { "ItemId", "HistData", });
+        new java.lang.String[] { "ItemId", "HistData", "AllData", });
     internal_static_ItemChangeRequest_descriptor =
       getDescriptor().getMessageTypes().get(3);
     internal_static_ItemChangeRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_ItemChangeRequest_descriptor,
-        new java.lang.String[] { "ItemId", "EnvStatus", "ItemStatus", "OpType", "NextOrg", "Contact", });
+        new java.lang.String[] { "ItemId", "EnvStatus", "ItemStatus", "OpType", "NextOrg", "Contact", "Normal", "ExtraInfo", });
     cn.edu.nju.software.fabricservice.protomsg.Persistence.getDescriptor();
   }
 

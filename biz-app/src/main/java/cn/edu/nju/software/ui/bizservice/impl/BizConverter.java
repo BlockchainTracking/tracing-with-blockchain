@@ -16,6 +16,7 @@ public class BizConverter {
         tracingItemInfo.setOperationStatus(convertOperationStatus(itemAsset.getOpsStatus()));
         tracingItemInfo.setItemInfo(convertItemInfo(itemAsset.getItemInfo()));
         tracingItemInfo.setItemState(convertItemStatus(itemAsset.getItemStatus()));
+        tracingItemInfo.setItemId(itemAsset.getItemId());
         return tracingItemInfo;
     }
 
@@ -57,8 +58,7 @@ public class BizConverter {
     public static ItemStatus convertItemStatus(Persistence.ItemStatus itemStatus) {
         ItemStatus itemStatus1 = new ItemStatus();
         itemStatus1.setLogs(itemStatus.getLogs());
-        itemStatus1.setSampleLong(itemStatus.getSampleLongStatus());
-        itemStatus1.setSampleStr(itemStatus.getSampleStrStatus());
+        itemStatus1.setNormal(itemStatus.getNormal());
         return itemStatus1;
     }
 

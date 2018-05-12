@@ -9,7 +9,6 @@ import lombok.Data;
  */
 @Data
 public class ItemStatus {
-    String sampleStr;
-    long sampleLong;
+    boolean normal;
     String logs;
 }

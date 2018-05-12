@@ -36,9 +36,13 @@ import java.util.function.Function;
 public class ServiceInvoker {
     Logger logger = LoggerFactory.getLogger(ServiceInvoker.class);
 
+    @Getter
     private ConfigMgt configMgt;
+    @Getter
     private HFClientHelper hfClientHelper;
+    @Getter
     private ServiceDiscovery serviceDiscovery;
+
 
     private static final Map<String, ServiceInvokerConfig> ALL_SERVICES;
 
@@ -84,26 +88,57 @@ public class ServiceInvoker {
         configMgt.init(ConfigType.FILE, paras);
         hfClientHelper.init(configMgt.getConfig());
         serviceDiscovery.init(configMgt.getConfig());
+
+        serviceDiscovery.setServiceInvoker(this);
     }
 
     public ServiceInvoker() {
         this(null);
     }
 
+    void configInvokeContext(InvokeContext invokeContext) {
 
-    void configInvokeContext(ServiceInvokerId serviceInvokerId) {
-        DiscoveryParas discoveryParas = new DiscoveryParas();
-        discoveryParas.setPeerNum(1);
-        discoveryParas.setLoadBalanceType(LoadBalanceType.POLLING);
-        InvokeContext invokeContext = serviceDiscovery.findService(serviceInvokerId, discoveryParas);
+        //统计调用信息
+        for (String peer : invokeContext.getPeerNames()) {
+            serviceDiscovery.peerInvoke(peer);
+        }
         hfClientHelper.setContext(invokeContext);
+    }
+
+    void invokeEnd(InvokeContext invokeContext) {
+        //统计调用信息
+        for (String peer : invokeContext.getPeerNames()) {
+            serviceDiscovery.peerInvokeEnd(peer);
+        }
+    }
+
+
+
+    public boolean pingContext(InvokeContext context) {
+        hfClientHelper.setContext(context);
+        return hfClientHelper.ping();
     }
 
     public FSResponse<Object> invoke(ServiceInvokerId serviceInvokerId,
                                      AbstractMessageLite request,
                                      InvokeParameter invokeParameter) {
+        DiscoveryParas discoveryParas = new DiscoveryParas();
+        discoveryParas.setPeerNum(1);
+        discoveryParas.setLoadBalanceType(LoadBalanceType.POLLING);
+        InvokeContext invokeContext = serviceDiscovery.findService(serviceInvokerId, discoveryParas);
+
         //配置执行上下文
-        configInvokeContext(serviceInvokerId);
+        configInvokeContext(invokeContext);
+
+        FSResponse<Object> re = invoke_(serviceInvokerId, request, invokeParameter);
+
+        invokeEnd(invokeContext);
+        return re;
+    }
+
+    private FSResponse<Object> invoke_(ServiceInvokerId serviceInvokerId,
+                                       AbstractMessageLite request,
+                                       InvokeParameter invokeParameter) {
         //获得ServiceConfig
         ServiceInvokerConfig config = ALL_SERVICES.get(serviceInvokerId.getId());
         if (config.getRequestType() != null && !config.getRequestType().isInstance(request)) {
@@ -198,7 +233,24 @@ public class ServiceInvoker {
                         ("12345678901234567890123456789012")
                         .setHistData(true).build(),
                 null);
-        System.out.println(new Gson().toJson(re.respStatus));
-        System.out.println(new Gson().toJson(re.getData()));
+        long a = System.currentTimeMillis();
+        for (int i = 0; i < 100; i++) {
+            CompletableFuture.runAsync(() -> {
+                for (int j = 0; j < 10; j++) {
+                    serviceInvoker.invoke(ServiceInvokerId.ITEM_GET,
+                            Requests.ItemGetRequest.newBuilder().setItemId
+                                    ("12345678901234567890123456789012")
+                                    .setHistData(true).build(),
+                            null);
+                }
+                System.out.println("finish");
+                System.out.println(System.currentTimeMillis() - a);
+            });
+        }
+        System.out.println(System.currentTimeMillis() - a);
+        while (true) {
+        }
+//        System.out.println(new Gson().toJson(re.respStatus));
+//        System.out.println(new Gson().toJson(re.getData()));
     }
 }

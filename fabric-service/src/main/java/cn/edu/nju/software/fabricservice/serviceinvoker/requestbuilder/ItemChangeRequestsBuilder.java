@@ -10,15 +10,26 @@ import cn.edu.nju.software.fabricservice.protomsg.Requests;
  */
 public class ItemChangeRequestsBuilder {
     String addressName;
+    String addressDesc;
     double longitude;
     double latitude;
     String itemId;
-    String sampleStr;
-    Long sampleLong;
+    boolean normal;
     String logs;
     OpType opType;
     String contact;
     String nextOrg;
+    String extraInfo;
+
+    public ItemChangeRequestsBuilder setAddressDesc(String addressDesc) {
+        this.addressDesc = addressDesc;
+        return this;
+    }
+
+    public ItemChangeRequestsBuilder setExtraInfo(String extraInfo) {
+        this.extraInfo = extraInfo;
+        return this;
+    }
 
     public ItemChangeRequestsBuilder setContact(String contact) {
         this.contact = contact;
@@ -50,13 +61,9 @@ public class ItemChangeRequestsBuilder {
         return this;
     }
 
-    public ItemChangeRequestsBuilder setSampleStr(String sampleStr) {
-        this.sampleStr = sampleStr;
-        return this;
-    }
 
-    public ItemChangeRequestsBuilder setSampleLong(Long sampleLong) {
-        this.sampleLong = sampleLong;
+    public ItemChangeRequestsBuilder setNormal(boolean normal) {
+        this.normal = normal;
         return this;
     }
 
@@ -75,11 +82,12 @@ public class ItemChangeRequestsBuilder {
                 .setLongitude(longitude).setLatitude(latitude).build();
         Persistence.EnvStatus envStatus = Persistence.EnvStatus.newBuilder().setAddress(address)
                 .build();
-        Persistence.ItemStatus itemStatus = Persistence.ItemStatus.newBuilder().setLogs(logs)
-                .setSampleStrStatus(sampleStr).setSampleLongStatus(sampleLong).build();
+        Persistence.ItemStatus itemStatus = Persistence.ItemStatus.newBuilder().setNormal(normal)
+                .setLogs(logs).build();
         Requests.ItemChangeRequest itemChangeRequest = Requests.ItemChangeRequest.newBuilder()
                 .setEnvStatus(envStatus).setItemStatus(itemStatus).setOpType(Persistence.OPType
                         .valueOf(opType.toString())).setItemId(itemId).setNextOrg(nextOrg)
+                .setExtraInfo(extraInfo)
                 .build();
         return itemChangeRequest;
     }

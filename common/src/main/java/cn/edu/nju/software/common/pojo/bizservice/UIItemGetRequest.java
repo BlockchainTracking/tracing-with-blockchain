@@ -11,4 +11,5 @@ public class UIItemGetRequest {
     String authCode;
     String itemId;
     boolean histData;
+    boolean allItem;
 }

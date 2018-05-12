@@ -1,8 +1,17 @@
 package cn.edu.nju.software.common.pojo;
 
 public enum OpType {
+    //出厂
     CREATED,
-    LOGISTICS,
+    //出售给分销商/代理商
+    TRANSFER,
+    //中转
+    MEDIA,
+    //入库
+    INSTOCK,
+    //出库
+    OUTSTOCK,
+    //送达
     DELIVERED;
 
 
@@ -12,5 +21,6 @@ public enum OpType {
             return null;
         return types[index];
     }
+
 }
 

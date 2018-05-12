@@ -35,7 +35,6 @@ public class Main {
 
         final SampleStore sampleStore = new SampleStore(sampleStoreFile);
 
-
         HFCAClient caClient = HFCAClient.createNewInstance("http://192.168.136.131:7054", null);
         caClient.setCryptoSuite(CryptoSuite.Factory.getCryptoSuite());
 

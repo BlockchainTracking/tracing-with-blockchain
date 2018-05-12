@@ -12,6 +12,7 @@ public class TracingItemInfo {
      * 时间戳
      */
     String time;
+    String itemId;
     /**
      * 商品信息
      */

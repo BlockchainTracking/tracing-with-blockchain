@@ -98,21 +98,7 @@ desired effect
                 <li class="header">HEADER</li>
                 <!-- Optionally, you can add icons to the links -->
                 <li class="active"><a href="#"><i class="fa fa-home"></i>
-                    <span>溯源信息查询</span></a></li>
-                <li><a href="itemAdd.html"><i class="fa fa-file-text-o"></i> <span>商品出厂
-                </span></a></li>
-                <li><a href="itemTransfer.html"><i class="ion ion-android-bicycle"></i>
-                    <span>商品转运</span></a></li>
-                <li><a href="itemInStock.html"><i class="ion ion-android-bicycle"></i>
-                    <span>商品入库</span></a></li>
-                <li><a href="itemOutStock.html"><i class="ion ion-android-bicycle"></i>
-                    <span>商品出库</span></a></li>
-                <li><a href="itemMedia.html"><i class="ion ion-android-bicycle"></i>
-                    <span>运输中转</span></a></li>
-                <li><a href="itemSign.html"><i class="ion ion-android-bicycle"></i>
-                    <span>商品签收</span></a></li>
-                <li><a href="sport.html"><i class="ion ion-android-bicycle"></i>
-                    <span>商品召回</span></a></li>
+                    <span>配置节点状态</span></a></li>
 
             </ul>
             <!-- /.sidebar-menu -->
@@ -125,7 +111,7 @@ desired effect
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                溯源信息查询
+                配置节点状态
             </h1>
             <ol class="breadcrumb">
                 <li class="active"><a href="#"><i class="fa fa-dashboard"></i>首页</a></li>
@@ -140,7 +126,6 @@ desired effect
                 <a class="btn btn-default" onclick="loadItemInfo()">商品溯源信息查询
                 </a>
             </form>
-
             <!--图表展示-->
             <div class="row" style="height:700px">
                 <div class="col-lg-4 col-md-12" style="">
@@ -154,6 +139,7 @@ desired effect
                         </tr>
                         </thead>
                         <tbody id="tbody" class="center rectangle">
+
                         </tbody>
                     </table>
                 </div>
@@ -176,6 +162,7 @@ desired effect
 <!-- AdminLTE App -->
 <script src="dist/js/app.min.js"></script>
 
+<script src="dist/js/pages/index.js"></script>
 <script type="text/javascript"
         src="http://api.map.baidu.com/api?v=2.0&ak=qujYPfVnIp75zI5RPg3nVrWAiVoHDHms"></script>
 <script type="text/javascript">
@@ -256,7 +243,6 @@ desired effect
                         "long": add.longtitude,
                         "lal": add.latitude
                     })
-                    console.log(d.operationStatus.opType)
                     opsData.push({
                         "time": d.time,
                         "address": add.nodeName,
@@ -278,16 +264,10 @@ desired effect
         switch (optype) {
             case 'CREATED':
                 return '商品出厂'
-            case 'TRANSFER':
-                return '商品预转移'
-            case 'INSTOCK':
-                return '商品入库'
-            case 'OUTSTOCK':
-                return '商品出库'
+            case 'LOGISTICS':
+                return '物流中转'
             case 'DELIVERED':
                 return '商品送达'
-            case 'MEDIA':
-                return '中转'
         }
     }
 </script>

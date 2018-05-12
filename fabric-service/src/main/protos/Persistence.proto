@@ -6,9 +6,18 @@ option java_package = "cn.edu.nju.software.fabricservice.protomsg";
 
 //操作类型
 enum OPType {
+    //出厂
     CREATED = 0;
-    LOGISTICS = 1;
-    DELIVERED = 2;
+    //出售给分销商/代理商
+    TRANSFER = 1;
+    //中转
+    MEDIA = 2;
+    //入库
+    INSTOCK = 3;
+    //出库
+    OUTSTOCK = 4;
+    //送达
+    DELIVERED = 5;
 }
 
 //地址信息
@@ -22,13 +31,15 @@ message Address {
 message EnvStatus {
     Address address = 1;
 }
-//操作信息，
+//操作信息
 message OpsStatus {
     string currentOrg = 1;
     string lastOrg = 2;
     OPType opType = 3;
     string contactWay = 4;
+    string extraInfo = 5;
 }
+
 //商品信息
 message ItemInfo {
     string name = 1;
@@ -37,11 +48,11 @@ message ItemInfo {
     int64 manufactureDate = 4;
     string note = 5;
 }
+
 //商品状态
 message ItemStatus {
-    string sampleStrStatus = 1;
-    int64 sampleLongStatus = 2;
-    string logs = 3;
+    bool normal = 1;
+    string logs = 2;
 }
 //主要的商品资产描述
 message ItemAsset {
