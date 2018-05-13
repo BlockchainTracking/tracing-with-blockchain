@@ -7,8 +7,8 @@ import java.util.Objects;
  * @author Daniel
  * @since 2018/5/12 23:28
  */
-@Entity
-@Table(name = "item_type", schema = "tracing", catalog = "")
+//@Entity
+//@Table(name = "item_type", schema = "tracing", catalog = "")
 public class ItemTypeEntity {
     private int id;
     private String typeName;

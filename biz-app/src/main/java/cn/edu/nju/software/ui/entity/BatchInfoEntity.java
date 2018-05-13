@@ -8,8 +8,8 @@ import java.util.Objects;
  * @author Daniel
  * @since 2018/5/12 23:28
  */
-@Entity
-@Table(name = "batch_info", schema = "tracing", catalog = "")
+//@Entity
+//@Table(name = "batch_info", schema = "tracing", catalog = "")
 public class BatchInfoEntity {
     private int id;
     private Integer batchNum;
