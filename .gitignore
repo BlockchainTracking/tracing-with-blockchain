@@ -1,4 +1,7 @@
 /target/
+/common/target/
+/fabric-service/target/
+/biz-app/target/
 !.mvn/wrapper/maven-wrapper.jar
 
 ### STS ###
