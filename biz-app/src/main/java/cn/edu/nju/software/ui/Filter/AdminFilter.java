@@ -19,8 +19,8 @@ import java.io.IOException;
  */
 @Component
 @ServletComponentScan
-@WebFilter(urlPatterns = "/backend/*", filterName = "loginFilter")
-public class LoginFilter implements Filter {
+@WebFilter(urlPatterns = "/admin/*", filterName = "loginFilter")
+public class AdminFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {

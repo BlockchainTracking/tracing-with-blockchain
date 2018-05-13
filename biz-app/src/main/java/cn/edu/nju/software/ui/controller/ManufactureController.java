@@ -4,8 +4,8 @@ import cn.edu.nju.software.common.pojo.bizservice.BizResponse;
 import cn.edu.nju.software.common.pojo.bizservice.RecallResult;
 import cn.edu.nju.software.common.pojo.bizservice.UIBatchItemAdd;
 import cn.edu.nju.software.fabricservice.protomsg.Requests;
-import cn.edu.nju.software.ui.dao.ItemTypeDao;
-import cn.edu.nju.software.ui.entity.ItemTypeEntity;
+import cn.edu.nju.software.ui.temp.dao.ItemTypeDao;
+import cn.edu.nju.software.ui.temp.entity.ItemType;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,7 +30,7 @@ public class ManufactureController {
     @ApiOperation(value = "商品批次出厂")
     public BizResponse addItems(
             @RequestBody UIBatchItemAdd uiBatchItemAdd) {
-        ItemTypeEntity itemTypeEntity = itemTypeDao.findById(uiBatchItemAdd.getItemTypeId()).get();
+//        ItemTypeEntity itemTypeEntity = itemTypeDao.findById(uiBatchItemAdd.getItemTypeId()).get();
 
         for (String itemId : uiBatchItemAdd.getItemIds()) {
 //            Requests.ItemAddRequest itemAddRequest =
@@ -56,9 +56,9 @@ public class ManufactureController {
     public BizResponse addItemTypes(
             String typeName,
             String typeClass) {
-        ItemTypeEntity itemTypeEntity = new ItemTypeEntity();
-        itemTypeEntity.setTypeName(typeName);
-        itemTypeEntity.setTypeClass(typeClass);
+        ItemType itemTypeEntity = new ItemType();
+        itemTypeEntity.setItemName(typeName);
+        itemTypeEntity.setItemClass(typeClass);
         itemTypeDao.save(itemTypeEntity);
         return BizResponse.createSuccess(itemTypeEntity, "success");
     }
@@ -66,7 +66,7 @@ public class ManufactureController {
 
     @RequestMapping(value = "/allItemTypes", method = RequestMethod.POST)
     @ApiOperation(value = "获得所有的商品类型")
-    public BizResponse<List<ItemTypeEntity>> getAllItemTypes() {
+    public BizResponse<List<ItemType>> getAllItemTypes() {
         return BizResponse.createSuccess(itemTypeDao.findAll(), "success");
     }
 
@@ -75,6 +75,8 @@ public class ManufactureController {
     public BizResponse<List<RecallResult>> itemRecall(String batchNum) {
         return null;
     }
+
+
 
 
 

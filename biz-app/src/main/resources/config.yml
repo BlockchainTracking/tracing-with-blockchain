@@ -31,6 +31,7 @@ chaincodes:
       - addItem
       - getItem
       - changeItem
+      - ping
       peers:
       - peer1
       user: admin

@@ -1,18 +1,13 @@
 package cn.edu.nju.software.ui.controller;
 
 import cn.edu.nju.software.common.pojo.bizservice.BizResponse;
-import cn.edu.nju.software.common.pojo.bizservice.RecallResult;
 import cn.edu.nju.software.common.pojo.bizservice.UIBatchItemAdd;
-import cn.edu.nju.software.ui.dao.ItemTypeDao;
-import cn.edu.nju.software.ui.entity.ItemTypeEntity;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
 
 /**
  * @author Daniel
