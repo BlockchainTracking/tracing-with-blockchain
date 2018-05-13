@@ -1,11 +1,10 @@
 package cn.edu.nju.software.ui.bizservice;
 
-import cn.edu.nju.software.common.pojo.EnvStatus;
 import cn.edu.nju.software.common.pojo.TracingItemInfo;
-import cn.edu.nju.software.common.pojo.bizservice.BizResponse;
-import cn.edu.nju.software.common.pojo.bizservice.UIItemAddRequest;
-import cn.edu.nju.software.common.pojo.bizservice.UIItemChangeRequest;
-import cn.edu.nju.software.common.pojo.bizservice.UIItemGetRequest;
+import cn.edu.nju.software.common.pojo.bizservice.response.BizResponse;
+import cn.edu.nju.software.common.pojo.bizservice.request.UIItemAddRequest;
+import cn.edu.nju.software.common.pojo.bizservice.request.UIItemChangeRequest;
+import cn.edu.nju.software.common.pojo.bizservice.request.UIItemGetRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

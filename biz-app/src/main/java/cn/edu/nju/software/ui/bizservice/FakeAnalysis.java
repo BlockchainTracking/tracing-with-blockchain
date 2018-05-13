@@ -1,7 +1,7 @@
 package cn.edu.nju.software.ui.bizservice;
 
 import cn.edu.nju.software.common.pojo.TracingItemInfo;
-import cn.edu.nju.software.common.pojo.bizservice.FakeAnalysisResult;
+import cn.edu.nju.software.common.pojo.bizservice.response.FakeAnalysisResult;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package cn.edu.nju.software.common.pojo.bizservice;
+package cn.edu.nju.software.common.pojo.bizservice.request;
 
 import lombok.Data;
 

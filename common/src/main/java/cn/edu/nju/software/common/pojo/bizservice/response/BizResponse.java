@@ -1,7 +1,6 @@
-package cn.edu.nju.software.common.pojo.bizservice;
+package cn.edu.nju.software.common.pojo.bizservice.response;
 
 import cn.edu.nju.software.common.pojo.RespStatus;
-import cn.edu.nju.software.common.pojo.fabricservice.FSResponse;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

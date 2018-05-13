@@ -1,9 +1,15 @@
 package cn.edu.nju.software.ui.controller;
 
-import cn.edu.nju.software.common.pojo.bizservice.BizResponse;
+import cn.edu.nju.software.common.pojo.bizservice.response.BizResponse;
+import cn.edu.nju.software.ui.bean.request.LogisticsArrivedRequest;
+import cn.edu.nju.software.ui.bean.request.LogisticsDepartureRequest;
+import cn.edu.nju.software.ui.bean.request.LogisticsOrderRequest;
+import cn.edu.nju.software.ui.bean.request.LogisticsSignRequest;
 import cn.edu.nju.software.ui.temp.dao.ItemTypeDao;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,33 +25,55 @@ public class LogisticsController {
     @Autowired
     ItemTypeDao itemTypeDao;
 
-    @RequestMapping(value = "/carPackaging", method = RequestMethod.POST)
-    @ApiOperation(value = "商品装车")
-    public BizResponse carPacking() {
+    @RequestMapping(value = "/itemDeparture", method = RequestMethod.POST)
+    @ApiOperation(value = "商品出发，站点库存减少订单")
+    public BizResponse carDeparture(
+            @ApiParam
+            @RequestBody LogisticsDepartureRequest departureRequest) {
         return null;
     }
 
-    @RequestMapping(value = "/carArrived", method = RequestMethod.POST)
-    @ApiOperation(value = "商品到达")
-    public BizResponse carArrived() {
+    @RequestMapping(value = "/itemArrived", method = RequestMethod.POST)
+    @ApiOperation(value = "商品到达，站点库存增加订单")
+    public BizResponse carArrived(
+            @ApiParam
+            @RequestBody LogisticsArrivedRequest arrivedRequest) {
         return null;
     }
 
-    @RequestMapping(value = "/instock", method = RequestMethod.POST)
-    @ApiOperation(value = "商品入库")
-    public BizResponse inStock() {
+    @RequestMapping(value = "/toDeparture", method = RequestMethod.POST)
+    @ApiOperation(value = "获得可以出发的订单")
+    public BizResponse getToDepartureOrders() {
         return null;
     }
 
-    @RequestMapping(value = "/outstock", method = RequestMethod.POST)
-    @ApiOperation(value = "商品出库")
-    public BizResponse outStock() {
+    @RequestMapping(value = "/toArrive", method = RequestMethod.POST)
+    @ApiOperation(value = "获得可以到达的订单")
+    public BizResponse getToArriveOrders() {
         return null;
     }
+
+    @RequestMapping(value = "/toArrive", method = RequestMethod.POST)
+    @ApiOperation(value = "获得所有可以出发的节点")
+    public BizResponse getAllDepartureStations() {
+        return null;
+    }
+
+
+    @RequestMapping(value = "/order", method = RequestMethod.POST)
+    @ApiOperation(value = "物流订单")
+    public BizResponse logisOrder(
+            @ApiParam
+            @RequestBody LogisticsOrderRequest orderRequest) {
+        return null;
+    }
+
 
     @RequestMapping(value = "/sign", method = RequestMethod.POST)
-    @ApiOperation(value = "商品签收")
-    public BizResponse itemSign() {
+    @ApiOperation(value = "商品签收，订单完成，如果为分销商订单则分销商的库存需要增加")
+    public BizResponse orderSign(
+            @ApiParam
+            @RequestBody LogisticsSignRequest logisticsSignRequest) {
         return null;
     }
 

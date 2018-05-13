@@ -66,6 +66,7 @@ function getParamaters(name) {
     }
 }
 
-function checkState() {
-
+function showMessage(tips) {
+    $('#tip-msg').html(tips)
+    $('#tip-modal').modal()
 }

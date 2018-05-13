@@ -1,17 +1,14 @@
 package cn.edu.nju.software.ui.controller;
 
-import cn.edu.nju.software.common.pojo.bizservice.BizResponse;
-import cn.edu.nju.software.common.pojo.bizservice.PeerStateResponse;
-import cn.edu.nju.software.common.pojo.bizservice.UIItemGetRequest;
-import cn.edu.nju.software.common.pojo.bizservice.UIPeerAddRequest;
+import cn.edu.nju.software.common.pojo.bizservice.response.BizResponse;
+import cn.edu.nju.software.common.pojo.bizservice.response.PeerStateResponse;
+import cn.edu.nju.software.common.pojo.bizservice.request.UIPeerAddRequest;
 import cn.edu.nju.software.fabricservice.configmgt.ChaincodeConfig;
 import cn.edu.nju.software.fabricservice.configmgt.HFConfig;
 import cn.edu.nju.software.fabricservice.serviceinvoker.InvokeContext;
 import cn.edu.nju.software.fabricservice.serviceinvoker.ServiceInvoker;
-import cn.edu.nju.software.ui.bizservice.ItemTracingService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -68,6 +65,11 @@ public class ConfigMgt {
         return BizResponse.createSuccess(peerStateResponses, "success");
     }
 
+    @RequestMapping(value = "/request/info", method = RequestMethod.POST)
+    @ApiOperation(value = "获得当前组织发起的共识情况")
+    public BizResponse getAllRequestInfo() {
+        return null;
+    }
 
     public boolean pingPeer(String peerName) {
         InvokeContext invokeContext = new InvokeContext();

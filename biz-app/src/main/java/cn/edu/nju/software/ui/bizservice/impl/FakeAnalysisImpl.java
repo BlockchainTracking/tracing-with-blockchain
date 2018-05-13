@@ -1,7 +1,7 @@
 package cn.edu.nju.software.ui.bizservice.impl;
 
 import cn.edu.nju.software.common.pojo.TracingItemInfo;
-import cn.edu.nju.software.common.pojo.bizservice.FakeAnalysisResult;
+import cn.edu.nju.software.common.pojo.bizservice.response.FakeAnalysisResult;
 import cn.edu.nju.software.ui.bizservice.FakeAnalysis;
 
 import java.util.List;

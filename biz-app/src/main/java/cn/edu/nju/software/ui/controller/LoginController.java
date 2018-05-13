@@ -1,6 +1,6 @@
 package cn.edu.nju.software.ui.controller;
 
-import cn.edu.nju.software.common.pojo.bizservice.BizResponse;
+import cn.edu.nju.software.common.pojo.bizservice.response.BizResponse;
 import cn.edu.nju.software.ui.bizservice.UserMgt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -36,5 +35,9 @@ public class LoginController {
     public BizResponse logout(HttpSession session) {
         session.removeAttribute("login");
         return BizResponse.createSuccess(null, "success");
+    }
+    @RequestMapping(value = "/currentUser", method = RequestMethod.POST)
+    public BizResponse getCurrentUser() {
+        return null;
     }
 }

@@ -1,15 +1,13 @@
 package cn.edu.nju.software.ui.controller;
 
-import cn.edu.nju.software.common.pojo.bizservice.BizResponse;
-import cn.edu.nju.software.common.pojo.bizservice.RecallResult;
-import cn.edu.nju.software.common.pojo.bizservice.UIBatchItemAdd;
-import cn.edu.nju.software.fabricservice.protomsg.Requests;
+import cn.edu.nju.software.common.pojo.ItemInfo;
+import cn.edu.nju.software.common.pojo.bizservice.response.BizResponse;
+import cn.edu.nju.software.ui.bean.request.BatchAddRequest;
+import cn.edu.nju.software.ui.bean.response.RecallResponse;
 import cn.edu.nju.software.ui.temp.dao.ItemTypeDao;
 import cn.edu.nju.software.ui.temp.entity.ItemType;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,13 +26,9 @@ public class ManufactureController {
 
     @RequestMapping(value = "/addItems", method = RequestMethod.POST)
     @ApiOperation(value = "商品批次出厂")
-    public BizResponse addItems(
-            @RequestBody UIBatchItemAdd uiBatchItemAdd) {
+    public BizResponse addItems(BatchAddRequest uiBatchAddReqeust) {
 //        ItemTypeEntity itemTypeEntity = itemTypeDao.findById(uiBatchItemAdd.getItemTypeId()).get();
 
-        for (String itemId : uiBatchItemAdd.getItemIds()) {
-//            Requests.ItemAddRequest itemAddRequest =
-        }
         return null;
     }
 
@@ -63,6 +57,12 @@ public class ManufactureController {
         return BizResponse.createSuccess(itemTypeEntity, "success");
     }
 
+    @RequestMapping(value = "/allBrokers", method = RequestMethod.POST)
+    @ApiOperation(value = "获得所有的经销商")
+    public BizResponse<List<String>> allBrokers() {
+        return null;
+    }
+
 
     @RequestMapping(value = "/allItemTypes", method = RequestMethod.POST)
     @ApiOperation(value = "获得所有的商品类型")
@@ -70,14 +70,17 @@ public class ManufactureController {
         return BizResponse.createSuccess(itemTypeDao.findAll(), "success");
     }
 
-    @RequestMapping(value = "/recall", method = RequestMethod.POST)
-    @ApiOperation(value = "商品召回")
-    public BizResponse<List<RecallResult>> itemRecall(String batchNum) {
+    @RequestMapping(value = "/itemGet", method = RequestMethod.POST)
+    @ApiOperation(value = "获得商品信息,所有或单个")
+    public BizResponse itemGet(String batchNum) {
         return null;
     }
 
-
-
+    @RequestMapping(value = "/recall", method = RequestMethod.POST)
+    @ApiOperation(value = "商品召回")
+    public BizResponse<RecallResponse> itemRecall(String batchNum) {
+        return null;
+    }
 
 
 }

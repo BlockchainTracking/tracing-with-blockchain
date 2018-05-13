@@ -1,8 +1,7 @@
 package cn.edu.nju.software.ui.Filter;
 
 
-import cn.edu.nju.software.ui.bizservice.impl.ServerCache;
-import org.springframework.beans.factory.annotation.Autowired;
+import cn.edu.nju.software.ui.bean.SessionKey;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.stereotype.Component;
 
@@ -19,8 +18,8 @@ import java.io.IOException;
  */
 @Component
 @ServletComponentScan
-@WebFilter(urlPatterns = "/admin/*", filterName = "loginFilter")
-public class AdminFilter implements Filter {
+@WebFilter(urlPatterns = "/logis/*", filterName = "loginFilter")
+public class LogisticsFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -31,7 +30,7 @@ public class AdminFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpSession session = request.getSession();
-        Object obj = session.getAttribute("login");
+        Object obj = session.getAttribute(SessionKey.USR);
         if (obj == null)
             ((HttpServletResponse) servletResponse).sendRedirect("/login.html");
     }

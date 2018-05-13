@@ -8,8 +8,8 @@ import java.util.Objects;
  * @author Daniel
  * @since 2018/5/13 0:10
  */
-//@Entity
-//@Table(name = "user", schema = "tracing", catalog = "")
+@Entity
+@Table(name = "user", schema = "tracing", catalog = "")
 public class UserEntity {
     private int id;
     private String username;

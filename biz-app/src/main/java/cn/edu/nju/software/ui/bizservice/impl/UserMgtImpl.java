@@ -1,6 +1,6 @@
 package cn.edu.nju.software.ui.bizservice.impl;
 
-import cn.edu.nju.software.common.pojo.bizservice.BizResponse;
+import cn.edu.nju.software.common.pojo.bizservice.response.BizResponse;
 import cn.edu.nju.software.fabricservice.serviceinvoker.HFClientHelper;
 import cn.edu.nju.software.fabricservice.serviceinvoker.ServiceInvoker;
 import cn.edu.nju.software.ui.bizservice.UserMgt;
