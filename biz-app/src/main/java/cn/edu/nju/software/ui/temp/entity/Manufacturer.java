@@ -1,9 +1,9 @@
 package cn.edu.nju.software.ui.temp.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
 
 /**
  * Author:yangsanyang
@@ -12,9 +12,12 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "manufacturer")
+@Data
+@NoArgsConstructor
 public class Manufacturer {
     
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     
     @Column(name = "name")
