@@ -38,4 +38,9 @@ public class BizResponse<T> {
     public static <T> BizResponse<T> createWithoutData(Integer code, String msg, String... args) {
         return create(null, code, msg, args);
     }
+    
+    public static <T> BizResponse<T> deafaultResponse(T data) {
+        return create(data , RespStatus.SUCCESS_CODE , "success");
+    }
+    
 }

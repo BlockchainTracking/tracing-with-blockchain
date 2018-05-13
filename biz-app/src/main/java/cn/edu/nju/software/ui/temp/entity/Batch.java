@@ -18,9 +18,10 @@ import java.util.Date;
 public class Batch {
     
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     
-    @Column(name = "batchNum")
+    @Column(name = "batch_num")
     private String batchNum;
     
     @Column(name = "manufacture_date")
