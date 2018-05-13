@@ -15,4 +15,5 @@ public class BeansConfig {
     public ServiceInvoker getChaincodeInvoker() {
         return new ServiceInvoker();
     }
+
 }

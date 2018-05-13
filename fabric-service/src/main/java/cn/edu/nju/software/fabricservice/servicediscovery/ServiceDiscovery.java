@@ -91,7 +91,6 @@ public class ServiceDiscovery {
         int peerSize = peers.size();
 
         InvokeContext invokeContext = new InvokeContext();
-        invokeContext.setUserName(chaincodeUsers.get(id));
         invokeContext.setChannelName(chaincodeUsers.get(id));
 
         List<String> choosedPeers = null;

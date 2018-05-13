@@ -97,9 +97,22 @@ desired effect
             <ul class="sidebar-menu">
                 <li class="header">HEADER</li>
                 <!-- Optionally, you can add icons to the links -->
-                <li class="active"><a href="#"><i class="fa fa-home"></i>
-                    <span>配置节点状态</span></a></li>
-
+                <li class="active"><a href="index.html"><i class="fa fa-home"></i>
+                    <span>溯源信息查询</span></a></li>
+                <li><a href="itemAdd.html"><i class="fa fa-file-text-o"></i> <span>商品出厂
+                </span></a></li>
+                <li><a href="itemTransfer.html"><i class="ion ion-android-bicycle"></i>
+                    <span>商品转运</span></a></li>
+                <li><a href="itemInStock.html"><i class="ion ion-android-bicycle"></i>
+                    <span>商品入库</span></a></li>
+                <li><a href="itemOutStock.html"><i class="ion ion-android-bicycle"></i>
+                    <span>商品出库</span></a></li>
+                <li><a href="itemMedia.html"><i class="ion ion-android-bicycle"></i>
+                    <span>运输中转</span></a></li>
+                <li><a href="itemSign.html"><i class="ion ion-android-bicycle"></i>
+                    <span>商品签收</span></a></li>
+                <li><a href="sport.html"><i class="ion ion-android-bicycle"></i>
+                    <span>商品召回</span></a></li>
             </ul>
             <!-- /.sidebar-menu -->
         </section>
@@ -109,54 +122,48 @@ desired effect
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
-        <section class="content-header">
-            <h1>
-                配置节点状态
-            </h1>
-            <ol class="breadcrumb">
-                <li class="active"><a href="#"><i class="fa fa-dashboard"></i>首页</a></li>
-            </ol>
-        </section>
+        <div>
 
-        <!-- Main content -->
-        <section class="content">
-            <!--图表展示-->
-            <div class="col-md-6">
-                <div class="box">
-                    <div class="box-header with-border">
-                        <h3 class="box-title" id="channelName"></h3>
-                    </div>
-                    <!-- /.box-header -->
-                    <div class="box-body">
-                        <table class="table table-bordered">
-                            <tr>
-                                <th>节点名字</th>
-                                <th>节点地址</th>
-                                <th>总请求数</th>
-                                <th>当前请求数</th>
-                                <th style="width: 40px">状态</th>
-                            </tr>
-                            <tbody id="tbody">
-                            <tr>
-                                <td>peer1</td>
-                                <td>
-                                    1
-                                </td>
-                                <td>
-                                    0
-                                </td>
-                                <td>0</td>
-                                <td><span class="badge bg-green">正常</span></td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
+
+            <section class="content-header">
+                <h1>
+                    商品出厂
+                </h1>
+                <ol class="breadcrumb">
+                    <li class="active"><a href="#"><i class="fa fa-dashboard"></i>首页</a></li>
+                </ol>
+            </section>
+
+            <div class="box box-primary col-lg-6" style="margin-left: 50px;margin-top: 50px;width:
+        500px">
+
+                <div class="box-header with-border">
+                    <h3 class="box-title">召回范围</h3>
                 </div>
-                <!-- /.box -->
-                <!-- /.box -->
+                <!-- /.box-header -->
+                <!-- form start -->
+                <form role="form">
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label for="nodeName">批次号</label>
+                            <input type="text" class="form-control" id="nodeName">
+                        </div>
+                        <div class="form-group">
+                            <label for="manufactureDate">生产日期</label>
+                            <input type="text" class="form-control pull-right" id="manufactureDate">
+                        </div>
+                    </div>
+
+                    <!-- /.box-body -->
+                </form>
+
+                <div class="box-footer">
+                    <button class="btn btn-primary">召回</button>
+                </div>
             </div>
-        </section>
-        <!-- /.content -->
+
+
+        </div>
     </div>
 
 </div>
@@ -171,6 +178,7 @@ desired effect
 <script src="dist/js/echarts.min.js"></script>
 <!-- AdminLTE App -->
 <script src="dist/js/app.min.js"></script>
+<script src="plugins/datepicker/bootstrap-datepicker.js"></script>
 
 <!-- Optionally, you can add Slimscroll and FastClick plugins.
      Both of these plugins are recommended to enhance the
@@ -178,37 +186,37 @@ desired effect
      fixed layout. -->
 
 <script>
-
-    $(function () {
-        refresh()
-    })
-
-    function refresh() {
-        $.ajax({
-            type: 'post',
-            url: 'http://localhost:8080/peers',
-            accept: "*/*",
-            contentType: "application/json",
-            data: {},
-            success: function (data) {
-                console.log(data)
-                var html = ""
-                data.respData.forEach(function (e) {
-                    html += "<tr><td>" + e.peerName + "</td>"
-                        + "<td>" + e.peerUrl + "</td>"
-                        + "<td>" + e.totalInvoke + "</td>"
-                        + "<td>" + e.currentInvoke + "</td>"
-                        + "<td><span class=\"badge bg-green\">" + (e.state ? "正常" : "失败") +
-                        "</span></td>"
-                        + "</tr>"
-                })
-                $('#tbody').html(html)
-
+    function submit() {
+        var formData = {
+            "addressInfo": {
+                "longtitude": $('#longitude').val(),
+                "latitude": $('#latitude').val(),
+                "addressDesc": $('#address').val(),
+                "nodeName": $('#nodeName').val()
+            },
+            "itemId": $('#itemId').val(),
+            "itemInfo": {
+                "batchNum": $('#batchNum').val(),
+                "class_": $('#itemType').val(),
+                "manufactureDate": $('#manufactureDate').val(),
+                "name": $('#itemName').val(),
+                "note": $('#note').val()
             }
-
-        })
+        }
+        console.log(formData)
+        $.ajax(
+            {
+                type: 'post',
+                url: 'http://localhost:8080/item/add',
+                contentType: "application/json",
+                accept: "*/*",
+                data: JSON.stringify(formData),
+                success: function () {
+                    alert("提交成功")
+                }
+            }
+        )
     }
-
 </script>
 </body>
 </html>

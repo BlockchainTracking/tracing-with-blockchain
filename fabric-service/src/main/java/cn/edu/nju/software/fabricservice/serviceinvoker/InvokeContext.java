@@ -1,5 +1,6 @@
 package cn.edu.nju.software.fabricservice.serviceinvoker;
 
+import cn.edu.nju.software.fabricservice.bean.SampleUser;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,7 +17,7 @@ import java.util.List;
 public class InvokeContext {
     @Getter
     @Setter
-    String userName;
+    SampleUser sampleUser;
     @Getter
     @Setter
     String channelName;

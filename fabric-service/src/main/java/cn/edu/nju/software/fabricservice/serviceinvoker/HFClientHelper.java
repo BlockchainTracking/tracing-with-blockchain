@@ -15,6 +15,7 @@ import org.hyperledger.fabric.sdk.exception.ProposalException;
 import org.hyperledger.fabric.sdk.exception.TransactionException;
 import org.hyperledger.fabric.sdk.security.CryptoSuite;
 import org.hyperledger.fabric_ca.sdk.HFCAClient;
+import org.hyperledger.fabric_ca.sdk.RegistrationRequest;
 import org.hyperledger.fabric_ca.sdk.exception.EnrollmentException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -218,6 +219,29 @@ public class HFClientHelper {
 
     }
 
+
+    public Enrollment enroll(String username, String password) {
+        try {
+            return hfCaClient.enroll(username, password);
+        } catch (EnrollmentException e) {
+            e.printStackTrace();
+        } catch (org.hyperledger.fabric_ca.sdk.exception.InvalidArgumentException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public String registerUser(String username, String org) {
+        try {
+            RegistrationRequest rr = new RegistrationRequest(username, org);
+            String key = hfCaClient.register(rr, USERS.get("admin"));
+            return key;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public boolean ping() {
         String pingInfo = "PING_MSG";
         Collection<ProposalResponse> responses = chainCodeInvoke(hfconfig.getCcName(), hfconfig
@@ -244,10 +268,8 @@ public class HFClientHelper {
             } else {
                 CURRENT_CHANNEL = DEFAULT_CHANNEL;
             }
-            if (invokeContext.getUserName() != null && USERS.containsKey(invokeContext.getUserName())) {
-                CURRENT_USER = USERS.get(invokeContext.getUserName());
-            } else {
-                CURRENT_USER = DEFAULT_USER;
+            if (invokeContext.getSampleUser() != null) {
+                CURRENT_USER = invokeContext.getSampleUser();
             }
             if (invokeContext.getPeerNames() != null) {
                 List<Peer> peers = new ArrayList<>();
