@@ -21,7 +21,7 @@ public class LoginController {
     @Autowired
     UserMgt userMgt;
 
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
     public BizResponse login(@RequestParam String username,
                              @RequestParam String password,
                              HttpSession session) {
@@ -33,8 +33,8 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/logout", method = RequestMethod.POST)
-    public BizResponse logout(HttpServletRequest request) {
-        request.getSession().removeAttribute("login");
+    public BizResponse logout(HttpSession session) {
+        session.removeAttribute("login");
         return BizResponse.createSuccess(null, "success");
     }
 }
