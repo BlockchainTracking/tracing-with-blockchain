@@ -122,44 +122,61 @@ desired effect
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
-        <div>
+        <section class="content-header">
+            <h1>
+                商品订单
+            </h1>
+            <ol class="breadcrumb">
+                <li class="active"><a href="#"><i class="fa fa-dashboard"></i>首页</a></li>
+            </ol>
+        </section>
 
-
-            <section class="content-header">
-                <h1>
-                    商品出厂
-                </h1>
-                <ol class="breadcrumb">
-                    <li class="active"><a href="#"><i class="fa fa-dashboard"></i>首页</a></li>
-                </ol>
-            </section>
-
-            <div class="box box-primary col-lg-6" style="margin-left: 50px;margin-top: 50px;width:
-        500px">
-
-                <div class="box-header with-border">
-                    <h3 class="box-title">召回范围</h3>
-                </div>
-                <!-- /.box-header -->
-                <!-- form start -->
-                <form role="form">
-                    <div class="box-body">
-                        <div class="form-group">
-                            <label for="nodeName">批次号</label>
-                            <input type="text" class="form-control" id="nodeName">
-                        </div>
+        <div class="box box-primary  col-lg-6"
+             style="margin-left: 50px;margin-top: 50px;width: 500px">
+            <div class="box-header with-border">
+                <h3 class="box-title">订单信息</h3>
+            </div>
+            <!-- /.box-header -->
+            <!-- form start -->
+            <form role="form">
+                <div class="box-body">
+                    <div class="form-group">
+                        <label>订单类型</label>
+                        <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true">
+                            <option selected="selected">经销商</option>
+                            <option>个人</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label >目的组织</label>
+                        <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true">
+                            <option selected="selected">分销商1</option>
+                            <option>分销商2</option>
+                            <option>分销商3</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label >目的地</label>
+                        <input type="text" class="form-control">
                     </div>
 
-                    <!-- /.box-body -->
-                </form>
-
-                <div class="box-footer">
-                    <button class="btn btn-primary">召回</button>
+                    <div class="form-group">
+                        <label>所有商品</label>
+                        <textarea rows="3" class="form-control" ></textarea>
+                    </div>
                 </div>
-            </div>
-
-
+                <!-- /.box-body -->
+            </form>
         </div>
+
+
+
+        <div class="col-lg-4 btn-block">
+            <button class="btn btn-primary" style="margin-left: 40px" onclick="submit()"> 提交
+            </button>
+        </div>
+
+        <!-- /.content -->
     </div>
 
 </div>
@@ -174,36 +191,31 @@ desired effect
 <script src="dist/js/echarts.min.js"></script>
 <!-- AdminLTE App -->
 <script src="dist/js/app.min.js"></script>
-<script src="plugins/datepicker/bootstrap-datepicker.js"></script>
 
-<!-- Optionally, you can add Slimscroll and FastClick plugins.
-     Both of these plugins are recommended to enhance the
-     user experience. Slimscroll is required when using the
-     fixed layout. -->
 
 <script>
     function submit() {
         var formData = {
-            "addressInfo": {
-                "longtitude": $('#longitude').val(),
-                "latitude": $('#latitude').val(),
-                "addressDesc": $('#address').val(),
-                "nodeName": $('#nodeName').val()
-            },
             "itemId": $('#itemId').val(),
-            "itemInfo": {
-                "batchNum": $('#batchNum').val(),
-                "class_": $('#itemType').val(),
-                "manufactureDate": $('#manufactureDate').val(),
-                "name": $('#itemName').val(),
-                "note": $('#note').val()
-            }
+            "diliveryOrg": "Org1MSP",
+            "envStatus": {
+                "addressInfo": {
+                    "longtitude": $('#longitude').val(),
+                    "latitude": $('#latitude').val(),
+                    "addressDesc": $('#address').val(),
+                    "nodeName": $('#nodeName').val()
+                }
+            },
+            "itemStatus": {
+                "logs": $('#logs').val(),
+                "normal": true
+            },
+            "nextOrg": "Org1MSP",
         }
-        console.log(formData)
         $.ajax(
             {
                 type: 'post',
-                url: 'http://localhost:8080/item/add',
+                url: 'http://localhost:8080/item/itemTransfer',
                 contentType: "application/json",
                 accept: "*/*",
                 data: JSON.stringify(formData),
@@ -212,6 +224,7 @@ desired effect
                 }
             }
         )
+        console.log(formData)
     }
 </script>
 </body>
