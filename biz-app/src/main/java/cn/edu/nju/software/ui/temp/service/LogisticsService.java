@@ -1,6 +1,6 @@
 package cn.edu.nju.software.ui.temp.service;
 
-import cn.edu.nju.software.common.pojo.bizservice.BizResponse;
+import cn.edu.nju.software.common.pojo.bizservice.response.BizResponse;
 import cn.edu.nju.software.ui.temp.entity.Dealer;
 import cn.edu.nju.software.ui.temp.entity.LogisticsSite;
 
