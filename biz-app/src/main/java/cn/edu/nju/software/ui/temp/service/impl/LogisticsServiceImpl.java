@@ -49,6 +49,8 @@ public class LogisticsServiceImpl implements LogisticsService{
         String orderNum = generateOrderNum();
         Order order = new Order(orderNum , description , destination , Arrays.asList(itemIdString.split(Separator.SEPARATOR_PETTERN)));
         order.getPaths().add(new Path(organizationId , new Date() , OrderState.arrive));
+    
+        orderDao.save(order);
         return BizResponse.defaultResponse(null);
         
     }
