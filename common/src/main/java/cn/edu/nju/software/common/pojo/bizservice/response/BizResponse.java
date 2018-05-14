@@ -39,7 +39,7 @@ public class BizResponse<T> {
         return create(null, code, msg, args);
     }
     
-    public static <T> BizResponse<T> deafaultResponse(T data) {
+    public static <T> BizResponse<T> defaultResponse(T data) {
         return create(data , RespStatus.SUCCESS_CODE , "success");
     }
     
