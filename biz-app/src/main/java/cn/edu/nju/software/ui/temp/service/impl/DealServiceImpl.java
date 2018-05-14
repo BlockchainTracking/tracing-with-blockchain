@@ -38,13 +38,13 @@ public class DealServiceImpl implements DealerService{
     @Override
     public BizResponse<List<DealerItemType>> getAllDealerItemTypes() {
         
-        return BizResponse.deafaultResponse(dealerItemTypeDao.findAll());
+        return BizResponse.defaultResponse(dealerItemTypeDao.findAll());
     }
     
     @Override
     public BizResponse<List<DealerItem>> getAllDealerItems(int organizationId) {
         
-        return BizResponse.deafaultResponse(dealerItemDao.findAllByDealerId(organizationId));
+        return BizResponse.defaultResponse(dealerItemDao.findAllByDealerId(organizationId));
     }
     
     
@@ -53,7 +53,7 @@ public class DealServiceImpl implements DealerService{
         
         Arrays.asList(itemIdString.split(",")).forEach(itemId -> dealerItemDao.deleteByDealerIdAndItemId(organizationId, itemId));
         
-        return BizResponse.deafaultResponse(null);
+        return BizResponse.defaultResponse(null);
         
     }
     
@@ -66,7 +66,7 @@ public class DealServiceImpl implements DealerService{
                                           .collect(Collectors.toList());
     
         dealerItemDao.saveAll(dealerItemList);
-        return BizResponse.deafaultResponse(null);
+        return BizResponse.defaultResponse(null);
         
     }
 }

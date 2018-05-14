@@ -34,7 +34,7 @@ public class ManufacturerServiceImpl implements ManufacturerService{
     @Override
     public BizResponse<List<ItemType>> getAllItemTypes() {
         
-        return BizResponse.deafaultResponse(itemTypeDao.findAll());
+        return BizResponse.defaultResponse(itemTypeDao.findAll());
         
     }
     
@@ -47,7 +47,7 @@ public class ManufacturerServiceImpl implements ManufacturerService{
         List<Item> itemList = Stream.of(itemIdString.split(",")).map(itemId -> new Item(itemId , batchNum)).collect(Collectors.toList());
         itemDao.saveAll(itemList);
         
-        return BizResponse.deafaultResponse(null);
+        return BizResponse.defaultResponse(null);
     }
     
     @Override
@@ -58,7 +58,7 @@ public class ManufacturerServiceImpl implements ManufacturerService{
         batchDao.findAllByManufacturerId(organizationId).stream().map(Batch::getBatchNum).forEach(batchNum -> {
             itemDao.findAllByBatchNum(batchNum).stream().filter(item -> !item.getItemStatus().equals(ItemStatus.unsold)).forEach(item -> itemIdList.add(item.getItemId()));
         });
-        return BizResponse.deafaultResponse(itemIdList);
+        return BizResponse.defaultResponse(itemIdList);
     }
     
     @Override
@@ -87,7 +87,7 @@ public class ManufacturerServiceImpl implements ManufacturerService{
             map3.put(map.get(id), map2.getOrDefault(id, 0));
         });
         
-        return BizResponse.deafaultResponse(map3);
+        return BizResponse.defaultResponse(map3);
         
         
     }

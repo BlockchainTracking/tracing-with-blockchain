@@ -32,7 +32,7 @@ public class LogisticsServiceImpl implements LogisticsService{
         List<LogisticsSite> list = logisticsSiteDao.findAll().stream()
                                    .filter(site -> site.getId()!=organizationId)
                                    .collect(Collectors.toList());
-        return BizResponse.deafaultResponse(list);
+        return BizResponse.defaultResponse(list);
     }
     
     @Override
