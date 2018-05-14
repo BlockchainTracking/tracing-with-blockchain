@@ -46,8 +46,6 @@ public class Order {
     @JoinColumn(name = "order_id")
     private List<Path> paths = new ArrayList<>();
     
-    @Column(name = "orderState")
-    private OrderState orderState;
     
     public Order(String orderNum, String description, String destination, List<String> itemIds) {
         this.orderNum = orderNum;
