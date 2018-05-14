@@ -114,7 +114,7 @@ public class LogisticsServiceImpl implements LogisticsService{
             return BizResponse.createWithoutData(-2 , "bad state");
     
         Path latestPath = paths.get(paths.size()-1);
-        if (!latestPath.getOrderState().equals(OrderState.transit) || latestPath.getLogisticsSiteId() != organizationId)
+        if (!latestPath.getOrderState().equals(OrderState.arrive) || latestPath.getLogisticsSiteId() != organizationId)
             return BizResponse.createWithoutData(-2 , "bad state");
     
         paths.add(new Path(0 , new Date() , OrderState.sign));
