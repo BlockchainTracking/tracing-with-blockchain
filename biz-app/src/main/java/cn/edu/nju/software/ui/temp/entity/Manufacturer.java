@@ -4,6 +4,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Author:yangsanyang
@@ -25,6 +27,10 @@ public class Manufacturer {
     
     @Column(name = "address")
     private String address;
+    
+//    @OneToMany(targetEntity = SellingOrder.class)
+//    @JoinColumn(name = "manufacturer_id")
+//    private List<SellingOrder> sellingOrderList = new ArrayList<>();
     
     public Manufacturer(String name, String address) {
         this.name = name;

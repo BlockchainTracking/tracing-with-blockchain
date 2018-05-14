@@ -15,4 +15,5 @@ public interface BatchDao extends JpaRepository<Batch, Integer>{
     Batch findByBatchNum(String batchNum);
     
     List<Batch> findAllByManufacturerId(int manufacturerId);
+    
 }

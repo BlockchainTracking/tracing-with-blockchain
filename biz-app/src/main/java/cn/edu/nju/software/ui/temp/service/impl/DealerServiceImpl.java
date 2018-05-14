@@ -11,8 +11,7 @@ import cn.edu.nju.software.ui.temp.service.DealerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -22,15 +21,15 @@ import java.util.stream.Stream;
  * Illustration:
  */
 @Service
-public class DealServiceImpl implements DealerService{
+public class DealerServiceImpl implements DealerService{
     
-    
+
     private final DealerItemDao dealerItemDao;
     
     private final DealerItemTypeDao dealerItemTypeDao;
     
     @Autowired
-    public DealServiceImpl(DealerItemDao dealerItemDao, DealerItemTypeDao dealerItemTypeDao) {
+    public DealerServiceImpl(DealerItemDao dealerItemDao, DealerItemTypeDao dealerItemTypeDao) {
         this.dealerItemDao = dealerItemDao;
         this.dealerItemTypeDao = dealerItemTypeDao;
     }
@@ -42,9 +41,20 @@ public class DealServiceImpl implements DealerService{
     }
     
     @Override
-    public BizResponse<List<DealerItem>> getAllDealerItems(int organizationId) {
+    public BizResponse<Map<DealerItemType , Integer>> getAllDealerItemTypesAndNumber(int organizationId) {
         
-        return BizResponse.defaultResponse(dealerItemDao.findAllByDealerId(organizationId));
+        List<DealerItemType> dealerItemTypeList = dealerItemTypeDao.findAll();
+        
+        Map<Integer , List<DealerItem>> map = dealerItemDao.findAllByDealerId(organizationId).stream().collect(Collectors.groupingBy(DealerItem::getDealerItemTypeId));
+        
+        Map<DealerItemType , Integer> resultMap = new HashMap<>();
+        dealerItemTypeList.forEach(dealerItemType -> {
+            int id = dealerItemType.getId();
+            resultMap.put(dealerItemType , map.getOrDefault(id , new ArrayList<>()).size());
+        });
+        
+        
+        return BizResponse.defaultResponse(resultMap);
     }
     
     

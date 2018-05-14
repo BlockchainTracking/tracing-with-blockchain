@@ -15,9 +15,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class LoginServiceImpl implements LoginService {
 
+    private final UserDao userDao;
+    
     @Autowired
-    private UserDao userDao;
-
+    public LoginServiceImpl(UserDao userDao) {
+        this.userDao = userDao;
+    }
+    
     @Override
     public BizResponse<User> login(String userName, String password) {
         User user = userDao.findByUserNameAndPassword(userName, password);

@@ -48,10 +48,10 @@ public interface ManufacturerService {
 
     /**
      * 获取某批次生产产品的所有itemId
-     * @param organizationId 工厂Id
+     * @param batchNum 批次编号
      * @return itemId list
      */
-    BizResponse<List<String>> getCertainBatchItemIds(int organizationId);
+    BizResponse<List<String>> getCertainBatchItemIds(String batchNum);
 
     /**
      * 获取该工厂生产产品的所有批次编号
@@ -70,11 +70,10 @@ public interface ManufacturerService {
 
     /**
      * 在进行批次召回时，获取itemId与订单中所填email的对应关系
-     * @param organizationId 工厂id
      * @param batchNum 批次编号
      * @return Map<itemId,email>
      */
-    BizResponse<Map<String,String>> getItemIdAndEmail(int organizationId , String batchNum);
+    BizResponse<Map<String,String>> getItemIdAndEmail( String batchNum);
     
     /**
      * 根据批次编号获得产品类别
@@ -89,7 +88,15 @@ public interface ManufacturerService {
      */
     BizResponse<List<Dealer>> getAllDealers();
     
-
     
-    BizResponse addSellingOrder(int organizationId , int dealerId , String destination , String itemIdString );
+    /**
+     * 厂家增加销售单
+     * @param organizationId 厂家id
+     * @param dealerId 经销商id，个人为0
+     * @param destination 目的地
+     * @param itemIdString itemId的String，以","分隔
+     * @email 买家邮箱
+     * @return 操作结果
+     */
+    BizResponse addSellingOrder(int organizationId , int dealerId , String destination , String itemIdString, String email);
 }

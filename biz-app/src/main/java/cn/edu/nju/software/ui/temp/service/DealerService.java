@@ -6,6 +6,7 @@ import cn.edu.nju.software.ui.temp.entity.DealerItem;
 import cn.edu.nju.software.ui.temp.entity.DealerItemType;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Author:yangsanyang
@@ -25,7 +26,7 @@ public interface DealerService {
      * @param organizationId 经销商编号
      * @return List<DealerItem>
      */
-    BizResponse<List<DealerItem>> getAllDealerItems(int organizationId);
+    BizResponse<Map<DealerItemType , Integer>> getAllDealerItemTypesAndNumber(int organizationId);
     
     /**
      * 销售item
