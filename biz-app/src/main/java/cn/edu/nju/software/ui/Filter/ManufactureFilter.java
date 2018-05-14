@@ -37,6 +37,7 @@ public class ManufactureFilter implements Filter {
         Object obj = session.getAttribute(SessionKey.USR);
         if (obj == null || ((User) obj).getUserType() != UserType.manufacturer)
             ((HttpServletResponse) servletResponse).sendRedirect("/login.html");
+        filterChain.doFilter(servletRequest,servletResponse);
     }
 
     @Override

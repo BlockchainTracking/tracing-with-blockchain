@@ -20,7 +20,7 @@ import java.io.IOException;
  */
 @Component
 @ServletComponentScan
-@WebFilter(urlPatterns = "/logis/*", filterName = "logisticsFilter")
+@WebFilter(urlPatterns = {"/logis/*"}, filterName = "logisticsFilter")
 public class LogisticsFilter implements Filter {
 
     @Override
@@ -35,6 +35,7 @@ public class LogisticsFilter implements Filter {
         Object obj = session.getAttribute(SessionKey.USR);
         if (obj == null || ((User) obj).getUserType() != UserType.logistics)
             ((HttpServletResponse) servletResponse).sendRedirect("/login.html");
+        filterChain.doFilter(servletRequest,servletResponse);
     }
 
     @Override

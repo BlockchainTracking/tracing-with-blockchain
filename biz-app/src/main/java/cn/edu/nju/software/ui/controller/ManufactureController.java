@@ -2,11 +2,13 @@ package cn.edu.nju.software.ui.controller;
 
 import cn.edu.nju.software.common.pojo.ItemInfo;
 import cn.edu.nju.software.common.pojo.bizservice.response.BizResponse;
+import cn.edu.nju.software.ui.bean.SessionKey;
 import cn.edu.nju.software.ui.bean.request.BatchAddRequest;
 import cn.edu.nju.software.ui.bean.request.ManufactureOrderRequest;
 import cn.edu.nju.software.ui.bean.response.RecallResponse;
 import cn.edu.nju.software.ui.temp.dao.ItemTypeDao;
 import cn.edu.nju.software.ui.temp.entity.ItemType;
+import cn.edu.nju.software.ui.temp.entity.User;
 import cn.edu.nju.software.ui.temp.service.ManufacturerService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -35,7 +38,10 @@ public class ManufactureController {
     @ApiOperation(value = "商品批次出厂")
     public BizResponse addItems(
             @ApiParam
-            @RequestBody BatchAddRequest uiBatchAddReqeust) {
+            @RequestBody BatchAddRequest uiBatchAddReqeust, HttpSession session) {
+        User user = (User) session.getAttribute(SessionKey.USR);
+
+//        manufacturerService.addBatch()
 
 //        ItemTypeEntity itemTypeEntity = itemTypeDao.findById(uiBatchItemAdd.getItemTypeId()).get();
 
@@ -63,6 +69,7 @@ public class ManufactureController {
         ItemType itemTypeEntity = new ItemType();
         itemTypeEntity.setItemName(typeName);
         itemTypeEntity.setItemClass(typeClass);
+        System.out.println(typeName);
         itemTypeDao.save(itemTypeEntity);
         return BizResponse.createSuccess(itemTypeEntity, "success");
     }

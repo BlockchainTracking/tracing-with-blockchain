@@ -13,14 +13,17 @@ import org.springframework.stereotype.Service;
  * Illustration:
  */
 @Service
-public class LoginServiceImpl implements LoginService{
-    
+public class LoginServiceImpl implements LoginService {
+
     @Autowired
     private UserDao userDao;
-    
+
     @Override
     public BizResponse<User> login(String userName, String password) {
-        
-        return BizResponse.deafaultResponse(userDao.findByUserNameAndPassword(userName , password));
+        User user = userDao.findByUserNameAndPassword(userName, password);
+        if (user == null) {
+            return BizResponse.createWithoutData(-1, "error");
+        }
+        return BizResponse.deafaultResponse(userDao.findByUserNameAndPassword(userName, password));
     }
 }
