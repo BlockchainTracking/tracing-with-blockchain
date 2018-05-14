@@ -73,4 +73,11 @@ public interface LogisticsService {
      * @return List<Order>
      */
     BizResponse<List<Order>> getToDeparture(int organizationId);
+    
+    /**
+     * 根据id找到logisticsSite
+     * @param id id
+     * @return LogisticsSite
+     */
+    BizResponse<LogisticsSite> getLogisticsSite(int id);
 }

@@ -159,5 +159,10 @@ public class LogisticsServiceImpl implements LogisticsService{
         
     }
     
+    @Override
+    public BizResponse<LogisticsSite> getLogisticsSite(int id) {
+        return BizResponse.defaultResponse(logisticsSiteDao.getOne(id));
+    }
+    
     
 }
