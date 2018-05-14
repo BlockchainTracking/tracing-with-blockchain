@@ -28,6 +28,6 @@ public class LoginServiceImpl implements LoginService {
         if (user == null) {
             return BizResponse.createWithoutData(-1, "error");
         }
-        return BizResponse.defaultResponse(userDao.findByUserNameAndPassword(userName, password));
+        return BizResponse.defaultResponse(user);
     }
 }
