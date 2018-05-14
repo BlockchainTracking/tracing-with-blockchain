@@ -189,19 +189,20 @@ desired effect
                 <div class="box-body">
                     <div class="form-group">
                         <label for="nodeName">节点名字</label>
-                        <input type="text" class="form-control" id="nodeName">
+                        <input type="text" class="form-control" id="nodeName" value="上海物流中心">
                     </div>
                     <div class="form-group">
                         <label for="address">地址</label>
-                        <input type="text" class="form-control" id="address">
+                        <input type="text" class="form-control" id="address" value="上海市">
                     </div>
                     <div class="form-group">
                         <label for="longitude">经度</label>
-                        <input type="text" class="form-control" id="longitude">
+                        <input type="text" class="form-control" id="longitude"
+                               value="121.483073">
                     </div>
                     <div class="form-group">
                         <label for="latitude">纬度</label>
-                        <input type="text" class="form-control" id="latitude">
+                        <input type="text" class="form-control" id="latitude" value="31.234326">
                     </div>
                 </div>
                 <!-- /.box-body -->
@@ -266,6 +267,34 @@ desired effect
         }
     ]
 
+    update();
+
+    function update() {
+        $.ajax(
+            {
+                type: 'post',
+                url: 'http://localhost:8080/logis/toDepartureNode',
+                accept: "*/*",
+                success: function (data) {
+                    if (isSuccess(data))
+                        updateSite(data.respData)
+                }
+            }
+        )
+
+        $.ajax(
+            {
+                type: 'post',
+                url: 'http://localhost:8080/logis/toDepartureOrder',
+                accept: "*/*",
+                success: function (data) {
+                    if (isSuccess(data))
+                        updateOrder(data.respData)
+                }
+            }
+        )
+    }
+
     function updateSite(data) {
         var html = ""
         data.forEach(function (v) {
@@ -304,9 +333,31 @@ desired effect
             "departureAddress": $('#departureSite option:selected').attr('id'),
             "orders": orders
         }
-        console.log(formData)
-    }
 
+        console.log(formData)
+
+        $.ajax(
+            {
+                type: 'post',
+                url: 'http://localhost:8080/logis/itemDeparture',
+                contentType: "application/json",
+                accept: "*/*",
+                data: JSON.stringify(formData),
+                success: function (data) {
+                    if (isSuccess(data)) {
+                        showMessage("添加成功")
+                        update()
+                    }
+                    else
+                        showMessage("添加失败")
+                },
+                error: function () {
+                    showMessage("添加失败")
+                }
+            }
+        )
+
+    }
 
 
     var isCheckAll = false;

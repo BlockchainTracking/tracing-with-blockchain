@@ -1,9 +1,14 @@
 package cn.edu.nju.software.ui.controller;
 
-import cn.edu.nju.software.common.pojo.ItemInfo;
-import cn.edu.nju.software.common.pojo.TracingItemInfo;
+import cn.edu.nju.software.common.pojo.*;
+import cn.edu.nju.software.common.pojo.ItemStatus;
+import cn.edu.nju.software.common.pojo.bizservice.request.UIItemAddRequest;
+import cn.edu.nju.software.common.pojo.bizservice.request.UIItemChangeRequest;
 import cn.edu.nju.software.common.pojo.bizservice.request.UIItemGetRequest;
+import cn.edu.nju.software.common.pojo.bizservice.request.UIItemTransferRequest;
 import cn.edu.nju.software.common.pojo.bizservice.response.BizResponse;
+import cn.edu.nju.software.common.util.DateUtil;
+import cn.edu.nju.software.ui.bean.ManufactureOrderType;
 import cn.edu.nju.software.ui.bean.SessionKey;
 import cn.edu.nju.software.ui.bean.request.BatchAddRequest;
 import cn.edu.nju.software.ui.bean.request.ManufactureOrderRequest;
@@ -11,10 +16,9 @@ import cn.edu.nju.software.ui.bean.response.RecallItem;
 import cn.edu.nju.software.ui.bean.response.RecallResponse;
 import cn.edu.nju.software.ui.bean.response.StockInfoResponse;
 import cn.edu.nju.software.ui.bizservice.ItemTracingService;
+import cn.edu.nju.software.ui.temp.dao.DealerDao;
 import cn.edu.nju.software.ui.temp.dao.ItemTypeDao;
-import cn.edu.nju.software.ui.temp.entity.Dealer;
-import cn.edu.nju.software.ui.temp.entity.ItemType;
-import cn.edu.nju.software.ui.temp.entity.User;
+import cn.edu.nju.software.ui.temp.entity.*;
 import cn.edu.nju.software.ui.temp.service.ManufacturerService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -26,9 +30,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -40,6 +46,9 @@ import java.util.stream.Collectors;
 public class ManufactureController {
     @Autowired
     ItemTypeDao itemTypeDao;
+
+    @Autowired
+    DealerDao dealerDao;
 
     @Autowired
     ManufacturerService manufacturerService;
@@ -54,12 +63,28 @@ public class ManufactureController {
             @RequestBody BatchAddRequest uiBatchAddReqeust, HttpSession session) {
         User user = (User) session.getAttribute(SessionKey.USR);
 
+        //-----------------上链------------------------------
+        Optional<ItemType> byId = itemTypeDao.findById(uiBatchAddReqeust.getItemTypeId());
+        ItemType type = byId.get();
+        ItemInfo itemInfo = new ItemInfo();
+        itemInfo.setName(type.getItemName());
+        itemInfo.setClass_(type.getItemClass());
+        itemInfo.setManufactureDate(DateUtil.formatDate(System.currentTimeMillis()));
+        itemInfo.setBatchNum(uiBatchAddReqeust.getBatchNum());
+        itemInfo.setNote("");
+        String[] itemIds = uiBatchAddReqeust.getItems().split(Separator.SEPARATOR_PETTERN);
+        for (String itemId : itemIds) {
+            UIItemAddRequest uiItemAddRequest = new UIItemAddRequest();
+            uiItemAddRequest.setItemId(itemId);
+            uiItemAddRequest.setItemInfo(itemInfo);
+            uiItemAddRequest.setAddressInfo(uiBatchAddReqeust.getAddressInfo());
+            itemTracingService.addItemTracingInfo(uiItemAddRequest);
+        }
+        //-----------------上链结束----------------------------
+
         return manufacturerService.addBatch(user.getOrganizationId(), uiBatchAddReqeust
                         .getBatchNum(),
                 uiBatchAddReqeust.getItems(), uiBatchAddReqeust.getItemTypeId());
-//        manufacturerService.addBatch()
-
-//        ItemTypeEntity itemTypeEntity = itemTypeDao.findById(uiBatchItemAdd.getItemTypeId()).get();
     }
 
 
@@ -124,7 +149,8 @@ public class ManufactureController {
         }
         BizResponse<ItemType> batch = manufacturerService.getBatch(batchNum);
         RecallResponse recallResponse = new RecallResponse();
-        recallResponse.setItemType(batch.getRespData());
+        recallResponse.setTypeName(batch.getRespData().getItemName());
+        recallResponse.setTypeClass(batch.getRespData().getItemClass());
         List<RecallItem> collect = tracingItemInfos.stream().map(e -> {
             RecallItem recallItem = new RecallItem();
             recallItem.setItemId(e.getItemId());
@@ -140,6 +166,28 @@ public class ManufactureController {
     @ApiOperation(value = "商品订单")
     public BizResponse manufactureOrder(
             @RequestBody ManufactureOrderRequest orderRequest, HttpSession session) {
+
+
+        //-----------------上链------------------------------
+        Dealer dealer = null;
+        if (orderRequest.getOrderType() == ManufactureOrderType.BROKER)
+            dealer = dealerDao.findById(orderRequest.getOrgId()).get();
+
+        String[] itemIds = orderRequest.getItems().split(Separator.SEPARATOR_PETTERN);
+        for (String itemId : itemIds) {
+            UIItemChangeRequest uiItemChangeRequest = new UIItemChangeRequest();
+            uiItemChangeRequest.setOpType(OpType.BIZORDER.ordinal());
+            uiItemChangeRequest.setItemId(itemId);
+            uiItemChangeRequest.setNextOrg("Org1MSP");
+            uiItemChangeRequest.setItemStatus(ItemStatus.DEFAULT_STATUS);
+            uiItemChangeRequest.setEnvStatus(new EnvStatus(orderRequest.getAddressInfo()));
+            uiItemChangeRequest.setExtraInfo(dealer == null ? "个人" : dealer.getName() + "购买商品");
+            uiItemChangeRequest.setContact("");
+            itemTracingService.changeItemTracingInfo(uiItemChangeRequest);
+        }
+        //-----------------上链结束----------------------------
+
+
         User user = (User) session.getAttribute(SessionKey.USR);
         return manufacturerService.addSellingOrder(user.getOrganizationId(), orderRequest
                         .getOrgId(),

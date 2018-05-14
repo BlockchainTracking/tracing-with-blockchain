@@ -222,19 +222,36 @@ desired effect
 <script>
     function submit() {
         var formData = {
-            "envStatus": {
-                "addressInfo": {
-                    "longtitude": $('#longitude').val(),
-                    "latitude": $('#latitude').val(),
-                    "addressDesc": $('#address').val(),
-                    "nodeName": $('#nodeName').val()
-                }
+            "addressInfo": {
+                "longtitude": $('#longitude').val(),
+                "latitude": $('#latitude').val(),
+                "addressDesc": $('#address').val(),
+                "nodeName": $('#nodeName').val()
             },
             "email": $('#signEmail').val(),
             "name": $('#signName').val(),
             "order": $('#orderNum').val()
         }
         console.log(formData)
+
+        $.ajax(
+            {
+                type: 'post',
+                url: 'http://localhost:8080/logis/sign',
+                contentType: "application/json",
+                accept: "*/*",
+                data: JSON.stringify(formData),
+                success: function (data) {
+                    if (isSuccess(data))
+                        showMessage("添加成功")
+                    else
+                        showMessage("添加失败")
+                },
+                error: function () {
+                    showMessage("添加失败")
+                }
+            }
+        )
     }
 </script>
 </body>

@@ -33,36 +33,36 @@ public final class Persistence {
     CREATED(0),
     /**
      * <pre>
-     *出售给分销商/代理商
+     *销售订单
      * </pre>
      *
-     * <code>TRANSFER = 1;</code>
+     * <code>BIZORDER = 1;</code>
      */
-    TRANSFER(1),
+    BIZORDER(1),
     /**
      * <pre>
-     *中转
+     *物流订单
      * </pre>
      *
-     * <code>MEDIA = 2;</code>
+     * <code>LOGISORDER = 2;</code>
      */
-    MEDIA(2),
+    LOGISORDER(2),
     /**
      * <pre>
-     *入库
+     *出发
      * </pre>
      *
-     * <code>INSTOCK = 3;</code>
+     * <code>DEPARTURE = 3;</code>
      */
-    INSTOCK(3),
+    DEPARTURE(3),
     /**
      * <pre>
-     *出库
+     *到达
      * </pre>
      *
-     * <code>OUTSTOCK = 4;</code>
+     * <code>ARRIVED = 4;</code>
      */
-    OUTSTOCK(4),
+    ARRIVED(4),
     /**
      * <pre>
      *送达
@@ -71,6 +71,14 @@ public final class Persistence {
      * <code>DELIVERED = 5;</code>
      */
     DELIVERED(5),
+    /**
+     * <pre>
+     *分销商入库
+     * </pre>
+     *
+     * <code>INSTOCK = 6;</code>
+     */
+    INSTOCK(6),
     UNRECOGNIZED(-1),
     ;
 
@@ -84,36 +92,36 @@ public final class Persistence {
     public static final int CREATED_VALUE = 0;
     /**
      * <pre>
-     *出售给分销商/代理商
+     *销售订单
      * </pre>
      *
-     * <code>TRANSFER = 1;</code>
+     * <code>BIZORDER = 1;</code>
      */
-    public static final int TRANSFER_VALUE = 1;
+    public static final int BIZORDER_VALUE = 1;
     /**
      * <pre>
-     *中转
+     *物流订单
      * </pre>
      *
-     * <code>MEDIA = 2;</code>
+     * <code>LOGISORDER = 2;</code>
      */
-    public static final int MEDIA_VALUE = 2;
+    public static final int LOGISORDER_VALUE = 2;
     /**
      * <pre>
-     *入库
+     *出发
      * </pre>
      *
-     * <code>INSTOCK = 3;</code>
+     * <code>DEPARTURE = 3;</code>
      */
-    public static final int INSTOCK_VALUE = 3;
+    public static final int DEPARTURE_VALUE = 3;
     /**
      * <pre>
-     *出库
+     *到达
      * </pre>
      *
-     * <code>OUTSTOCK = 4;</code>
+     * <code>ARRIVED = 4;</code>
      */
-    public static final int OUTSTOCK_VALUE = 4;
+    public static final int ARRIVED_VALUE = 4;
     /**
      * <pre>
      *送达
@@ -122,6 +130,14 @@ public final class Persistence {
      * <code>DELIVERED = 5;</code>
      */
     public static final int DELIVERED_VALUE = 5;
+    /**
+     * <pre>
+     *分销商入库
+     * </pre>
+     *
+     * <code>INSTOCK = 6;</code>
+     */
+    public static final int INSTOCK_VALUE = 6;
 
 
     public final int getNumber() {
@@ -143,11 +159,12 @@ public final class Persistence {
     public static OPType forNumber(int value) {
       switch (value) {
         case 0: return CREATED;
-        case 1: return TRANSFER;
-        case 2: return MEDIA;
-        case 3: return INSTOCK;
-        case 4: return OUTSTOCK;
+        case 1: return BIZORDER;
+        case 2: return LOGISORDER;
+        case 3: return DEPARTURE;
+        case 4: return ARRIVED;
         case 5: return DELIVERED;
+        case 6: return INSTOCK;
         default: return null;
       }
     }
@@ -5659,10 +5676,11 @@ public final class Persistence {
       "\001(\t\022\033\n\010itemInfo\030\003 \001(\0132\t.ItemInfo\022\037\n\nitem" +
       "Status\030\004 \001(\0132\013.ItemStatus\022\035\n\tevnStatus\030\005" +
       " \001(\0132\n.EnvStatus\022\035\n\topsStatus\030\006 \001(\0132\n.Op" +
-      "sStatus*X\n\006OPType\022\013\n\007CREATED\020\000\022\014\n\010TRANSF" +
-      "ER\020\001\022\t\n\005MEDIA\020\002\022\013\n\007INSTOCK\020\003\022\014\n\010OUTSTOCK" +
-      "\020\004\022\r\n\tDELIVERED\020\005B2\n*cn.edu.nju.software" +
-      ".fabricservice.protomsgZ\004mainb\006proto3"
+      "sStatus*k\n\006OPType\022\013\n\007CREATED\020\000\022\014\n\010BIZORD" +
+      "ER\020\001\022\016\n\nLOGISORDER\020\002\022\r\n\tDEPARTURE\020\003\022\013\n\007A" +
+      "RRIVED\020\004\022\r\n\tDELIVERED\020\005\022\013\n\007INSTOCK\020\006B2\n*" +
+      "cn.edu.nju.software.fabricservice.protom" +
+      "sgZ\004mainb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {

@@ -1,5 +1,6 @@
 package cn.edu.nju.software.ui.bean.request;
 
+import cn.edu.nju.software.common.pojo.AddressInfo;
 import cn.edu.nju.software.ui.bean.ManufactureOrderType;
 import lombok.Data;
 
@@ -9,6 +10,7 @@ import lombok.Data;
  */
 @Data
 public class ManufactureOrderRequest {
+    AddressInfo addressInfo;
     ManufactureOrderType orderType;
     Integer orgId;
     String departureAddress;

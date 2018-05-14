@@ -188,7 +188,7 @@ desired effect
                             window.location.href = "/logis/logisOrder.html";
                             break;
                         case 'dealer':
-                            window.location.href = "/broker/allItems.html";
+                            window.location.href = "/broker/brokerStock.html";
                             break;
                     }
 
@@ -196,6 +196,9 @@ desired effect
                     showMessage("登录失败,用户名或账号错误")
                 }
                 console.log(data)
+            },
+            error: function () {
+                showMessage("登陆失败，用户名或密码错误")
             }
         })
     }

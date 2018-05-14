@@ -79,7 +79,7 @@ public class ItemChangeRequestsBuilder {
 
     public Requests.ItemChangeRequest build() {
         Persistence.Address address = Persistence.Address.newBuilder().setName(addressName)
-                .setLongitude(longitude).setLatitude(latitude).build();
+                .setLongitude(longitude).setLatitude(latitude).setDesc(addressDesc).build();
         Persistence.EnvStatus envStatus = Persistence.EnvStatus.newBuilder().setAddress(address)
                 .build();
         Persistence.ItemStatus itemStatus = Persistence.ItemStatus.newBuilder().setNormal(normal)
@@ -87,8 +87,7 @@ public class ItemChangeRequestsBuilder {
         Requests.ItemChangeRequest itemChangeRequest = Requests.ItemChangeRequest.newBuilder()
                 .setEnvStatus(envStatus).setItemStatus(itemStatus).setOpType(Persistence.OPType
                         .valueOf(opType.toString())).setItemId(itemId).setNextOrg(nextOrg)
-                .setExtraInfo(extraInfo)
-                .build();
+                .setExtraInfo(extraInfo).setContact(contact).build();
         return itemChangeRequest;
     }
 

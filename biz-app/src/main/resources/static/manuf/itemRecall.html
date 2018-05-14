@@ -137,19 +137,17 @@ desired effect
                 </div>
                 <!-- /.box-header -->
                 <!-- form start -->
-                <form role="form">
 
-                    <div class="box-body">
-                        <div class="input-group input-group-sm" style="width: 500px;">
-                            <label class="input-group-addon">批次号</label>
-                            <input type="text" class="form-control">
-                            <span class="input-group-btn">
-                      <button type="button" class="btn btn-primary">查找</button>
+                <div class="box-body">
+                    <div class="input-group input-group-sm" style="width: 500px;">
+                        <label class="input-group-addon">批次号</label>
+                        <input type="text" class="form-control" id="batchNum">
+                        <span class="input-group-btn">
+                      <button type="button" class="btn btn-primary" onclick="submit()">查找</button>
                     </span>
-                        </div>
                     </div>
-                    <!-- /.box-body -->
-                </form>
+                </div>
+                <!-- /.box-body -->
 
                 <div style="display: none" id="recall-info-block">
                     <div class="well" style="width:300px">
@@ -171,23 +169,8 @@ desired effect
                         <tbody id="tbody">
                         <tr>
                             <td>1.</td>
-                            <td>Update software</td>
-                            <td><span class="badge bg-red">55%</span></td>
-                        </tr>
-                        <tr>
-                            <td>2.</td>
-                            <td>Clean database</td>
-                            <td><span class="badge bg-yellow">70%</span></td>
-                        </tr>
-                        <tr>
-                            <td>3.</td>
-                            <td>Cron job running</td>
-                            <td><span class="badge bg-light-blue">30%</span></td>
-                        </tr>
-                        <tr>
-                            <td>4.</td>
-                            <td>Fix and squish bugs</td>
-                            <td><span class="badge bg-green">90%</span></td>
+                            <td>商品地址</td>
+                            <td></td>
                         </tr>
                         </tbody>
                     </table>
@@ -248,11 +231,8 @@ desired effect
 <script>
 
     var data = {
-        "itemType": {
-            "id": 0,
-            "itemClass": "string",
-            "itemName": "string"
-        },
+        "typeClass": "string",
+        "typeName": "string",
         "recallItems": [
             {
                 "contact": "string",
@@ -264,12 +244,11 @@ desired effect
 
 
     function update(data) {
-        var itemType = data.itemType
         var recallItems = data.recallItems
         $('#recall-info-block').css('display', 'block');
 
-        $('#itemName').html(itemType.itemName)
-        $('#itemClass').html(itemType.itemClass)
+        $('#itemName').html(data.typeName)
+        $('#itemClass').html(data.typeClass)
 
         var iLength = recallItems.length
         var html = ""
@@ -294,12 +273,14 @@ desired effect
         $.ajax(
             {
                 type: 'post',
-                url: 'http://localhost:8080/item/add',
-                contentType: "application/json",
+                url: 'http://localhost:8080/manuf/recall',
+                // contentType: "application/json",
                 accept: "*/*",
                 data: formData,
                 success: function (data) {
-                    update(data)
+                    console.log(data)
+                    if (isSuccess(data))
+                        update(data.respData)
                 }
             }
         )

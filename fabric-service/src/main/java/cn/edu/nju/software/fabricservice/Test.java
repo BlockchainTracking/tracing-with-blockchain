@@ -91,7 +91,7 @@ public class Test {
         Persistence.ItemStatus itemStatus = Persistence.ItemStatus.newBuilder()
                 .setNormal(true).setLogs("这是测试111").build();
         Requests.ItemChangeRequest itemChangeRequest = Requests.ItemChangeRequest.newBuilder()
-                .setOpType(Persistence.OPType.TRANSFER).setEnvStatus(envStatus).setItemStatus
+                .setOpType(Persistence.OPType.DEPARTURE).setEnvStatus(envStatus).setItemStatus
                         (itemStatus).setItemId("12345678901234567890123456789012").build();
         responses = hfClientHelper.chainCodeInvoke(chainCodeName, "1.0", "changeItem",
                 itemChangeRequest.toByteArray());

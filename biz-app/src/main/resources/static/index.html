@@ -151,6 +151,7 @@ desired effect
                             <th class="center">数据更新时间</th>
                             <th class="center">操作地点</th>
                             <th class="center">操作类型</th>
+                            <th class="center">详细信息</th>
                         </tr>
                         </thead>
                         <tbody id="tbody" class="center rectangle">
@@ -179,10 +180,6 @@ desired effect
 <script type="text/javascript"
         src="http://api.map.baidu.com/api?v=2.0&ak=qujYPfVnIp75zI5RPg3nVrWAiVoHDHms"></script>
 <script type="text/javascript">
-    // 百度地图API功能
-    var map = new BMap.Map("allmap");    // 创建Map实例
-    map.centerAndZoom(new BMap.Point(117.404, 35.415), 5);  // 初始化地图,设置中心点坐标和地图级别
-    map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
 
 
 </script>
@@ -193,22 +190,35 @@ desired effect
 
 <script>
 
+    var map = new BMap.Map("allmap");    // 创建Map实例
+    map.centerAndZoom(new BMap.Point(117.404, 35.415), 5);  // 初始化地图,设置中心点坐标和地图级别
+    map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
+    sy = new BMap.Symbol(BMap_Symbol_SHAPE_BACKWARD_OPEN_ARROW, {
+        scale: 0.5,//图标缩放大小
+        strokeColor: '#10f',//设置矢量图标的线填充颜色
+        strokeWeight: '1',//设置线宽
+    });
+    icons = new BMap.IconSequence(sy, '6%', '6%', false);
+    var polyline
+
     function addPointAndLine(points) {
+        // 百度地图API功能
+
+        map.removeOverlay(polyline)
+
+        // map.removeAll()
+
         var bPoints = []
         points.forEach(function (p) {
+            console.log(p)
             bPoints.push(new BMap.Point(p.long, p.lal))
         })
-        sy = new BMap.Symbol(BMap_Symbol_SHAPE_BACKWARD_OPEN_ARROW, {
-            scale: 0.6,//图标缩放大小
-            strokeColor: '#fff',//设置矢量图标的线填充颜色
-            strokeWeight: '2',//设置线宽
-        });
-        icons = new BMap.IconSequence(sy, '10', '30');
-        var polyline = new BMap.Polyline(points, {
+
+        polyline = new BMap.Polyline(bPoints, {
             enableEditing: false,//是否启用线编辑，默认为false
-            enableClicking: true,//是否响应点击事件，默认为true
+            enableClicking: false,//是否响应点击事件，默认为true
             icons: [icons],
-            strokeWeight: '8',//折线的宽度，以像素为单位
+            strokeWeight: '2',//折线的宽度，以像素为单位
             strokeOpacity: 0.8,//折线的透明度，取值范围0 - 1
             strokeColor: "#18a45b" //折线颜色
         });
@@ -223,19 +233,15 @@ desired effect
             html += "<tr><td>" + obj['time'] + "</td>"
                 + "<td>" + obj['address'] + "</td>"
                 + "<td>" + obj['opType'] + "</td>"
+                + "<td>" + obj['extraInfo'] + "</td>"
                 + "</tr>"
         })
         $('#tbody').append(html)
     }
 
-    function mockData() {
-
-    }
 
     function loadItemInfo() {
         var itemId = $('#itemId').val()
-        var points = []
-        var opsData = []
 
         $.ajax({
             type: 'post',
@@ -256,19 +262,19 @@ desired effect
                         "long": add.longtitude,
                         "lal": add.latitude
                     })
-                    console.log(d.operationStatus.opType)
                     opsData.push({
                         "time": d.time,
                         "address": add.nodeName,
                         "opType": getOptypeName(d.operationStatus.opType),
+                        "extraInfo":d.operationStatus.extraInfo
                     })
                 })
-                console.log(data)
-                console.log(points)
-                console.log(opsData)
+                // console.log(data)
+                // console.log(points)
+                // console.log(opsData)
 
-                addPointAndLine(points)
                 appendOpsData(opsData)
+                addPointAndLine(points)
             }
 
         })
@@ -278,18 +284,21 @@ desired effect
         switch (optype) {
             case 'CREATED':
                 return '商品出厂'
-            case 'TRANSFER':
-                return '商品预转移'
+            case 'BIZORDER':
+                return '销售订单'
+            case 'LOGISORDER':
+                return '物流订单'
+            case 'DEPARTURE':
+                return '商品出发'
+            case 'ARRIVED':
+                return '商品到达'
+            case 'DELIVERED':
+                return '商品签收'
             case 'INSTOCK':
                 return '商品入库'
-            case 'OUTSTOCK':
-                return '商品出库'
-            case 'DELIVERED':
-                return '商品送达'
-            case 'MEDIA':
-                return '中转'
         }
     }
+
 </script>
 </body>
 </html>

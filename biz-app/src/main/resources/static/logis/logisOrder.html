@@ -138,7 +138,7 @@ desired effect
                     </div>
                     <div class="form-group">
                         <label>目的地</label>
-                        <input type="text" class="form-control" id="address">
+                        <input type="text" class="form-control" id="departure">
                     </div>
                     <div class="form-group">
                         <label>所有商品</label>
@@ -149,59 +149,114 @@ desired effect
             </form>
         </div>
 
+        <div class="box box-primary  col-lg-6"
+             style="margin-left: 50px;margin-top: 50px;width: 500px">
+            <div class="box-header with-border">
+                <h3 class="box-title">地址信息</h3>
+            </div>
+            <!-- /.box-header -->
+            <!-- form start -->
+            <form role="form">
+                <div class="box-body">
+                    <div class="form-group">
+                        <label for="nodeName">节点名字</label>
+                        <input type="text" class="form-control" id="nodeName" value="上海物流中心">
+                    </div>
+                    <div class="form-group">
+                        <label for="address">地址</label>
+                        <input type="text" class="form-control" id="address" value="上海市">
+                    </div>
+                    <div class="form-group">
+                        <label for="longitude">经度</label>
+                        <input type="text" class="form-control" id="longitude"
+                               value="121.483073">
+                    </div>
+                    <div class="form-group">
+                        <label for="latitude">纬度</label>
+                        <input type="text" class="form-control" id="latitude" value="31.234326">
+                    </div>
+                </div>
+                <!-- /.box-body -->
+            </form>
+
+
+            <!-- /.content -->
+        </div>
+        <div class="modal fade in" id="tip-modal" style="display:none; padding-right: 17px;">
+            <div class="modal-dialog activity-specific-info">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span></button>
+                        <h4 class="modal-title">提示</h4>
+                    </div>
+                    <div class="modal-body activity-specific-info-content">
+                        <p style="padding-top: 10px;padding-left: 10px" id="tip-msg">消息</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary  pull-left"
+                                data-dismiss="modal">关闭
+                        </button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+        </div>
 
         <div class="col-lg-4 btn-block">
             <button class="btn btn-primary" style="margin-left: 40px" onclick="submit()"> 提交
             </button>
         </div>
 
-        <!-- /.content -->
     </div>
-    <div class="modal fade in" id="tip-modal" style="display:none; padding-right: 17px;">
-        <div class="modal-dialog activity-specific-info">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span></button>
-                    <h4 class="modal-title">提示</h4>
-                </div>
-                <div class="modal-body activity-specific-info-content">
-                    <p style="padding-top: 10px;padding-left: 10px" id="tip-msg">消息</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary  pull-left"
-                            data-dismiss="modal">关闭
-                    </button>
-                </div>
-            </div>
-            <!-- /.modal-content -->
-        </div>
-    </div>
+    <!-- ./wrapper -->
 
-</div>
-<!-- ./wrapper -->
+    <!-- REQUIRED JS SCRIPTS -->
 
-<!-- REQUIRED JS SCRIPTS -->
-
-<!-- jQuery 2.2.3 -->
-<script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
-<!-- Bootstrap 3.3.6 -->
-<script src="../bootstrap/js/bootstrap.min.js"></script>
-<script src="../dist/js/echarts.min.js"></script>
-<!-- AdminLTE App -->
-<script src="../dist/js/app.min.js"></script>
-<script src="../js/util.js"></script>
+    <!-- jQuery 2.2.3 -->
+    <script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
+    <!-- Bootstrap 3.3.6 -->
+    <script src="../bootstrap/js/bootstrap.min.js"></script>
+    <script src="../dist/js/echarts.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="../dist/js/app.min.js"></script>
+    <script src="../js/util.js"></script>
 
 
-<script>
-    function submit() {
-        var formData = {
-            "departureAddress": $('#address').val(),
-            "items": $('#itemIds').val(),
-            "orderDesc": $('#orderDesc').val()
+    <script>
+        function submit() {
+            var formData = {
+                "addressInfo": {
+                    "longtitude": $('#longitude').val(),
+                    "latitude": $('#latitude').val(),
+                    "addressDesc": $('#address').val(),
+                    "nodeName": $('#nodeName').val()
+                },
+                "departureAddress": $('#departure').val(),
+                "items": $('#itemIds').val(),
+                "orderDesc": $('#orderDesc').val()
+            }
+
+            $.ajax(
+                {
+                    type: 'post',
+                    url: 'http://localhost:8080/logis/order',
+                    contentType: "application/json",
+                    accept: "*/*",
+                    data: JSON.stringify(formData),
+                    success: function (data) {
+                        if (isSuccess(data))
+                            showMessage("添加成功")
+                        else
+                            showMessage("添加失败")
+                    },
+                    error: function () {
+                        showMessage("添加失败")
+                    }
+                }
+            )
+            console.log(formData)
         }
-        console.log(formData)
-    }
-</script>
+    </script>
 </body>
 </html>

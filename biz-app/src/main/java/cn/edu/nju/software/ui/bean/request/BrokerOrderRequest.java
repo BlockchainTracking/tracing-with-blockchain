@@ -5,12 +5,10 @@ import lombok.Data;
 
 /**
  * @author Daniel
- * @since 2018/5/13 23:23
+ * @since 2018/5/14 16:11
  */
 @Data
-public class LogisticsOrderRequest {
+public class BrokerOrderRequest {
     AddressInfo addressInfo;
-    String orderDesc;
-    String departureAddress;
-    String items;
+    String itemIds;
 }

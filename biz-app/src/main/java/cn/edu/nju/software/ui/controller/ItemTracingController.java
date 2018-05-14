@@ -57,7 +57,6 @@ public class ItemTracingController {
         uiItemChangeRequest.setEnvStatus(request.getEnvStatus());
         uiItemChangeRequest.setItemStatus(request.getItemStatus());
         uiItemChangeRequest.setItemId(request.getItemId());
-        uiItemChangeRequest.setOpType(OpType.TRANSFER.ordinal());
         uiItemChangeRequest.setNextOrg(request.getNextOrg());
         uiItemChangeRequest.setExtraInfo(request.getDiliveryOrg());
         return itemTracingService.changeItemTracingInfo(uiItemChangeRequest);
@@ -87,7 +86,6 @@ public class ItemTracingController {
         uiItemChangeRequest.setEnvStatus(request.getEnvStatus());
         uiItemChangeRequest.setItemStatus(request.getItemStatus());
         uiItemChangeRequest.setItemId(request.getItemId());
-        uiItemChangeRequest.setOpType(OpType.OUTSTOCK.ordinal());
         uiItemChangeRequest.setNextOrg(request.getNextOrg());
         uiItemChangeRequest.setExtraInfo(request.getStockInfo());
         return itemTracingService.changeItemTracingInfo(uiItemChangeRequest);
@@ -102,7 +100,6 @@ public class ItemTracingController {
         uiItemChangeRequest.setEnvStatus(request.getEnvStatus());
         uiItemChangeRequest.setItemStatus(request.getItemStatus());
         uiItemChangeRequest.setItemId(request.getItemId());
-        uiItemChangeRequest.setOpType(OpType.MEDIA.ordinal());
         uiItemChangeRequest.setNextOrg(request.getNextOrg());
         uiItemChangeRequest.setExtraInfo(request.getMediaInfo());
         return itemTracingService.changeItemTracingInfo(uiItemChangeRequest);

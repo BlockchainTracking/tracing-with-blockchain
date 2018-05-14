@@ -21,7 +21,9 @@ public interface LogisticsService {
      * @return List<LogisticsSite>
      */
     BizResponse<List<LogisticsSite>> getAllLogisticsSite(int organizationId);
-    
+
+
+    BizResponse<List<String>> getAllItemIds(List<String> orderNums);
 
     
     /**

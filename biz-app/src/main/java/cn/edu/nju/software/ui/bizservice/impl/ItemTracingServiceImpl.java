@@ -83,6 +83,7 @@ public class ItemTracingServiceImpl implements ItemTracingService {
         Requests.ItemChangeRequest itemChangeRequest = RequestsBuilder.newItemChangeRequestsBuilder()
                 .setItemId(uiItemChangeRequest.getItemId())
                 .setAddressName(addressInfo.getNodeName())
+                .setAddressDesc(addressInfo.getAddressDesc())
                 .setLongitude(addressInfo.getLongtitude())
                 .setLatitude(addressInfo.getLatitude())
                 .setAddressDesc(addressInfo.getAddressDesc())

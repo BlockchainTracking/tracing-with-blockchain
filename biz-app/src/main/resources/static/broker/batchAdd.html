@@ -103,16 +103,15 @@ desired effect
 
             <ul class="sidebar-menu">
                 <li class="header">HEADER</li>
-                <li><a href="manufStock.html">
-                    <span>商品库存</span></a></li>
-                <li><a href="batchAdd.html"><span>商品出厂
+                <li><a href="brokerOrder.html"><span>商品订单
                 </span></a></li>
-                <li><a href="itemRecall.html">
-                    <span>商品召回</span></a></li>
-                <li><a href="manufOrder.html">
-                    <span>商品订单</span></a></li>
+                <li><a href="brokerStock.html">
+                    <span>库存查看</span></a></li>
+                <li><a href="batchAdd.html">
+                    <span>库存添加</span></a></li>
                 <li><a href="itemTypeMgt.html">
-                    <span>商品类型管理</span></a></li>
+                    <span>类型管理</span></a></li>
+
             </ul>
             <!-- /.sidebar-menu -->
         </section>
@@ -137,15 +136,11 @@ desired effect
             <div class="box box-primary col-lg-6" style="margin-left: 50px;margin-top: 50px;width:
         500px">
                 <div class="box-header with-border">
-                    <h3 class="box-title">批次信息</h3>
+                    <h3 class="box-title">商品信息</h3>
                 </div>
 
                 <form role="form">
                     <div class="box-body">
-                        <div class="form-group">
-                            <label for="nodeName">批次号</label>
-                            <input type="text" class="form-control" id="batchNum">
-                        </div>
                         <div class="form-group">
                             <label for="nodeName">商品类别</label>
                             <select class="form-control select2 select2-hidden-accessible"
@@ -178,20 +173,19 @@ desired effect
                     <div class="box-body">
                         <div class="form-group">
                             <label for="nodeName">节点名字</label>
-                            <input type="text" class="form-control" id="nodeName" value="上海制造总厂">
+                            <input type="text" class="form-control" id="nodeName">
                         </div>
                         <div class="form-group">
                             <label for="address">地址</label>
-                            <input type="text" class="form-control" id="address" value="上海市">
+                            <input type="text" class="form-control" id="address">
                         </div>
                         <div class="form-group">
                             <label for="longitude">经度</label>
-                            <input type="text" class="form-control" id="longitude"
-                                   value="121.483073">
+                            <input type="text" class="form-control" id="longitude">
                         </div>
                         <div class="form-group">
                             <label for="latitude">纬度</label>
-                            <input type="text" class="form-control" id="latitude" value="31.234326">
+                            <input type="text" class="form-control" id="latitude">
                         </div>
                     </div>
                     <!-- /.box-body -->
@@ -265,14 +259,11 @@ desired effect
         $.ajax(
             {
                 type: 'post',
-                url: 'http://localhost:8080/manuf/allItemTypes',
+                url: 'http://localhost:8080/broker/allItemTypes',
                 accept: "*/*",
                 success: function (data) {
-                    if (!data.respStatus.success)
-                        showMessage("删除错误")
-                    else {
+                    if (data.respStatus.success)
                         updateItemTypes(data.respData)
-                    }
                 }
             }
         )
@@ -295,14 +286,13 @@ desired effect
                 "addressDesc": $('#address').val(),
                 "nodeName": $('#nodeName').val()
             },
-            "batchNum": $('#batchNum').val(),
             "itemTypeId": $('#itemType option:selected').attr('id'),
             "items": $('#itemIds').val()
         }
         $.ajax(
             {
                 type: 'post',
-                url: 'http://localhost:8080/manuf/addItems',
+                url: 'http://localhost:8080/broker/inStock',
                 contentType: "application/json",
                 accept: "*/*",
                 data: JSON.stringify(formData),

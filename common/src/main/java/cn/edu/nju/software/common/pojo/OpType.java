@@ -3,16 +3,18 @@ package cn.edu.nju.software.common.pojo;
 public enum OpType {
     //出厂
     CREATED,
-    //出售给分销商/代理商
-    TRANSFER,
-    //中转
-    MEDIA,
-    //入库
-    INSTOCK,
-    //出库
-    OUTSTOCK,
+    //销售订单
+    BIZORDER,
+    //物流订单
+    LOGISORDER,
+    //出发
+    DEPARTURE,
+    //到达
+    ARRIVED,
     //送达
-    DELIVERED;
+    DELIVERED,
+    //分销商入库
+    INSTOCK;
 
 
     public static OpType getOpTypeByIndex(int index) {

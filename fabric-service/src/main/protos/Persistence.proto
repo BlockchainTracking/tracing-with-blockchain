@@ -9,13 +9,17 @@ enum OPType {
     //出厂
     CREATED = 0;
     //销售订单
-    ORDER = 1;
+    BIZORDER = 1;
+    //物流订单
+    LOGISORDER = 2;
     //出发
-    DEPARTURE = 2;
+    DEPARTURE = 3;
     //到达
-    ARRIVED = 3;
+    ARRIVED = 4;
     //送达
-    DELIVERED = 4;
+    DELIVERED = 5;
+    //分销商入库
+    INSTOCK = 6;
 }
 
 //地址信息

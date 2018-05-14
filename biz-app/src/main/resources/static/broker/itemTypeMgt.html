@@ -95,19 +95,17 @@ desired effect
             </form>
             <!-- /.search form -->
 
-            <!-- Sidebar Menu -->
             <ul class="sidebar-menu">
                 <li class="header">HEADER</li>
-                <li><a href="manufStock.html">
-                    <span>商品库存</span></a></li>
-                <li><a href="batchAdd.html"><span>商品出厂
+                <li><a href="brokerOrder.html"><span>商品订单
                 </span></a></li>
-                <li><a href="itemRecall.html">
-                    <span>商品召回</span></a></li>
-                <li><a href="manufOrder.html">
-                    <span>商品订单</span></a></li>
+                <li><a href="brokerStock.html">
+                    <span>库存查看</span></a></li>
+                <li><a href="batchAdd.html">
+                    <span>库存添加</span></a></li>
                 <li><a href="itemTypeMgt.html">
-                    <span>商品类型管理</span></a></li>
+                    <span>类型管理</span></a></li>
+
             </ul>
             <!-- /.sidebar-menu -->
         </section>
@@ -117,96 +115,96 @@ desired effect
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
-        <section class="content-header">
-            <h1>
-                商品订单
-            </h1>
-            <ol class="breadcrumb">
-                <li class="active"><a href="#"><i class="fa fa-dashboard"></i>首页</a></li>
-            </ol>
-        </section>
+        <div>
 
-        <div class="box box-primary  col-lg-6"
-             style="margin-left: 50px;margin-top: 50px;width: 500px">
-            <div class="box-header with-border">
-                <h3 class="box-title">订单信息</h3>
-            </div>
-            <!-- /.box-header -->
-            <!-- form start -->
-            <form role="form">
+
+            <section class="content-header">
+                <h1>
+                    商品类别管理
+                </h1>
+                <ol class="breadcrumb">
+                    <li class="active"><a href="#"><i class="fa fa-dashboard"></i>首页</a></li>
+                </ol>
+            </section>
+
+            <div class="box box-primary col-lg-6"
+                 style="margin-left: 50px;margin-top: 50px;width:800px">
+
+                <div class="box-header with-border">
+                    <h3 class="box-title">商品类别</h3>
+                </div>
+                <!-- /.box-header -->
+                <!-- form start -->
+
                 <div class="box-body">
-                    <div class="form-group">
-                        <label>订单类型</label>
-                        <select class="form-control select2 select2-hidden-accessible"
-                                style="width: 100%;" tabindex="-1" aria-hidden="true"
-                                onchange="selectChange(this.value)" id="orderType">
-                            <option selected="selected" value="BROKER">经销商</option>
-                            <option value="PERSON">个人</option>
-                        </select>
-                    </div>
-                    <div class="form-group" id="brokers">
-                        <label>目的组织</label>
-                        <select class="form-control select2 select2-hidden-accessible"
-                                style="width: 100%;" tabindex="-1" aria-hidden="true"
-                                id="brokers-select">
-                            <option selected="selected">分销商1</option>
-                            <option>分销商2</option>
-                            <option>分销商3</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>目的地</label>
-                        <input type="text" class="form-control" id="departure">
-                    </div>
-
-                    <div class="form-group">
-                        <label>所有商品</label>
-                        <textarea rows="3" class="form-control" id="itemIds"></textarea>
-                    </div>
+                    <table class="table table-bordered">
+                        <tr>
+                            <th style="width: 5px">#</th>
+                            <th>名称</th>
+                            <th>类型</th>
+                            <th width="10px"></th>
+                        </tr>
+                        <tbody id="typeTable">
+                        <tr>
+                            <td>1.</td>
+                            <td>XPS15笔记本</td>
+                            <td>
+                                笔记本电脑
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-box-tool"
+                                        style="padding-bottom: 0px"
+                                        id="dwa" onclick="deleteType(this.id)">
+                                    <i class="fa fa-times"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>2.</td>
+                            <td>Macbook</td>
+                            <td>
+                                笔记本电脑
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-box-tool"
+                                        style="padding-bottom: 0px">
+                                    <i class="fa fa-times"></i></button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
                 <!-- /.box-body -->
-            </form>
-        </div>
 
-        <div class="box box-primary  col-lg-6"
-             style="margin-left: 50px;margin-top: 50px;width: 500px">
-            <div class="box-header with-border">
-                <h3 class="box-title">地址信息</h3>
+
             </div>
-            <!-- /.box-header -->
-            <!-- form start -->
-            <form role="form">
-                <div class="box-body">
-                    <div class="form-group">
-                        <label for="nodeName">节点名字</label>
-                        <input type="text" class="form-control" id="nodeName" value="上海制造总厂">
-                    </div>
-                    <div class="form-group">
-                        <label for="address">地址</label>
-                        <input type="text" class="form-control" id="address" value="上海市">
-                    </div>
-                    <div class="form-group">
-                        <label for="longitude">经度</label>
-                        <input type="text" class="form-control" id="longitude"
-                               value="121.483073">
-                    </div>
-                    <div class="form-group">
-                        <label for="latitude">纬度</label>
-                        <input type="text" class="form-control" id="latitude" value="31.234326">
-                    </div>
+
+            <div class="box box-primary  col-lg-6"
+                 style="margin-left: 50px;margin-top: 50px;width: 300px">
+                <div class="box-header with-border">
+                    <h3 class="box-title">添加新类型</h3>
                 </div>
-                <!-- /.box-body -->
-            </form>
+                <!-- /.box-header -->
+                <!-- form start -->
+                <form role="form">
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label for="typeName">名字</label>
+                            <input type="text" class="form-control" id="typeName">
+                        </div>
+                        <div class="form-group">
+                            <label for="typeClass">商品类型</label>
+                            <input type="text" class="form-control" id="typeClass">
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+                </form>
+
+                <div class="box-footer">
+
+                    <button class="btn btn-primary pull-right" onclick="submit()">添加</button>
+                </div>
+            </div>
         </div>
-
-
-        <div class="col-lg-4 btn-block">
-            <button class="btn btn-primary" style="margin-left: 40px" onclick="submit()"> 提交
-            </button>
-        </div>
-
-
-        <!-- /.content -->
     </div>
 
 
@@ -230,6 +228,7 @@ desired effect
         </div>
     </div>
 
+
 </div>
 <!-- ./wrapper -->
 
@@ -239,98 +238,101 @@ desired effect
 <script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
 <!-- Bootstrap 3.3.6 -->
 <script src="../bootstrap/js/bootstrap.min.js"></script>
+<script src="../dist/js/echarts.min.js"></script>
 <!-- AdminLTE App -->
 <script src="../dist/js/app.min.js"></script>
+<script src="../plugins/datepicker/bootstrap-datepicker.js"></script>
 <script src="../js/util.js"></script>
 
+<!-- Optionally, you can add Slimscroll and FastClick plugins.
+     Both of these plugins are recommended to enhance the
+     user experience. Slimscroll is required when using the
+     fixed layout. -->
 
 <script>
 
+    update()
+
     var data = [
         {
-            "address": "string",
             "id": 0,
-            "itemIds": [
-                {
-                    "dealerId": 0,
-                    "dealerItemTypeId": 0,
-                    "id": 0,
-                    "itemId": "string"
-                }
-            ],
-            "name": "string"
+            "itemClass": "string",
+            "itemName": "string"
         }
     ]
 
-    update()
+    function deleteType(id) {
+        $.ajax(
+            {
+                type: 'post',
+                url: 'http://localhost:8080/broker/deleteType',
+                accept: "*/*",
+                data: {"typeId": id},
+                success: function (data) {
+                    if (!data.respStatus.success)
+                        showMessage("删除错误")
+                    else {
+                        update()
+                    }
+                }
+            }
+        )
+    }
 
     function update() {
         $.ajax(
             {
                 type: 'post',
-                url: 'http://localhost:8080/manuf/allBrokers',
-                contentType: "application/json",
+                url: 'http://localhost:8080/broker/allItemTypes',
                 accept: "*/*",
                 success: function (data) {
-                    if (isSuccess(data)) {
-                        console.log(data)
-                        updateBroker(data.respData)
-                    }
+                    updateTypes(data.respData)
                 }
             }
         )
     }
 
-    function updateBroker(data) {
+    function updateTypes(data) {
         var html = ""
-        data.forEach(function (v) {
-            html += "<option value='" + v.id + "'>" + v.name + "</option>"
-        })
-        $('#brokers-select').html(html)
-    }
-
-    function selectChange(val) {
-        if (val === "PERSON") {
-            $('#brokers').css("display", "none")
-        } else {
-            $('#brokers').css("display", "block")
+        var dl = data.length
+        for (var i = 0; i < dl; i++) {
+            html += "<tr>\n" +
+                "<td>" + (i + 1) + "</td>\n" +
+                "<td>" + data[i].itemName + "</td>\n" +
+                "<td>\n" +
+                data[i].itemClass +
+                "</td>\n" +
+                "<td>\n" +
+                "<button type=\"button\" class=\"btn btn-box-tool\"\n" +
+                "style=\"padding-bottom: 0px\" id=\"" + data[i].id + "\" onclick=\"deleteType(this.id)\">\n" +
+                "<i class=\"fa fa-times\"></i></button>\n" +
+                "</td>\n" +
+                "</tr>"
         }
+        $('#typeTable').html(html)
     }
 
     function submit() {
-
-        var orderType = $('#orderType').val()
-
         var formData = {
-            "addressInfo": {
-                "longtitude": $('#longitude').val(),
-                "latitude": $('#latitude').val(),
-                "addressDesc": $('#address').val(),
-                "nodeName": $('#nodeName').val()
-            },
-            "departureAddress": $('#departure').val(),
-            "items": $('#itemIds').val(),
-            "orderType": orderType,
-            "orgId": $('#brokers-select').val()
+            "typeName": $('#typeName').val(),
+            "typeClass": $('#typeClass').val()
         }
-
+        console.log(formData)
         $.ajax(
             {
                 type: 'post',
-                url: 'http://localhost:8080/manuf/order',
-                contentType: "application/json",
+                url: 'http://localhost:8080/broker/addItemTypes',
                 accept: "*/*",
-                data: JSON.stringify(formData),
+                data: formData,
                 success: function (data) {
-                    if (isSuccess(data)) {
-                        showMessage("添加成功")
-                    } else {
+                    if (!data.respStatus.success)
                         showMessage("添加失败")
+                    else {
+                        update()
                     }
                 }
             }
         )
-        console.log(formData)
     }
 </script>
 </body>

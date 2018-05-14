@@ -73,6 +73,15 @@ desired effect
         <section class="sidebar">
 
             <!-- Sidebar user panel (optional) -->
+            <div class="user-panel">
+                <div class="pull-left image">
+                    <img src="../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                </div>
+                <div class="pull-left info">
+                    <p>Alexander Pierce</p>
+                    <a href="/logout"> 注销</a>
+                </div>
+            </div>
 
             <!-- search form (Optional) -->
             <form action="#" method="get" class="sidebar-form">
@@ -87,13 +96,17 @@ desired effect
             </form>
             <!-- /.search form -->
 
-            <!-- Sidebar Menu -->
             <ul class="sidebar-menu">
                 <li class="header">HEADER</li>
                 <li><a href="brokerOrder.html"><span>商品订单
                 </span></a></li>
-                <li><a href="allItems.html">
+                <li><a href="brokerStock.html">
                     <span>库存查看</span></a></li>
+                <li><a href="batchAdd.html">
+                    <span>库存添加</span></a></li>
+                <li><a href="itemTypeMgt.html">
+                    <span>类型管理</span></a></li>
+
             </ul>
             <!-- /.sidebar-menu -->
         </section>
@@ -103,68 +116,57 @@ desired effect
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
-        <section class="content-header">
-            <h1>
-                商品订单
-            </h1>
-            <ol class="breadcrumb">
-                <li class="active"><a href="#"><i class="fa fa-dashboard"></i>首页</a></li>
-            </ol>
-        </section>
+        <div>
 
-        <div class="box box-primary  col-lg-6"
-             style="margin-left: 50px;margin-top: 50px;width: 500px">
-            <div class="box-header with-border">
-                <h3 class="box-title">库存情况</h3>
+
+            <section class="content-header">
+                <h1>
+                    统计信息
+                </h1>
+                <ol class="breadcrumb">
+                    <li class="active"><a href="#"><i class="fa fa-dashboard"></i>首页</a></li>
+                </ol>
+            </section>
+
+            <div class="box box-primary col-lg-6" style="margin-left: 50px;margin-top: 50px;width:
+        500px">
+                <div class="box-header with-border">
+                    <h3 class="box-title">库存信息</h3>
+                </div>
+
+                <form role="form">
+                    <div class="box-body">
+                        <table class="table table-bordered">
+                            <tr>
+                                <th style="width: 10px">#</th>
+                                <th>商品类别</th>
+                                <th>库存数量</th>
+                            </tr>
+                            <tbody id="tbody">
+                            <tr>
+                                <td>1.</td>
+                                <td>电脑1</td>
+                                <td>
+                                    15
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2.</td>
+                                <td>电脑1</td>
+                                <td>
+                                    15
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
+                </form>
             </div>
-            <!-- /.box-header -->
-            <!-- form start -->
-            <div class="box-body">
-                <table class="table table-bordered">
-                    <tbody>
-                    <tr>
-                        <th style="width: 10px">#</th>
-                        <th>商品类别</th>
-                        <th>库存数量</th>
-                    </tr>
-                    <tr>
-                        <td>1.</td>
-                        <td>电脑1</td>
-                        <td>
-                            15
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>1.</td>
-                        <td>电脑1</td>
-                        <td>
-                            15
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>1.</td>
-                        <td>电脑1</td>
-                        <td>
-                            15
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>1.</td>
-                        <td>电脑1</td>
-                        <td>
-                            15
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-            <!-- /.box-body -->
+            <!-- /.content -->
+
         </div>
-
-
-        <!-- /.content -->
     </div>
-
 
     <div class="modal fade in" id="tip-modal" style="display:none; padding-right: 17px;">
         <div class="modal-dialog activity-specific-info">
@@ -178,7 +180,8 @@ desired effect
                     <p style="padding-top: 10px;padding-left: 10px" id="tip-msg">消息</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary  pull-left" data-dismiss="modal">关闭
+                    <button type="button" class="btn btn-primary  pull-left"
+                            data-dismiss="modal">关闭
                     </button>
                 </div>
             </div>
@@ -195,53 +198,61 @@ desired effect
 <script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
 <!-- Bootstrap 3.3.6 -->
 <script src="../bootstrap/js/bootstrap.min.js"></script>
+<script src="../dist/js/echarts.min.js"></script>
 <!-- AdminLTE App -->
 <script src="../dist/js/app.min.js"></script>
+
+<script src="../dist/js/pages/index.js"></script>
 <script src="../js/util.js"></script>
 
+<!-- Optionally, you can add Slimscroll and FastClick plugins.
+     Both of these plugins are recommended to enhance the
+     user experience. Slimscroll is required when using the
+     fixed layout. -->
 
 <script>
-
-    function selectChange(val) {
-        if (val === "个人") {
-            $('#brokers').css("display", "none")
-        } else {
-            $('#brokers').css("display", "block")
+    var data = [
+        {
+            "count": 0,
+            "itemType": "string"
         }
-    }
+    ];
 
-    function submit() {
-        var formData = {
-            "itemId": $('#itemId').val(),
-            "diliveryOrg": "Org1MSP",
-            "envStatus": {
-                "addressInfo": {
-                    "longtitude": $('#longitude').val(),
-                    "latitude": $('#latitude').val(),
-                    "addressDesc": $('#address').val(),
-                    "nodeName": $('#nodeName').val()
-                }
-            },
-            "itemStatus": {
-                "logs": $('#logs').val(),
-                "normal": true
-            },
-            "nextOrg": "Org1MSP",
-        }
+    update()
+
+    function update() {
         $.ajax(
             {
                 type: 'post',
-                url: 'http://localhost:8080/item/itemTransfer',
+                url: 'http://localhost:8080/broker/stock',
                 contentType: "application/json",
                 accept: "*/*",
-                data: JSON.stringify(formData),
-                success: function () {
-                    alert("提交成功")
+                success: function (data) {
+                    if (isSuccess(data)) {
+                        console.log(data)
+                        updateTable(data.respData)
+                    }
                 }
             }
         )
-        console.log(formData)
     }
+
+    function updateTable(data) {
+        var html = ""
+        var dl = data.length
+        for (var i = 0; i < dl; i++) {
+            html += "<tr>\n" +
+                "<td>" + (i + 1) + "</td>\n" +
+                "<td>" + data[i].itemType + "</td>\n" +
+                "<td>\n" +
+                data[i].count +
+                "</td>\n" +
+                "</tr>"
+        }
+        console.log(html)
+        $('#tbody').html(html)
+    }
+
 </script>
 </body>
 </html>

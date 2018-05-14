@@ -176,19 +176,20 @@ desired effect
                 <div class="box-body">
                     <div class="form-group">
                         <label for="nodeName">节点名字</label>
-                        <input type="text" class="form-control" id="nodeName">
+                        <input type="text" class="form-control" id="nodeName" value="南京物流中心">
                     </div>
                     <div class="form-group">
                         <label for="address">地址</label>
-                        <input type="text" class="form-control" id="address">
+                        <input type="text" class="form-control" id="address" value="南京市">
                     </div>
                     <div class="form-group">
                         <label for="longitude">经度</label>
-                        <input type="text" class="form-control" id="longitude">
+                        <input type="text" class="form-control" id="longitude"
+                               value="121.483073">
                     </div>
                     <div class="form-group">
                         <label for="latitude">纬度</label>
-                        <input type="text" class="form-control" id="latitude">
+                        <input type="text" class="form-control" id="latitude" value="31.234326">
                     </div>
                 </div>
                 <!-- /.box-body -->
@@ -248,6 +249,7 @@ desired effect
         }
     ]
 
+
     var isCheckAll = false;
 
     function swapCheck() {
@@ -262,6 +264,22 @@ desired effect
             });
             isCheckAll = true;
         }
+    }
+
+    update();
+
+    function update() {
+        $.ajax(
+            {
+                type: 'post',
+                url: 'http://localhost:8080/logis/toArriveOrder',
+                accept: "*/*",
+                success: function (data) {
+                    if (isSuccess(data))
+                        updateOrder(data.respData)
+                }
+            }
+        )
     }
 
     function updateOrder(data) {
@@ -285,18 +303,37 @@ desired effect
         })
 
         var formData = {
-            "envStatus": {
-                "addressInfo": {
-                    "longtitude": $('#longitude').val(),
-                    "latitude": $('#latitude').val(),
-                    "addressDesc": $('#address').val(),
-                    "nodeName": $('#nodeName').val()
-                }
+            "addressInfo": {
+                "longtitude": $('#longitude').val(),
+                "latitude": $('#latitude').val(),
+                "addressDesc": $('#address').val(),
+                "nodeName": $('#nodeName').val()
             },
             "note": $('#note').val(),
             "orders": orders
         }
         console.log(formData)
+
+        $.ajax(
+            {
+                type: 'post',
+                url: 'http://localhost:8080/logis/itemArrived',
+                contentType: "application/json",
+                accept: "*/*",
+                data: JSON.stringify(formData),
+                success: function (data) {
+                    if (isSuccess(data)) {
+                        showMessage("添加成功")
+                        update()
+                    }
+                    else
+                        showMessage("添加失败")
+                },
+                error: function () {
+                    showMessage("添加失败")
+                }
+            }
+        )
     }
 </script>
 </body>
