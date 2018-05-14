@@ -7,6 +7,7 @@ import cn.edu.nju.software.ui.temp.dao.DealerItemTypeDao;
 import cn.edu.nju.software.ui.temp.entity.Dealer;
 import cn.edu.nju.software.ui.temp.entity.DealerItem;
 import cn.edu.nju.software.ui.temp.entity.DealerItemType;
+import cn.edu.nju.software.ui.temp.entity.Separator;
 import cn.edu.nju.software.ui.temp.service.DealerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -61,7 +62,7 @@ public class DealerServiceImpl implements DealerService{
     @Override
     public BizResponse sellItem(int organizationId , String itemIdString ) {
         
-        Arrays.asList(itemIdString.split(",")).forEach(itemId -> dealerItemDao.deleteByDealerIdAndItemId(organizationId, itemId));
+        Arrays.asList(itemIdString.split(Separator.SEPARATOR_PETTERN)).forEach(itemId -> dealerItemDao.deleteByDealerIdAndItemId(organizationId, itemId));
         
         return BizResponse.defaultResponse(null);
         
@@ -71,7 +72,7 @@ public class DealerServiceImpl implements DealerService{
     public BizResponse addItem(int organizationId, String itemIdString , int dealerItemTypeId) {
     
         
-        List<DealerItem> dealerItemList = Arrays.stream(itemIdString.split(","))
+        List<DealerItem> dealerItemList = Arrays.stream(itemIdString.split(Separator.SEPARATOR_PETTERN))
                                           .map(itemId -> new DealerItem(organizationId , itemId , dealerItemTypeId))
                                           .collect(Collectors.toList());
     
