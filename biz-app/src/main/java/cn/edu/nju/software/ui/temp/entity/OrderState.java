@@ -9,7 +9,8 @@ public enum OrderState {
     
     transit, //运输
     
-    dispatch, //派件
+    arrive, //到达
+    
     
     sign, //签收
 }

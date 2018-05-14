@@ -3,6 +3,7 @@ package cn.edu.nju.software.ui.temp.service;
 import cn.edu.nju.software.common.pojo.bizservice.response.BizResponse;
 import cn.edu.nju.software.ui.temp.entity.Dealer;
 import cn.edu.nju.software.ui.temp.entity.LogisticsSite;
+import cn.edu.nju.software.ui.temp.entity.Order;
 
 import java.util.Date;
 import java.util.List;
@@ -25,36 +26,51 @@ public interface LogisticsService {
     
     /**
      * 添加一条订单
-     * @param orderNum 订单号
+     * @param organizationId 物流站点id
      * @param destination 目的地
      * @param itemIdString itemId组成的String,用","分割
      * @param description 订单的描述
      * @return 添加结果
      */
-    BizResponse addOrder(String orderNum ,String destination  , String itemIdString , String description );
+    BizResponse addOrder(int organizationId , String destination  , String itemIdString , String description );
     
     /**
-     * 添加一条路径
-     * @param orderNum 订单号
-     * @param fromId 出发的站点号
-     * @param toId 下一站的站点号,0代表订单正在派送中
-     * @param date 时间
-     * @return 操作结果
+     *
+     * @param orderNum 订单编号
+     * @param organizationId 本站点id
+     * @return 处理结果
      */
-    BizResponse addPath(String orderNum , int fromId , int toId , Date date);
+    BizResponse receiveOrder(String orderNum , int organizationId);
+    
+    /**
+     *
+     * @param orderNum 订单编号
+     * @param organizationId 本站点id
+     * @param nextLogisticsSiteId 下一个站点id
+     * @return
+     */
+    BizResponse transitOrder(String orderNum , int organizationId ,int nextLogisticsSiteId);
     
     /**
      * 签收订单
      * @param orderNum 订单号
-     * @param date 日期
+     * @param organizationId 站点id
      * @return 操作结果
      */
-    BizResponse signOrder(String orderNum , Date date );
+    BizResponse signOrder(String orderNum , int organizationId);
+    
     
     /**
-     * 获得该站点内所有的订单编号
+     * 获得要到达该站点的订单信息
      * @param organizationId 站点id
-     * @return List<orderId>
+     * @return List<Order>
      */
-    BizResponse<List<String>> getAllOrderNumsInsite(int organizationId);
+    BizResponse<List<Order>> getToArrive(int organizationId);
+    
+    /**
+     * 获得要触发的订单信息
+     * @param organizationId 站点id
+     * @return List<Order>
+     */
+    BizResponse<List<Order>> getToDeparture(int organizationId);
 }

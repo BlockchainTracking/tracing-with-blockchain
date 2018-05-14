@@ -9,4 +9,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * Illustration:
  */
 public interface OrderDao extends JpaRepository<Order , Integer>{
+    
+    Order findByOrderNum(String orderNum);
 }

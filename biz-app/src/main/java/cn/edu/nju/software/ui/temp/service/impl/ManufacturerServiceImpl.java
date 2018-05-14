@@ -52,7 +52,7 @@ public class ManufacturerServiceImpl implements ManufacturerService{
         Batch batch = new Batch(batchNum , new Date() , itemTypeId , organizationId);
         batchDao.save(batch);
         
-        List<Item> itemList = Stream.of(itemIdString.split(",")).map(itemId -> new Item(itemId , batchNum)).collect(Collectors.toList());
+        List<Item> itemList = Stream.of(itemIdString.split(Separator.SEPARATOR_PETTERN)).map(itemId -> new Item(itemId , batchNum)).collect(Collectors.toList());
         itemDao.saveAll(itemList);
         
         return BizResponse.defaultResponse(null);
@@ -156,7 +156,7 @@ public class ManufacturerServiceImpl implements ManufacturerService{
         SellingOrder sellingOrder = new SellingOrder(organizationId , itemIdString , dealerId , destination , new Date() , email);
         sellingOrderDao.save(sellingOrder);
         
-        Stream.of(itemIdString.split(",")).forEach(itemId -> {
+        Stream.of(itemIdString.split(Separator.SEPARATOR_PETTERN)).forEach(itemId -> {
             Item item = itemDao.findByItemId(itemId);
             item.setItemStatus(ItemStatus.sold);
             itemDao.save(item);

@@ -21,15 +21,18 @@ public class Path {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     
-    @Column(name = "from_location")
-    private String from;
-    
-    @Column(name = "to_location")
-    private String to;
+    @Column(name = "logistics_site_id")
+    private int logisticsSiteId;
     
     @Column(name = "date")
     private Date date;
     
+    @Column(name = "orderState")
+    private OrderState orderState;
     
-    
+    public Path(int logisticsSiteId, Date date, OrderState orderState) {
+        this.logisticsSiteId = logisticsSiteId;
+        this.date = date;
+        this.orderState = orderState;
+    }
 }
