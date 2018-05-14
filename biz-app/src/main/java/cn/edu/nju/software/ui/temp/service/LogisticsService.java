@@ -21,23 +21,17 @@ public interface LogisticsService {
      */
     BizResponse<List<LogisticsSite>> getAllLogisticsSite(int organizationId);
     
-    /**
-     * 获取所有的经销商信息
-     * @return List<Dealer>
-     */
-    BizResponse<List<Dealer>> getAllDealers();
+
     
     /**
      * 添加一条订单
      * @param orderNum 订单号
      * @param destination 目的地
-     * @param dealerId 目的经销商id，0代表散客
      * @param itemIdString itemId组成的String,用","分割
      * @param description 订单的描述
-     * @param email 买家邮箱
      * @return 添加结果
      */
-    BizResponse addOrder(String orderNum ,String destination , int dealerId , String itemIdString , String description , String email);
+    BizResponse addOrder(String orderNum ,String destination  , String itemIdString , String description );
     
     /**
      * 添加一条路径

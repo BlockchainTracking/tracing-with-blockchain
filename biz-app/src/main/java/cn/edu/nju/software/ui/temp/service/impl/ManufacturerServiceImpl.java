@@ -1,6 +1,7 @@
 package cn.edu.nju.software.ui.temp.service.impl;
 
 import cn.edu.nju.software.common.pojo.bizservice.response.BizResponse;
+import cn.edu.nju.software.ui.temp.entity.Dealer;
 import cn.edu.nju.software.ui.temp.entity.ItemType;
 import cn.edu.nju.software.ui.temp.service.ManufacturerService;
 import org.springframework.stereotype.Service;
@@ -53,6 +54,16 @@ public class ManufacturerServiceImpl implements ManufacturerService{
     
     @Override
     public BizResponse<ItemType> getBatch(String batchNum) {
+        return null;
+    }
+    
+    @Override
+    public BizResponse<List<Dealer>> getAllDealers() {
+        return null;
+    }
+    
+    @Override
+    public BizResponse addSellingOrder(int organizationId, int dealerId, String destination, String itemIdString) {
         return null;
     }
 }

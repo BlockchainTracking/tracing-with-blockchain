@@ -27,8 +27,7 @@ public class Dealer {
     private String address;
     
     
-    @JoinTable(name = "dealer_and_item" , joinColumns = @JoinColumn(name = "dealer_id"))
-    @Column(name = "item_id")
-    @ElementCollection(targetClass = String.class)
-    private List<String> itemIds = new ArrayList<>();
+    @OneToMany(targetEntity = DealerItem.class)
+    @JoinColumn(name = "item_id")
+    private List<DealerItem> itemIds = new ArrayList<>();
 }

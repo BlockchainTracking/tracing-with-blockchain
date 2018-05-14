@@ -2,6 +2,8 @@ package cn.edu.nju.software.ui.temp.service;
 
 import cn.edu.nju.software.common.pojo.bizservice.response.BizResponse;
 import cn.edu.nju.software.ui.temp.entity.Dealer;
+import cn.edu.nju.software.ui.temp.entity.DealerItem;
+import cn.edu.nju.software.ui.temp.entity.DealerItemType;
 
 import java.util.List;
 
@@ -12,14 +14,18 @@ import java.util.List;
  */
 public interface DealerService {
     
-
+    /**
+     * 获得所有的dealerItemType
+     * @return List<DealerItemType>
+     */
+    BizResponse<List<DealerItemType>> getAllDealerItemTypes();
     
     /**
      * 获取所有的库存信息
      * @param organizationId 经销商编号
-     * @return List<itemId>
+     * @return List<DealerItem>
      */
-    BizResponse<List<String>> getAllItemIds(int organizationId);
+    BizResponse<List<DealerItem>> getAllDealerItems(int organizationId);
     
     /**
      * 销售item
@@ -27,7 +33,7 @@ public interface DealerService {
      * @param itemIdString itemId组成的String，以","分隔
      * @return 操作结果
      */
-    BizResponse sellItem(int organizationId , String itemIdString);
+    BizResponse sellItem(int organizationId , String itemIdString );
     
     /**
      * 添加item
@@ -35,7 +41,7 @@ public interface DealerService {
      * @param itemIdString itemId组成的String，以","分隔
      * @return 操作结果
      */
-    BizResponse addItem(int organizationId , String itemIdString);
+    BizResponse addItem(int organizationId , String itemIdString , int dealerItemTypeId);
     
 
 }
