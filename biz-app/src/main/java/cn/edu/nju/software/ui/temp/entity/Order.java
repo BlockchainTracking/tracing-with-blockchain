@@ -42,7 +42,7 @@ public class Order {
 //    @Column(name = "email")
 //    private String email;
     
-    @OneToMany(targetEntity =  Path.class)
+    @OneToMany(targetEntity =  Path.class , cascade = CascadeType.PERSIST)
     @JoinColumn(name = "order_id")
     private List<Path> paths = new ArrayList<>();
     
