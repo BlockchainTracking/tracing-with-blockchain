@@ -35,11 +35,12 @@ public class LogisticsServiceImpl implements LogisticsService{
         return BizResponse.deafaultResponse(list);
     }
     
-    
     @Override
-    public BizResponse addOrder(String orderNum, String destination, int dealerId, String itemIdString, String description, String email) {
+    public BizResponse addOrder(String orderNum, String destination, String itemIdString, String description) {
         return null;
     }
+    
+    
     
     @Override
     public BizResponse addPath(String orderNum, int fromId, int toId, Date date) {

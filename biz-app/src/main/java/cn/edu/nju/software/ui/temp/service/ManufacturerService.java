@@ -25,19 +25,26 @@ public interface ManufacturerService {
     /**
      * 添加新出厂的编号和itemId等信息
      * @param organizationId 工厂id
+     * @param batchNum 批次编号
      * @param itemIdString itemId组成的String,以","分隔
      * @param itemTypeId 代表item类型与名称的id
-     * @param date 生产日期
      * @return 执行结果
      */
-    BizResponse addBatch(int organizationId , String itemIdString , int itemTypeId , Date date );
+    BizResponse addBatch(int organizationId ,String batchNum , String itemIdString , int itemTypeId);
 
     /**
      * 获取该工厂生产产品的所有itemId
      * @param organizationId 工厂id
      * @return itemId list
      */
-    BizResponse<List<String>> getAllItemIds(int organizationId);
+    BizResponse<List<String>> getAllSoldItemIds(int organizationId);
+    
+    /**
+     * 获取该工厂库存的itemType与数量的对应关系
+     * @param organizationId 工厂id
+     * @return Map<ItemType,Integer>
+     */
+    BizResponse<Map<ItemType,Integer>> getUnsoldItemTypeAndNumber(int organizationId);
 
     /**
      * 获取某批次生产产品的所有itemId

@@ -28,8 +28,12 @@ public class Item {
     @Column(name = "batch_num")
     private String batchNum;
     
+    @Column(name = "item_status")
+    private ItemStatus itemStatus;
+    
     public Item(String itemId, String batchNum) {
         this.itemId = itemId;
         this.batchNum = batchNum;
+        itemStatus = ItemStatus.unsold;
     }
 }
