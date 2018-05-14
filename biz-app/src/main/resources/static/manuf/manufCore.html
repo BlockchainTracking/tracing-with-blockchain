@@ -30,12 +30,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <link rel="stylesheet" href="../custom/custom.css">
 
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
 </head>
 <!--
 BODY TAG OPTIONS:
@@ -200,6 +194,27 @@ desired effect
                 <button class="btn btn-primary" style="margin-left: 40px" onclick="submit()"> 提交
                 </button>
             </div>
+        </div>
+    </div>
+
+    <div class="modal fade in" id="tip-modal" style="display:none; padding-right: 17px;">
+        <div class="modal-dialog activity-specific-info">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title">提示</h4>
+                </div>
+                <div class="modal-body activity-specific-info-content">
+                    <p style="padding-top: 10px;padding-left: 10px" id="tip-msg">消息</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary  pull-left"
+                            data-dismiss="modal">关闭
+                    </button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
         </div>
     </div>
 

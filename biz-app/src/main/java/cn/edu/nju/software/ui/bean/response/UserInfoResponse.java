@@ -1,6 +1,6 @@
 package cn.edu.nju.software.ui.bean.response;
 
-import cn.edu.nju.software.ui.bean.OrgType;
+import cn.edu.nju.software.ui.temp.entity.UserType;
 import lombok.Data;
 
 /**
@@ -12,7 +12,6 @@ public class UserInfoResponse {
     int userId;
     int stationId;
     String username;
-    String gender;
     String stationName;
-    OrgType orgType;
+    UserType userType;
 }

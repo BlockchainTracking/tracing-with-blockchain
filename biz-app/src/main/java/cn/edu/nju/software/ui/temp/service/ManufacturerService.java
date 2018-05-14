@@ -13,13 +13,13 @@ import java.util.Map;
  * Illustration:
  */
 public interface ManufacturerService {
-    
+
     /**
      * 获取所有的可选择的item类型与名称，其中其id作为新建批次item时的itemTypeId
      * @return ItemType list
     */
     BizResponse<List<ItemType>> getAllItemTypes();
-    
+
     /**
      * 添加新出厂的编号和itemId等信息
      * @param organizationId 工厂id
@@ -29,36 +29,36 @@ public interface ManufacturerService {
      * @return 执行结果
      */
     BizResponse addBatch(int organizationId , String itemIdString , int itemTypeId , Date date );
-    
+
     /**
      * 获取该工厂生产产品的所有itemId
      * @param organizationId 工厂id
      * @return itemId list
      */
     BizResponse<List<String>> getAllItemIds(int organizationId);
-    
+
     /**
      * 获取某批次生产产品的所有itemId
      * @param organizationId 工厂Id
      * @return itemId list
      */
     BizResponse<List<String>> getCertainBatchItemIds(int organizationId);
-    
+
     /**
      * 获取该工厂生产产品的所有批次编号
      * @param organizationId 工厂id
      * @return batchNum list
      */
     BizResponse<List<String>> getAllBatchNums(int organizationId);
-    
+
     /**
      * 获取该工厂生产产品的批次编号与itemId的对应关系
      * @param organizationId 工厂id
      * @return Map<batchNum , List<itemId>>
      */
     BizResponse<Map<String,List<String>>> getBatchAndItemIds(int organizationId);
-    
-    
+
+
     /**
      * 在进行批次召回时，获取itemId与订单中所填email的对应关系
      * @param organizationId 工厂id

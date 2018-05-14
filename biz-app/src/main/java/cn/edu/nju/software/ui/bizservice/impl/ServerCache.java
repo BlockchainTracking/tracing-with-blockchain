@@ -1,7 +1,7 @@
 package cn.edu.nju.software.ui.bizservice.impl;
 
 import cn.edu.nju.software.fabricservice.bean.SampleUser;
-import cn.edu.nju.software.ui.dao.UserDao;
+import cn.edu.nju.software.ui.dao.UserEntityDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -15,7 +15,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Component
 public class ServerCache {
     @Autowired
-    UserDao userDao;
+    UserEntityDao userDao;
 
 
     public Map<String, SampleUser> users = new ConcurrentHashMap<>();

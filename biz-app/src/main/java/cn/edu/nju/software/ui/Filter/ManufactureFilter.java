@@ -3,6 +3,8 @@ package cn.edu.nju.software.ui.Filter;
 
 import cn.edu.nju.software.ui.bean.SessionKey;
 import cn.edu.nju.software.ui.bizservice.impl.ServerCache;
+import cn.edu.nju.software.ui.temp.entity.User;
+import cn.edu.nju.software.ui.temp.entity.UserType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.stereotype.Component;
@@ -20,7 +22,7 @@ import java.io.IOException;
  */
 @Component
 @ServletComponentScan
-@WebFilter(urlPatterns = "/manuf/*", filterName = "loginFilter")
+@WebFilter(urlPatterns = "/manuf/*", filterName = "manufactureFilter")
 public class ManufactureFilter implements Filter {
 
     @Override
@@ -33,7 +35,7 @@ public class ManufactureFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpSession session = request.getSession();
         Object obj = session.getAttribute(SessionKey.USR);
-        if (obj == null)
+        if (obj == null || ((User) obj).getUserType() != UserType.manufacturer)
             ((HttpServletResponse) servletResponse).sendRedirect("/login.html");
     }
 

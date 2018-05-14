@@ -4,7 +4,7 @@ import cn.edu.nju.software.ui.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 
-public interface UserDao extends JpaRepository<UserEntity, Integer> {
+public interface UserEntityDao extends JpaRepository<UserEntity, Integer> {
 
     UserEntity findByUsername(String username);
 }

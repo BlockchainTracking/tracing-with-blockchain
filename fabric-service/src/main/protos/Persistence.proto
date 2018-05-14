@@ -8,16 +8,14 @@ option java_package = "cn.edu.nju.software.fabricservice.protomsg";
 enum OPType {
     //出厂
     CREATED = 0;
-    //出售给分销商/代理商
-    TRANSFER = 1;
-    //中转
-    MEDIA = 2;
-    //入库
-    INSTOCK = 3;
-    //出库
-    OUTSTOCK = 4;
+    //销售订单
+    ORDER = 1;
+    //出发
+    DEPARTURE = 2;
+    //到达
+    ARRIVED = 3;
     //送达
-    DELIVERED = 5;
+    DELIVERED = 4;
 }
 
 //地址信息
