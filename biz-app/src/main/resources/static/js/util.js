@@ -70,3 +70,7 @@ function showMessage(tips) {
     $('#tip-msg').html(tips)
     $('#tip-modal').modal()
 }
+
+function isSuccess(data) {
+    return data.respStatus.success
+}

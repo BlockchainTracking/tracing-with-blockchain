@@ -12,4 +12,6 @@ public class OperationStatus {
     String organization;
     String lastOrganization;
     OpType opType;
+    String contactWay;
+    String extraInfo;
 }

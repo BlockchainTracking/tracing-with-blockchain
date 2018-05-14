@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 
 /**
  * @author Daniel
@@ -40,10 +42,16 @@ public class LoginController {
         return BizResponse.createSuccess(user.getRespData().getUserType(), "success");
     }
 
-    @RequestMapping(value = "/logout", method = RequestMethod.POST)
-    public BizResponse logout(HttpSession session) {
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    public BizResponse logout(HttpSession session, HttpServletResponse response) {
         session.removeAttribute(SessionKey.USR);
+        try {
+            response.sendRedirect("/login.html");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return BizResponse.createSuccess(null, "success");
+
     }
 
     @RequestMapping(value = "/currentUser", method = RequestMethod.POST)

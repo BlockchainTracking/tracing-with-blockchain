@@ -9,6 +9,7 @@ import cn.edu.nju.software.ui.bean.response.LogisSiteResponse;
 import cn.edu.nju.software.ui.bean.response.ToArriveOrder;
 import cn.edu.nju.software.ui.bean.response.ToDepartureOrder;
 import cn.edu.nju.software.ui.temp.dao.ItemTypeDao;
+import cn.edu.nju.software.ui.temp.service.LogisticsService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +28,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/logis")
 public class LogisticsController {
+
     @Autowired
-    ItemTypeDao itemTypeDao;
+    LogisticsService logisticsService;
 
     @RequestMapping(value = "/itemDeparture", method = RequestMethod.POST)
     @ApiOperation(value = "商品出发，站点库存减少订单")

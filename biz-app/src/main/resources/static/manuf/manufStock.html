@@ -73,6 +73,15 @@ desired effect
         <section class="sidebar">
 
             <!-- Sidebar user panel (optional) -->
+            <div class="user-panel">
+                <div class="pull-left image">
+                    <img src="../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                </div>
+                <div class="pull-left info">
+                    <p>Alexander Pierce</p>
+                    <a href="/logout"> 注销</a>
+                </div>
+            </div>
 
             <!-- search form (Optional) -->
             <form action="#" method="get" class="sidebar-form">
@@ -90,23 +99,16 @@ desired effect
             <!-- Sidebar Menu -->
             <ul class="sidebar-menu">
                 <li class="header">HEADER</li>
-                <!-- Optionally, you can add icons to the links -->
-                <li class="active"><a href="index.html"><i class="fa fa-home"></i>
-                    <span>溯源信息查询</span></a></li>
-                <li><a href="itemAdd.html"><i class="fa fa-file-text-o"></i> <span>商品出厂
+                <li><a href="manufStock.html">
+                    <span>商品库存</span></a></li>
+                <li><a href="batchAdd.html"><span>商品出厂
                 </span></a></li>
-                <li><a href="itemTransfer.html"><i class="ion ion-android-bicycle"></i>
-                    <span>商品转运</span></a></li>
-                <li><a href="itemInStock.html"><i class="ion ion-android-bicycle"></i>
-                    <span>商品入库</span></a></li>
-                <li><a href="itemOutStock.html"><i class="ion ion-android-bicycle"></i>
-                    <span>商品出库</span></a></li>
-                <li><a href="itemMedia.html"><i class="ion ion-android-bicycle"></i>
-                    <span>运输中转</span></a></li>
-                <li><a href="itemSign.html"><i class="ion ion-android-bicycle"></i>
-                    <span>商品签收</span></a></li>
-                <li><a href="sport.html"><i class="ion ion-android-bicycle"></i>
+                <li><a href="itemRecall.html">
                     <span>商品召回</span></a></li>
+                <li><a href="manufOrder.html">
+                    <span>商品订单</span></a></li>
+                <li><a href="itemTypeMgt.html">
+                    <span>商品类型管理</span></a></li>
             </ul>
             <!-- /.sidebar-menu -->
         </section>
@@ -131,69 +133,40 @@ desired effect
             <div class="box box-primary col-lg-6" style="margin-left: 50px;margin-top: 50px;width:
         500px">
                 <div class="box-header with-border">
-                    <h3 class="box-title">批次信息</h3>
+                    <h3 class="box-title">库存信息</h3>
                 </div>
 
                 <form role="form">
                     <div class="box-body">
-                        <div class="form-group">
-                            <label for="nodeName">批次号</label>
-                            <input type="text" class="form-control" id="batchNum">
-                        </div>
-                        <div class="form-group">
-                            <label for="nodeName">商品类别</label>
-                            <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true">
-                                <option selected="selected">电脑1</option>
-                                <option>电脑2</option>
-                                <option>电脑3</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="address">商品id（逗号分隔）</label>
-                            <textarea class="form-control" rows="3" placeholder=""
-                                      id="itemIds"></textarea>
-                        </div>
-                    </div>
-                    <!-- /.box-body -->
-                </form>
-            </div>
-
-
-            <div class="box box-primary  col-lg-6"
-                 style="margin-left: 50px;margin-top: 50px;width: 500px">
-                <div class="box-header with-border">
-                    <h3 class="box-title">地址信息</h3>
-                </div>
-                <!-- /.box-header -->
-                <!-- form start -->
-                <form role="form">
-                    <div class="box-body">
-                        <div class="form-group">
-                            <label for="nodeName">节点名字</label>
-                            <input type="text" class="form-control" id="nodeName">
-                        </div>
-                        <div class="form-group">
-                            <label for="address">地址</label>
-                            <input type="text" class="form-control" id="address">
-                        </div>
-                        <div class="form-group">
-                            <label for="longitude">经度</label>
-                            <input type="text" class="form-control" id="longitude">
-                        </div>
-                        <div class="form-group">
-                            <label for="latitude">纬度</label>
-                            <input type="text" class="form-control" id="latitude">
-                        </div>
+                        <table class="table table-bordered">
+                            <tr>
+                                <th style="width: 10px">#</th>
+                                <th>商品类别</th>
+                                <th>库存数量</th>
+                            </tr>
+                            <tbody id="tbody">
+                            <tr>
+                                <td>1.</td>
+                                <td>电脑1</td>
+                                <td>
+                                    15
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2.</td>
+                                <td>电脑1</td>
+                                <td>
+                                    15
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
                     <!-- /.box-body -->
                 </form>
             </div>
             <!-- /.content -->
 
-            <div class="col-lg-4 btn-block">
-                <button class="btn btn-primary" style="margin-left: 40px" onclick="submit()"> 提交
-                </button>
-            </div>
         </div>
     </div>
 
@@ -232,14 +205,56 @@ desired effect
 <script src="../dist/js/app.min.js"></script>
 
 <script src="../dist/js/pages/index.js"></script>
-<script type="text/javascript"
-        src="http://api.map.baidu.com/api?v=2.0&ak=qujYPfVnIp75zI5RPg3nVrWAiVoHDHms"></script>
+<script src="../js/util.js"></script>
+
 <!-- Optionally, you can add Slimscroll and FastClick plugins.
      Both of these plugins are recommended to enhance the
      user experience. Slimscroll is required when using the
      fixed layout. -->
 
 <script>
+    var data = [
+        {
+            "count": 0,
+            "itemType": "string"
+        }
+    ];
+
+    update()
+
+    function update() {
+        $.ajax(
+            {
+                type: 'post',
+                url: 'http://localhost:8080/manuf/stock',
+                contentType: "application/json",
+                accept: "*/*",
+                success: function (data) {
+                    if (isSuccess(data)) {
+                        console.log(data)
+                        updateTable(data.respData)
+                    }
+                }
+            }
+        )
+    }
+
+    function updateTable(data) {
+        var html = ""
+        var dl = data.length
+        for (var i = 0; i < dl; i++) {
+            html += "<tr>\n" +
+                "<td>" + (i + 1) + "</td>\n" +
+                "<td>" + data[i].itemType + "</td>\n" +
+                "<td>\n" +
+                data[i].count +
+                "</td>\n" +
+                "</tr>"
+        }
+        console.log(html)
+        $('#tbody').html(html)
+    }
+
     function submit() {
         var formData = {
             "addressInfo": {
