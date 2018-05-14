@@ -36,11 +36,11 @@ public class Order {
     @ElementCollection(targetClass = String.class)
     private List<String> itemIds = new ArrayList<>();
     
-    @Column(name = "dealer_id")
-    private int dealerId;
+//    @Column(name = "dealer_id")
+//    private int dealerId;
     
-    @Column(name = "email")
-    private String email;
+//    @Column(name = "email")
+//    private String email;
     
     @OneToMany(targetEntity =  Path.class)
     @JoinColumn(name = "order_id")
@@ -49,11 +49,10 @@ public class Order {
     @Column(name = "orderState")
     private OrderState orderState;
     
-    public Order(String orderNum, String description, List<String> itemIds, String email, List<Path> paths) {
+    public Order(String orderNum, String description, String destination, List<String> itemIds) {
         this.orderNum = orderNum;
         this.description = description;
+        this.destination = destination;
         this.itemIds = itemIds;
-        this.email = email;
-        this.paths = paths;
     }
 }

@@ -2,6 +2,7 @@ package cn.edu.nju.software.ui.temp.service;
 
 import cn.edu.nju.software.common.pojo.bizservice.response.BizResponse;
 import cn.edu.nju.software.ui.temp.entity.Batch;
+import cn.edu.nju.software.ui.temp.entity.Dealer;
 import cn.edu.nju.software.ui.temp.entity.ItemType;
 
 import java.util.Date;
@@ -74,4 +75,14 @@ public interface ManufacturerService {
      * @return ItemType
      */
     BizResponse<ItemType> getBatch(String batchNum);
+    
+    /**
+     * 获取所有的经销商信息
+     * @return List<Dealer>
+     */
+    BizResponse<List<Dealer>> getAllDealers();
+    
+
+    
+    BizResponse addSellingOrder(int organizationId , int dealerId , String destination , String itemIdString );
 }
