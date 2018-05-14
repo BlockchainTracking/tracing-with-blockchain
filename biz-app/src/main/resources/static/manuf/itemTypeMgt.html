@@ -112,84 +112,90 @@ desired effect
 
             <section class="content-header">
                 <h1>
-                    商品召回
+                    商品类别管理
                 </h1>
                 <ol class="breadcrumb">
                     <li class="active"><a href="#"><i class="fa fa-dashboard"></i>首页</a></li>
                 </ol>
             </section>
 
-            <div class="box box-primary col-lg-6" style="margin-left: 50px;margin-top: 50px;width:
-        800px">
+            <div class="box box-primary col-lg-6"
+                 style="margin-left: 50px;margin-top: 50px;width:800px">
 
                 <div class="box-header with-border">
-                    <h3 class="box-title">召回范围</h3>
+                    <h3 class="box-title">商品类别</h3>
+                </div>
+                <!-- /.box-header -->
+                <!-- form start -->
+
+                <div class="box-body">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th style="width: 5px">#</th>
+                            <th>名称</th>
+                            <th>类型</th>
+                            <th width="10px"></th>
+                        </tr>
+                        <tbody id="typeTable">
+                        <tr>
+                            <td>1.</td>
+                            <td>XPS15笔记本</td>
+                            <td>
+                                笔记本电脑
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-box-tool"
+                                        style="padding-bottom: 0px"
+                                        id="dwa" onclick="deleteType(this.id)">
+                                    <i class="fa fa-times"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>2.</td>
+                            <td>Macbook</td>
+                            <td>
+                                笔记本电脑
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-box-tool"
+                                        style="padding-bottom: 0px">
+                                    <i class="fa fa-times"></i></button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.box-body -->
+
+
+            </div>
+
+            <div class="box box-primary  col-lg-6"
+                 style="margin-left: 50px;margin-top: 50px;width: 300px">
+                <div class="box-header with-border">
+                    <h3 class="box-title">添加新类型</h3>
                 </div>
                 <!-- /.box-header -->
                 <!-- form start -->
                 <form role="form">
-
                     <div class="box-body">
-                        <div class="input-group input-group-sm" style="width: 500px;">
-                            <label class="input-group-addon">批次号</label>
-                            <input type="text" class="form-control">
-                            <span class="input-group-btn">
-                      <button type="button" class="btn btn-primary">查找</button>
-                    </span>
+                        <div class="form-group">
+                            <label for="typeName">名字</label>
+                            <input type="text" class="form-control" id="typeName">
+                        </div>
+                        <div class="form-group">
+                            <label for="typeClass">商品类型</label>
+                            <input type="text" class="form-control" id="typeClass">
                         </div>
                     </div>
                     <!-- /.box-body -->
                 </form>
 
-                <div style="display: none" id="recall-info-block">
-                    <div class="well" style="width:300px">
-                        <div>
-                            <label>商品名:</label><label id="itemName">电脑</label>
-                        </div>
-                        <div>
-                            <label>商品类别:</label><label id="itemClass">电脑</label>
-                        </div>
+                <div class="box-footer">
 
-                    </div>
-
-                    <table class="table table-bordered">
-                        <tr>
-                            <th style="width: 10px">#</th>
-                            <th>商品地址</th>
-                            <th>联系人方式</th>
-                        </tr>
-                        <tbody id="tbody">
-                        <tr>
-                            <td>1.</td>
-                            <td>Update software</td>
-                            <td><span class="badge bg-red">55%</span></td>
-                        </tr>
-                        <tr>
-                            <td>2.</td>
-                            <td>Clean database</td>
-                            <td><span class="badge bg-yellow">70%</span></td>
-                        </tr>
-                        <tr>
-                            <td>3.</td>
-                            <td>Cron job running</td>
-                            <td><span class="badge bg-light-blue">30%</span></td>
-                        </tr>
-                        <tr>
-                            <td>4.</td>
-                            <td>Fix and squish bugs</td>
-                            <td><span class="badge bg-green">90%</span></td>
-                        </tr>
-                        </tbody>
-                    </table>
-                    <div class="box-footer">
-
-                        <button class="btn btn-primary pull-right">召回</button>
-                    </div>
+                    <button class="btn btn-primary pull-right" onclick="submit()">添加</button>
                 </div>
-
             </div>
-
-
         </div>
     </div>
 
@@ -237,59 +243,85 @@ desired effect
 
 <script>
 
-    var data = {
-        "itemType": {
+    update()
+
+    var data = [
+        {
             "id": 0,
             "itemClass": "string",
             "itemName": "string"
-        },
-        "recallItems": [
+        }
+    ]
+
+    function deleteType(id) {
+        $.ajax(
             {
-                "contact": "string",
-                "itemAddress": "string",
-                "itemId": "string"
+                type: 'post',
+                url: 'http://localhost:8080/manuf/deleteType',
+                accept: "*/*",
+                data: {"typeId": id},
+                success: function (data) {
+                    if (!data.respStatus.success)
+                        showMessage("删除错误")
+                    else {
+                        update()
+                    }
+                }
             }
-        ]
-    };
+        )
+    }
 
+    function update() {
+        $.ajax(
+            {
+                type: 'post',
+                url: 'http://localhost:8080/manuf/allItemTypes',
+                accept: "*/*",
+                success: function (data) {
+                    updateTypes(data.respData)
+                }
+            }
+        )
+    }
 
-    function update(data) {
-        var itemType = data.itemType
-        var recallItems = data.recallItems
-        $('#recall-info-block').css('display', 'block');
-
-        $('#itemName').html(itemType.itemName)
-        $('#itemClass').html(itemType.itemClass)
-
-        var iLength = recallItems.length
+    function updateTypes(data) {
         var html = ""
-        for (var i = 0; i < iLength; i++) {
-            var item = recallItems[i]
+        var dl = data.length
+        for (var i = 0; i < dl; i++) {
             html += "<tr>\n" +
                 "<td>" + (i + 1) + "</td>\n" +
-                "<td>" + item.itemAddress + "</td>\n" +
-                "<td>" + item.contact + "</td>\n" +
+                "<td>" + data[i].itemName + "</td>\n" +
+                "<td>\n" +
+                data[i].itemClass +
+                "</td>\n" +
+                "<td>\n" +
+                "<button type=\"button\" class=\"btn btn-box-tool\"\n" +
+                "style=\"padding-bottom: 0px\" id=\"" + data[i].id + "\" onclick=\"deleteType(this.id)\">\n" +
+                "<i class=\"fa fa-times\"></i></button>\n" +
+                "</td>\n" +
                 "</tr>"
         }
-
-        $('#tbody').html(html)
-
+        $('#typeTable').html(html)
     }
 
     function submit() {
         var formData = {
-            "batchNum": $('#batchNum').val()
+            "typeName": $('#typeName').val(),
+            "typeClass": $('#typeClass').val()
         }
         console.log(formData)
         $.ajax(
             {
                 type: 'post',
-                url: 'http://localhost:8080/item/add',
-                contentType: "application/json",
+                url: 'http://localhost:8080/manuf/addItemTypes',
                 accept: "*/*",
                 data: formData,
                 success: function (data) {
-                    update(data)
+                    if (!data.respStatus.success)
+                        showMessage("添加失败")
+                    else {
+                        update()
+                    }
                 }
             }
         )
