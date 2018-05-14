@@ -30,12 +30,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <link rel="stylesheet" href="../custom/custom.css">
 
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="../https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-    <script src="../https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
 </head>
 <!--
 BODY TAG OPTIONS:
@@ -133,7 +127,7 @@ desired effect
                         <label>订单类型</label>
                         <select class="form-control select2 select2-hidden-accessible"
                                 style="width: 100%;" tabindex="-1" aria-hidden="true"
-                                onchange="selectChange(this.value)">
+                                onchange="selectChange(this.value)" id="orderType">
                             <option selected="selected">经销商</option>
                             <option>个人</option>
                         </select>
@@ -149,12 +143,12 @@ desired effect
                     </div>
                     <div class="form-group">
                         <label>目的地</label>
-                        <input type="text" class="form-control">
+                        <input type="text" class="form-control" id="address">
                     </div>
 
                     <div class="form-group">
                         <label>所有商品</label>
-                        <textarea rows="3" class="form-control"></textarea>
+                        <textarea rows="3" class="form-control" id="itemIds"></textarea>
                     </div>
                 </div>
                 <!-- /.box-body -->
@@ -208,6 +202,8 @@ desired effect
 
 <script>
 
+
+
     function selectChange(val) {
         if (val === "个人") {
             $('#brokers').css("display", "none")
@@ -217,35 +213,20 @@ desired effect
     }
 
     function submit() {
-        var formData = {
-            "itemId": $('#itemId').val(),
-            "diliveryOrg": "Org1MSP",
-            "envStatus": {
-                "addressInfo": {
-                    "longtitude": $('#longitude').val(),
-                    "latitude": $('#latitude').val(),
-                    "addressDesc": $('#address').val(),
-                    "nodeName": $('#nodeName').val()
-                }
-            },
-            "itemStatus": {
-                "logs": $('#logs').val(),
-                "normal": true
-            },
-            "nextOrg": "Org1MSP",
+
+        var orderType
+        if ($('#orderType').value === "个人") {
+            orderType = 'PERSON'
+        } else {
+            orderType = 'BROKER'
         }
-        $.ajax(
-            {
-                type: 'post',
-                url: 'http://localhost:8080/item/itemTransfer',
-                contentType: "application/json",
-                accept: "*/*",
-                data: JSON.stringify(formData),
-                success: function () {
-                    alert("提交成功")
-                }
-            }
-        )
+
+        var formData = {
+            "departureAddress": $('#address').val(),
+            "items": $('#itemIds').val(),
+            "orderType": orderType,
+            "orgId": 0
+        }
         console.log(formData)
     }
 </script>

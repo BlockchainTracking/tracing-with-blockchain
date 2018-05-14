@@ -6,7 +6,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <html>
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="X-UA-Compatible" conten t="IE=edge">
     <title>SOLOS</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
@@ -125,6 +125,25 @@ desired effect
 
         <!-- /.content -->
     </div>
+    <div class="modal fade in" id="tip-modal" style="display:none; padding-right: 17px;">
+        <div class="modal-dialog activity-specific-info">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title">提示</h4>
+                </div>
+                <div class="modal-body activity-specific-info-content">
+                    <p style="padding-top: 10px;padding-left: 10px" id="tip-msg">消息</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary  pull-left" data-dismiss="modal">关闭
+                    </button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+    </div>
 
 </div>
 <!-- ./wrapper -->
@@ -138,6 +157,8 @@ desired effect
 <script src="dist/js/echarts.min.js"></script>
 <!-- AdminLTE App -->
 <script src="dist/js/app.min.js"></script>
+
+<script src="js/util.js"></script>
 
 <!-- Optionally, you can add Slimscroll and FastClick plugins.
      Both of these plugins are recommended to enhance the
@@ -157,6 +178,23 @@ desired effect
             accept: "*/*",
             data: formData,
             success: function (data) {
+                if (data.respStatus.success) {
+                    var url = ""
+                    switch (data.respData) {
+                        case 'manufacture':
+                            window.location.href = "/manuf/batchAdd.html";
+                            break;
+                        case 'logistics':
+                            window.location.href = "/logis/logisOrder.html";
+                            break;
+                        case 'dealer':
+                            window.location.href = "/broker/allItems.html";
+                            break;
+                    }
+
+                } else {
+                    showMessage("登录失败,用户名或账号错误")
+                }
                 console.log(data)
             }
         })

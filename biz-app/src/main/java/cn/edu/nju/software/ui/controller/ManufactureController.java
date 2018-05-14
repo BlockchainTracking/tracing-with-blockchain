@@ -3,11 +3,15 @@ package cn.edu.nju.software.ui.controller;
 import cn.edu.nju.software.common.pojo.ItemInfo;
 import cn.edu.nju.software.common.pojo.bizservice.response.BizResponse;
 import cn.edu.nju.software.ui.bean.request.BatchAddRequest;
+import cn.edu.nju.software.ui.bean.request.ManufactureOrderRequest;
 import cn.edu.nju.software.ui.bean.response.RecallResponse;
 import cn.edu.nju.software.ui.temp.dao.ItemTypeDao;
 import cn.edu.nju.software.ui.temp.entity.ItemType;
+import cn.edu.nju.software.ui.temp.service.ManufacturerService;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,9 +28,15 @@ public class ManufactureController {
     @Autowired
     ItemTypeDao itemTypeDao;
 
+    @Autowired
+    ManufacturerService manufacturerService;
+
     @RequestMapping(value = "/addItems", method = RequestMethod.POST)
     @ApiOperation(value = "商品批次出厂")
-    public BizResponse addItems(BatchAddRequest uiBatchAddReqeust) {
+    public BizResponse addItems(
+            @ApiParam
+            @RequestBody BatchAddRequest uiBatchAddReqeust) {
+
 //        ItemTypeEntity itemTypeEntity = itemTypeDao.findById(uiBatchItemAdd.getItemTypeId()).get();
 
         return null;
@@ -79,6 +89,13 @@ public class ManufactureController {
     @RequestMapping(value = "/recall", method = RequestMethod.POST)
     @ApiOperation(value = "商品召回")
     public BizResponse<RecallResponse> itemRecall(String batchNum) {
+        return null;
+    }
+
+    @RequestMapping(value = "/order", method = RequestMethod.POST)
+    @ApiOperation(value = "商品订单")
+    public BizResponse<RecallResponse> manufactureOrder(
+            @RequestBody ManufactureOrderRequest orderRequest) {
         return null;
     }
 

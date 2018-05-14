@@ -2,8 +2,7 @@ package cn.edu.nju.software.ui;
 
 import cn.edu.nju.software.fabricservice.bean.SampleUser;
 import cn.edu.nju.software.ui.bizservice.impl.ServerCache;
-import cn.edu.nju.software.ui.dao.UserDao;
-import cn.edu.nju.software.ui.entity.UserEntity;
+import cn.edu.nju.software.ui.dao.UserEntityDao;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 public class UiApplicationTests {
     @Autowired
-    UserDao userDao;
+    UserEntityDao userDao;
 
     @Autowired
     ServerCache serverCache;

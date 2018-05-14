@@ -138,10 +138,10 @@ desired effect
                             <label for="nodeName">商品类别</label>
                             <select class="form-control select2 select2-hidden-accessible"
                                     style="width: 100%;" tabindex="-1" aria-hidden="true"
-                                    id="itemTypes">
-                                <option>电脑1</option>
-                                <option>电脑2</option>
-                                <option>电脑3</option>
+                                    id="itemType">
+                                <option id="1">电脑1</option>
+                                <option id="2">电脑2</option>
+                                <option id="3">电脑3</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -230,8 +230,6 @@ desired effect
 <script src="../dist/js/app.min.js"></script>
 
 <script src="../dist/js/pages/index.js"></script>
-<script type="text/javascript"
-        src="http://api.map.baidu.com/api?v=2.0&ak=qujYPfVnIp75zI5RPg3nVrWAiVoHDHms"></script>
 <!-- Optionally, you can add Slimscroll and FastClick plugins.
      Both of these plugins are recommended to enhance the
      user experience. Slimscroll is required when using the
@@ -239,12 +237,22 @@ desired effect
 
 <script>
 
-    function changeItemTypes(types) {
+    var data = [
+        {
+            "id": 0,
+            "itemClass": "string",
+            "itemName": "string"
+        }
+    ]
+
+    function updateItemTypes(types) {
         var html = ""
         types.forEach(function (e) {
-            html += "<option>" + e + "</option>"
+            html += "<option id='" + e.id + "'>" + e.itemName + "</option>"
         })
+        $('#itemType').html(html)
     }
+
 
     function submit() {
         var formData = {
@@ -254,28 +262,11 @@ desired effect
                 "addressDesc": $('#address').val(),
                 "nodeName": $('#nodeName').val()
             },
-            "itemId": $('#itemId').val(),
-            "itemInfo": {
-                "batchNum": $('#batchNum').val(),
-                "class_": $('#itemType').val(),
-                "manufactureDate": $('#manufactureDate').val(),
-                "name": $('#itemName').val(),
-                "note": $('#note').val()
-            }
+            "batchNum": $('#batchNum').val(),
+            "itemTypeId": $('#itemType option:selected').attr('id'),
+            "items": $('#itemIds').val()
         }
         console.log(formData)
-        $.ajax(
-            {
-                type: 'post',
-                url: 'http://localhost:8080/item/add',
-                contentType: "application/json",
-                accept: "*/*",
-                data: JSON.stringify(formData),
-                success: function () {
-                    alert("提交成功")
-                }
-            }
-        )
     }
 </script>
 </body>

@@ -4,7 +4,7 @@ import cn.edu.nju.software.common.pojo.bizservice.response.BizResponse;
 import cn.edu.nju.software.fabricservice.serviceinvoker.HFClientHelper;
 import cn.edu.nju.software.fabricservice.serviceinvoker.ServiceInvoker;
 import cn.edu.nju.software.ui.bizservice.UserMgt;
-import cn.edu.nju.software.ui.dao.UserDao;
+import cn.edu.nju.software.ui.dao.UserEntityDao;
 import cn.edu.nju.software.ui.entity.UserEntity;
 import org.hyperledger.fabric.sdk.Enrollment;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ public class UserMgtImpl implements UserMgt {
     ServiceInvoker serviceInvoker;
 
     @Autowired
-    UserDao userDao;
+    UserEntityDao userDao;
 
     @Autowired
     ServerCache serverCache;

@@ -87,15 +87,12 @@ desired effect
             </form>
             <!-- /.search form -->
 
-            <!-- Sidebar Menu -->
             <ul class="sidebar-menu">
                 <li class="header">HEADER</li>
-                <!-- Optionally, you can add icons to the links -->
-                <li><a href="logisOrder.html"><span>物流订单</span></a></li>
-                <li><a href="logisArrived.html"><span>物流到达</span></a></li>
-                <li><a href="logisDeparture.html"><span>物流出发</span></a></li>
-                <li><a href="logisSign.html"><span>物流签收</span></a></li>
-
+                <li><a href="brokerOrder.html"><span>商品订单
+                </span></a></li>
+                <li><a href="allItems.html">
+                    <span>库存查看</span></a></li>
             </ul>
             <!-- /.sidebar-menu -->
         </section>
@@ -107,7 +104,7 @@ desired effect
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                物流出发
+                商品订单
             </h1>
             <ol class="breadcrumb">
                 <li class="active"><a href="#"><i class="fa fa-dashboard"></i>首页</a></li>
@@ -115,97 +112,57 @@ desired effect
         </section>
 
         <div class="box box-primary  col-lg-6"
-             style="margin-left: 50px;margin-top: 50px;width: 800px">
+             style="margin-left: 50px;margin-top: 50px;width: 500px">
             <div class="box-header with-border">
-                <h3 class="box-title">出发信息</h3>
+                <h3 class="box-title">订单信息</h3>
             </div>
             <!-- /.box-header -->
             <!-- form start -->
             <form role="form">
                 <div class="box-body">
                     <div class="form-group">
-                        <label>物流订单</label>
-                        <table class="table table-condensed">
-                            <tr>
-                                <th style="width: 60px">
-                                    <input type="checkbox" onchange="swapCheck()"> 全选
-                                </th>
-                                <th>订单描述</th>
-                                <th>订单号</th>
-                                <th>目的地</th>
-                            </tr>
-                            <tbody id="tbody">
-                            <tr>
-                                <td><input type="checkbox" value="ddd"></td>
-                                <td>日常电脑订单</td>
-                                <th>dwadawd</th>
-                                <td>
-                                    南京
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><input type="checkbox" value="ddd1"></td>
-                                <td>日常电脑订单</td>
-                                <th>dwadawd</th>
-                                <td>
-                                    南京
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
+                        <label>订单类型</label>
+                        <select class="form-control select2 select2-hidden-accessible"
+                                style="width: 100%;" tabindex="-1" aria-hidden="true"
+                                onchange="selectChange(this.value)">
+                            <option selected="selected">经销商</option>
+                            <option>个人</option>
+                        </select>
+                    </div>
+                    <div class="form-group" id="brokers">
+                        <label>目的组织</label>
+                        <select class="form-control select2 select2-hidden-accessible"
+                                style="width: 100%;" tabindex="-1" aria-hidden="true">
+                            <option selected="selected">分销商1</option>
+                            <option>分销商2</option>
+                            <option>分销商3</option>
+                        </select>
                     </div>
                     <div class="form-group">
                         <label>目的地</label>
-                        <select class="form-control select2 select2-hidden-accessible"
-                                style="width: 100%;" tabindex="-1" aria-hidden="true"
-                                id="departureSite">
-                            <option selected="selected">站点1</option>
-                            <option id="1">站点2</option>
-                            <option>站点3</option>
-                        </select>
+                        <input type="text" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label>所有商品</label>
+                        <textarea rows="3" class="form-control"></textarea>
                     </div>
                 </div>
                 <!-- /.box-body -->
             </form>
         </div>
 
-        <div class="box box-primary  col-lg-6"
-             style="margin-left: 50px;margin-top: 50px;width: 500px">
-            <div class="box-header with-border">
-                <h3 class="box-title">地址信息</h3>
-            </div>
-            <!-- /.box-header -->
-            <!-- form start -->
-            <form role="form">
-                <div class="box-body">
-                    <div class="form-group">
-                        <label for="nodeName">节点名字</label>
-                        <input type="text" class="form-control" id="nodeName">
-                    </div>
-                    <div class="form-group">
-                        <label for="address">地址</label>
-                        <input type="text" class="form-control" id="address">
-                    </div>
-                    <div class="form-group">
-                        <label for="longitude">经度</label>
-                        <input type="text" class="form-control" id="longitude">
-                    </div>
-                    <div class="form-group">
-                        <label for="latitude">纬度</label>
-                        <input type="text" class="form-control" id="latitude">
-                    </div>
-                </div>
-                <!-- /.box-body -->
-            </form>
-        </div>
 
         <div class="col-lg-4 btn-block">
             <button class="btn btn-primary" style="margin-left: 40px" onclick="submit()"> 提交
             </button>
         </div>
 
+
         <!-- /.content -->
     </div>
+
+
     <div class="modal fade in" id="tip-modal" style="display:none; padding-right: 17px;">
         <div class="modal-dialog activity-specific-info">
             <div class="modal-content">
@@ -218,8 +175,7 @@ desired effect
                     <p style="padding-top: 10px;padding-left: 10px" id="tip-msg">消息</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary  pull-left"
-                            data-dismiss="modal">关闭
+                    <button type="button" class="btn btn-primary  pull-left" data-dismiss="modal">关闭
                     </button>
                 </div>
             </div>
@@ -236,84 +192,52 @@ desired effect
 <script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
 <!-- Bootstrap 3.3.6 -->
 <script src="../bootstrap/js/bootstrap.min.js"></script>
-<script src="../dist/js/echarts.min.js"></script>
 <!-- AdminLTE App -->
 <script src="../dist/js/app.min.js"></script>
 <script src="../js/util.js"></script>
 
+
 <script>
-    var siteData = [
-        {
-            "id": 0,
-            "name": "string"
+
+    function selectChange(val) {
+        if (val === "个人") {
+            $('#brokers').css("display", "none")
+        } else {
+            $('#brokers').css("display", "block")
         }
-    ];
-
-    var orderData = [
-        {
-            "address": "string",
-            "orderDesc": "string",
-            "orderNum": "string"
-        }
-    ]
-
-    function updateSite(data) {
-        var html = ""
-        data.forEach(function (v) {
-            html += "<option id=\"" + v.id + "\">" + v.name + "</option>"
-        })
-        $('#departureSite').html(html)
-
-    }
-
-    function updateOrder(data) {
-        var html = ""
-        data.forEach(function (v) {
-            html += "<tr>\n" +
-                "<td><input type=\"checkbox\" value=\"" + v.orderNum + "\"></td>\n" +
-                "<td>" + v.orderDesc + "</td>\n" +
-                "<th>" + v.orderNum + "</th>\n" +
-                "<td>" + v.address + "</td>" +
-                "</tr>"
-        })
-        $('#tbody').html(html)
     }
 
     function submit() {
-        var orders = []
-        $('#tbody input[type=checkbox]:checked').each(function (v) {
-            orders.push(this.value)
-        })
-
         var formData = {
-            "addressInfo": {
-                "longtitude": $('#longitude').val(),
-                "latitude": $('#latitude').val(),
-                "addressDesc": $('#address').val(),
-                "nodeName": $('#nodeName').val()
+            "itemId": $('#itemId').val(),
+            "diliveryOrg": "Org1MSP",
+            "envStatus": {
+                "addressInfo": {
+                    "longtitude": $('#longitude').val(),
+                    "latitude": $('#latitude').val(),
+                    "addressDesc": $('#address').val(),
+                    "nodeName": $('#nodeName').val()
+                }
             },
-            "departureAddress": $('#departureSite option:selected').attr('id'),
-            "orders": orders
+            "itemStatus": {
+                "logs": $('#logs').val(),
+                "normal": true
+            },
+            "nextOrg": "Org1MSP",
         }
+        $.ajax(
+            {
+                type: 'post',
+                url: 'http://localhost:8080/item/itemTransfer',
+                contentType: "application/json",
+                accept: "*/*",
+                data: JSON.stringify(formData),
+                success: function () {
+                    alert("提交成功")
+                }
+            }
+        )
         console.log(formData)
-    }
-
-
-
-    var isCheckAll = false;
-
-    function swapCheck() {
-        if (isCheckAll) {
-            $("#tbody input[type=checkbox]").each(function () {
-                this.checked = false;
-            });
-            isCheckAll = false;
-        } else {
-            $("#tbody input[type=checkbox]").each(function () {
-                this.checked = true;
-            });
-            isCheckAll = true;
-        }
     }
 </script>
 </body>
