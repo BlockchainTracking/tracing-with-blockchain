@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -33,7 +34,7 @@ public class Order {
     @JoinTable(name = "order_and_item" , joinColumns = @JoinColumn(name = "order_id"))
     @Column(name = "item_id")
     @ElementCollection(targetClass = String.class)
-    private List<String> itemIds;
+    private List<String> itemIds = new ArrayList<>();
     
     @Column(name = "dealer_id")
     private int dealerId;
@@ -43,7 +44,7 @@ public class Order {
     
     @OneToMany(targetEntity =  Path.class)
     @JoinColumn(name = "order_id")
-    private List<Path> paths;
+    private List<Path> paths = new ArrayList<>();
     
     @Column(name = "orderState")
     private OrderState orderState;

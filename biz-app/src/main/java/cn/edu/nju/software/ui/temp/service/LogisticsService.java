@@ -16,9 +16,10 @@ public interface LogisticsService {
     
     /**
      * 获取所有的物流站点信息
+     * @param organizationId 需要去除该站点的id
      * @return List<LogisticsSite>
      */
-    BizResponse<List<LogisticsSite>> getAllLogisticsSite();
+    BizResponse<List<LogisticsSite>> getAllLogisticsSite(int organizationId);
     
     /**
      * 获取所有的经销商信息

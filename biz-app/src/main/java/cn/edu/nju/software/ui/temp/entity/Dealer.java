@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import net.bytebuddy.asm.Advice;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,5 +30,5 @@ public class Dealer {
     @JoinTable(name = "dealer_and_item" , joinColumns = @JoinColumn(name = "dealer_id"))
     @Column(name = "item_id")
     @ElementCollection(targetClass = String.class)
-    private List<String> itemIds;
+    private List<String> itemIds = new ArrayList<>();
 }

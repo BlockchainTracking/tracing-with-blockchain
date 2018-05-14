@@ -1,6 +1,7 @@
 package cn.edu.nju.software.ui.temp.service;
 
 import cn.edu.nju.software.common.pojo.bizservice.response.BizResponse;
+import cn.edu.nju.software.ui.temp.entity.Batch;
 import cn.edu.nju.software.ui.temp.entity.ItemType;
 
 import java.util.Date;
@@ -66,4 +67,11 @@ public interface ManufacturerService {
      * @return Map<itemId,email>
      */
     BizResponse<Map<String,String>> getItemIdAndEmail(int organizationId , String batchNum);
+    
+    /**
+     * 根据批次编号获得产品类别
+     * @param batchNum 批次编号
+     * @return ItemType
+     */
+    BizResponse<ItemType> getBatch(String batchNum);
 }

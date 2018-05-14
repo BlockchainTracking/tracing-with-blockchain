@@ -20,11 +20,14 @@ public class LogisticsSite {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     
+    @Column(name = "name")
+    private String name;
+    
     @Column(name = "address")
     private String address;
     
-    
-    public LogisticsSite(String address) {
+    public LogisticsSite(String name, String address) {
+        this.name = name;
         this.address = address;
     }
 }
