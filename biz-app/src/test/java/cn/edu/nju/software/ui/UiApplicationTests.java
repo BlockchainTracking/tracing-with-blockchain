@@ -1,8 +1,6 @@
 package cn.edu.nju.software.ui;
 
-import cn.edu.nju.software.fabricservice.bean.SampleUser;
-import cn.edu.nju.software.ui.bizservice.impl.ServerCache;
-import cn.edu.nju.software.ui.dao.UserEntityDao;
+import cn.edu.nju.software.ui.temp.dao.DealerItemDao;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,15 +11,12 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 public class UiApplicationTests {
     @Autowired
-    UserEntityDao userDao;
+    DealerItemDao dealerItemDao;
 
-    @Autowired
-    ServerCache serverCache;
 
     @Test
     public void contextLoads() {
-        SampleUser sampleUser = serverCache.getUser("ttff1f");
-        System.out.println(sampleUser.toString());
+        dealerItemDao.deleteByDealerIdAndItemId(3, "12345678901234567890123456789014");
     }
 
 }

@@ -1,10 +1,8 @@
 package cn.edu.nju.software.ui.temp.service.impl;
 
 import cn.edu.nju.software.common.pojo.bizservice.response.BizResponse;
-import cn.edu.nju.software.ui.temp.dao.DealerDao;
 import cn.edu.nju.software.ui.temp.dao.DealerItemDao;
 import cn.edu.nju.software.ui.temp.dao.DealerItemTypeDao;
-import cn.edu.nju.software.ui.temp.entity.Dealer;
 import cn.edu.nju.software.ui.temp.entity.DealerItem;
 import cn.edu.nju.software.ui.temp.entity.DealerItemType;
 import cn.edu.nju.software.ui.temp.entity.Separator;
@@ -14,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Author:yangsanyang

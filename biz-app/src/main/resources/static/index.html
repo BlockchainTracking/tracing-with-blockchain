@@ -99,20 +99,6 @@ desired effect
                 <!-- Optionally, you can add icons to the links -->
                 <li class="active"><a href="#"><i class="fa fa-home"></i>
                     <span>溯源信息查询</span></a></li>
-                <li><a href="itemAdd.html"><i class="fa fa-file-text-o"></i> <span>商品出厂
-                </span></a></li>
-                <li><a href="itemTransfer.html"><i class="ion ion-android-bicycle"></i>
-                    <span>商品转运</span></a></li>
-                <li><a href="itemInStock.html"><i class="ion ion-android-bicycle"></i>
-                    <span>商品入库</span></a></li>
-                <li><a href="itemOutStock.html"><i class="ion ion-android-bicycle"></i>
-                    <span>商品出库</span></a></li>
-                <li><a href="itemMedia.html"><i class="ion ion-android-bicycle"></i>
-                    <span>运输中转</span></a></li>
-                <li><a href="itemSign.html"><i class="ion ion-android-bicycle"></i>
-                    <span>商品签收</span></a></li>
-                <li><a href="sport.html"><i class="ion ion-android-bicycle"></i>
-                    <span>商品召回</span></a></li>
 
             </ul>
             <!-- /.sidebar-menu -->
@@ -194,11 +180,11 @@ desired effect
     map.centerAndZoom(new BMap.Point(117.404, 35.415), 5);  // 初始化地图,设置中心点坐标和地图级别
     map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
     sy = new BMap.Symbol(BMap_Symbol_SHAPE_BACKWARD_OPEN_ARROW, {
-        scale: 0.5,//图标缩放大小
+        scale: 0.3,//图标缩放大小
         strokeColor: '#10f',//设置矢量图标的线填充颜色
         strokeWeight: '1',//设置线宽
     });
-    icons = new BMap.IconSequence(sy, '6%', '6%', false);
+    icons = new BMap.IconSequence(sy, '5%', '5%', false);
     var polyline
 
     function addPointAndLine(points) {
