@@ -82,18 +82,18 @@ public class BrokerController {
 
 
         //-----------------上链------------------------------
-//        String[] itemIds = brokerOrderRequest.getItemIds().split(Separator.SEPARATOR_PETTERN);
-//        for (String itemId : itemIds) {
-//            UIItemChangeRequest uiItemChangeRequest = new UIItemChangeRequest();
-//            uiItemChangeRequest.setOpType(OpType.BIZORDER.ordinal());
-//            uiItemChangeRequest.setItemId(itemId);
-//            uiItemChangeRequest.setNextOrg("Org1MSP");
-//            uiItemChangeRequest.setItemStatus(ItemStatus.DEFAULT_STATUS);
-//            uiItemChangeRequest.setEnvStatus(new EnvStatus(brokerOrderRequest.getAddressInfo()));
-//            uiItemChangeRequest.setExtraInfo("出售商品");
-//            uiItemChangeRequest.setContact("");
-//            itemTracingService.changeItemTracingInfo(uiItemChangeRequest);
-//        }
+        String[] itemIds = brokerOrderRequest.getItemIds().split(Separator.SEPARATOR_PETTERN);
+        for (String itemId : itemIds) {
+            UIItemChangeRequest uiItemChangeRequest = new UIItemChangeRequest();
+            uiItemChangeRequest.setOpType(OpType.BIZORDER.ordinal());
+            uiItemChangeRequest.setItemId(itemId);
+            uiItemChangeRequest.setNextOrg("Org1MSP");
+            uiItemChangeRequest.setItemStatus(ItemStatus.DEFAULT_STATUS);
+            uiItemChangeRequest.setEnvStatus(new EnvStatus(brokerOrderRequest.getAddressInfo()));
+            uiItemChangeRequest.setExtraInfo("出售商品");
+            uiItemChangeRequest.setContact("");
+            itemTracingService.changeItemTracingInfo(uiItemChangeRequest);
+        }
         //-----------------上链结束----------------------------
 
         return dealerService.sellItem(user.getOrganizationId(), brokerOrderRequest.getItemIds());

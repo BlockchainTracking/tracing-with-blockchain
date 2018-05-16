@@ -166,4 +166,17 @@ public class ServiceDiscovery {
         return rePeers;
     }
 
+    List<String> minReqeustPeer(int peerNum, List<String> peers) {
+        List<String> choosedPeers = new ArrayList<>();
+        peers.sort((e1, e2) -> {
+            int b1 = currentInvoke.get(e1);
+            int b2 = currentIndex.get(e2);
+            return Integer.compare(b1, b2);
+        });
+        for (int i = 0; i < peerNum; i++) {
+            choosedPeers.add(peers.get(0));
+        }
+        return choosedPeers;
+    }
+
 }
